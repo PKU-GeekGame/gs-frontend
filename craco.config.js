@@ -10,10 +10,9 @@ module.exports = {
             modifyVars: {
                 'border-radius-base': '4px',
                 'box-shadow-base': '0 1px 6px rgba(0, 0, 0, 0.2), 0 3px 12px 0 rgba(0, 0, 0, 0.08)',
-                'carousel-dot-height': '8px',
-                'animation-duration-slow': '.2s', // modal
-                'animation-duration-base': '.14s', // popover
-                'animation-duration-fast': '.08s', // tooltip
+                'animation-duration-slow': '.192', // modal, 12*16ms
+                'animation-duration-base': '.128s', // popover, 8*16ms
+                'animation-duration-fast': '.064s', // tooltip, 4*16ms
             },
             javascriptEnabled: true,
           },
