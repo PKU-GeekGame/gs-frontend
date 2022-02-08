@@ -7,14 +7,7 @@ const API_URL = 'http://localhost:8000';
 
 module.exports = function(app) {
     app.use(
-        '/auth',
-        createProxyMiddleware({
-            target: API_URL,
-            changeOrigin: true,
-        })
-    );
-    app.use(
-        '/wish',
+        '/service',
         createProxyMiddleware({
             target: API_URL,
             changeOrigin: true,

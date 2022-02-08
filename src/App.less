@@ -1,3 +1,5 @@
+@import './vars.less';
+
 .clickable {
     cursor: pointer;
 }
@@ -7,4 +9,21 @@
     transform: scale(2) translateY(-.1em);
     margin-right: 1em;
     margin-left: .5em;
+}
+
+.main-container {
+    max-width: @max-body-width;
+    margin: 0 auto;
+    padding-top: 58px + 12px;
+    padding-left: @body-padding;
+    padding-right: @body-padding;
+}
+
+.slim-container {
+    max-width: 850px;
+    margin: 0 auto;
+}
+
+.result-page-container {
+    padding-top: 3em;
 }

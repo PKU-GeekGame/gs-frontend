@@ -4,8 +4,6 @@ import {LoadingOutlined, WifiOutlined, RobotOutlined} from '@ant-design/icons';
 
 import {wish} from '../wish';
 
-import './GameLoading.less';
-
 export function GameLoading({set_info}) {
     let [error, set_error] = useState(null);
 

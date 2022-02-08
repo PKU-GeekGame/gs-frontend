@@ -1,10 +1,16 @@
 @import '../vars.less';
 
 @header-breakpoint: 650px;
+@header-background: #333;
 
 .header-container {
-    background-color: #333;
+    background-color: @header-background;
     color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
 }
 
 .header {
@@ -61,7 +67,13 @@
             margin-left: .25em;
         }
 
-        .highlight-menu-item-mixin(4px);
+        .highlight-menu-item-mixin(@border-radius-base);
+
+        .header-nav-login {
+            background-color: #1890ff !important;
+            border-radius: @border-radius-base;
+            color: white !important;
+        }
 
         .ant-menu-item {
             @media (max-width: @header-breakpoint) {
@@ -85,6 +97,10 @@
 
 .header-nav-popup {
     .highlight-menu-item-mixin(0px);
+
+    .ant-menu {
+        background-color: @header-background !important;
+    }
 }
 
 .header-buttons {

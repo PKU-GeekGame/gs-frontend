@@ -1,0 +1,135 @@
+import {useContext} from 'react';
+import {Card, Form, Input, Alert, Radio, Button, Tag, message} from 'antd';
+import {TagOutlined, CheckCircleOutlined} from '@ant-design/icons';
+import {useNavigate} from 'react-router-dom';
+
+import {GameInfoCtx} from '../ctx/GameInfo';
+import {wish} from '../wish';
+
+import './UserProfile.less';
+
+function UserProfileForm() {
+    let {info, reload_info} = useContext(GameInfoCtx);
+    let nav = useNavigate();
+
+    if(!info.user)
+        return (
+            <Alert
+                type="error" showIcon
+                message="未登录" description="请登录后修改个人资料"
+            />
+        );
+
+    let form_style = {
+        colon: false,
+        initialValues: info.user.profile,
+        labelCol: {span: 6},
+        labelWrap: true,
+        wrapperCol: {span: 13},
+    }
+
+    let card_style = {
+        size: 'small',
+        type: 'inner',
+        bordered: false,
+    }
+
+    return (
+        <Form.Provider
+            onFormFinish={(_name, {forms})=>{
+                let all_values = {};
+                Object.values(forms)
+                    .forEach((f)=>{
+                        Object.assign(all_values, f.getFieldsValue());
+                    });
+
+                wish('/update_profile', {
+                    'profile': all_values,
+                })
+                    .then((res)=>{
+                        if(res.error)
+                            message.error(res.error_msg, 3);
+                        else {
+                            message.success('修改成功', 2);
+                            reload_info();
+                            nav('/');
+                        }
+                    })
+            }}
+        >
+            <Card title="公开资料" {...card_style}>
+                <Form name="public" {...form_style}>
+                    {info.user.profile.nickname!==undefined &&
+                        <Form.Item name="nickname" label="昵称">
+                            <Input maxLength={20} />
+                        </Form.Item>
+                    }
+                    {info.user.profile.gender!==undefined &&
+                        <Form.Item name="gender" label="性别">
+                            <Radio.Group buttonStyle="solid">
+                                <Radio.Button value="male">男</Radio.Button>
+                                <Radio.Button value="female">女</Radio.Button>
+                                <Radio.Button value="other">其他</Radio.Button>
+                            </Radio.Group>
+                        </Form.Item>
+                    }
+                    <Form.Item label="用户组">
+                        <Tag color="blue" icon={<TagOutlined />}>{info.user.group_disp}</Tag>
+                    </Form.Item>
+                </Form>
+                {info.user.group==='banned' &&
+                    <Alert type="error" message="由于违反规则，您的参赛资格已被取消。如有疑问请联系工作人员。" />
+                }
+                {info.user.group==='other' &&
+                    <Alert type="info" message="您的身份不是北京大学在校学生，将不参与评奖。如有疑问请联系工作人员。" />
+                }
+            </Card>
+            <br />
+            <Card title="联系方式" {...card_style}>
+                <Form name="contact" {...form_style}>
+                    {info.user.profile.tel!==undefined &&
+                        <Form.Item name="tel" label="电话号码">
+                            <Input maxLength={20} />
+                        </Form.Item>
+                    }
+                    {info.user.profile.email!==undefined &&
+                        <Form.Item name="email" label="邮箱">
+                            <Input />
+                        </Form.Item>
+                    }
+                    {info.user.profile.qq!==undefined &&
+                        <Form.Item name="qq" label="QQ号">
+                            <Input maxLength={50} />
+                        </Form.Item>
+                    }
+                </Form>
+                {info.user.group==='pku' &&
+                    <Alert type="info" message="请正确填写以便赛后联系和颁奖" />
+                }
+            </Card>
+            <br />
+            <Card title="其他信息" {...card_style}>
+                <Form name="other" {...form_style}>
+                    {info.user.profile.comment!==undefined &&
+                        <Form.Item name="comment" label="了解比赛的渠道">
+                            <Input maxLength={100} />
+                        </Form.Item>
+                    }
+                </Form>
+            </Card>
+            <br />
+            <Form name="submit">
+                <Button type="primary" size="large" block htmlType="submit"><CheckCircleOutlined /> 保存</Button>
+            </Form>
+        </Form.Provider>
+    )
+}
+
+export function UserProfile() {
+    return (
+        <div className="slim-container user-profile-container">
+            <h1>修改个人资料</h1>
+            <UserProfileForm />
+        </div>
+    )
+}
