@@ -1,4 +1,4 @@
-import {useContext} from 'react';
+import {useContext, useState, useRef} from 'react';
 import {Card, Form, Input, Alert, Radio, Button, Tag, message} from 'antd';
 import {TagOutlined, CheckCircleOutlined} from '@ant-design/icons';
 import {useNavigate} from 'react-router-dom';
@@ -10,6 +10,8 @@ import './UserProfile.less';
 
 function UserProfileForm() {
     let {info, reload_info} = useContext(GameInfoCtx);
+    let [changed, set_changed] = useState(false);
+    let submit_btn = useRef(null);
     let nav = useNavigate();
 
     if(!info.user)
@@ -26,17 +28,28 @@ function UserProfileForm() {
         labelCol: {span: 6},
         labelWrap: true,
         wrapperCol: {span: 13},
-    }
-
+        onValuesChange: ()=>{set_changed(true);},
+    };
     let card_style = {
         size: 'small',
         type: 'inner',
         bordered: false,
-    }
+    };
+    let input_style = {
+        onPressEnter: ()=>{
+            if(submit_btn.current)
+                submit_btn.current.click();
+        }
+    };
 
     return (
         <Form.Provider
-            onFormFinish={(_name, {forms})=>{
+            onFormFinish={(name, {forms})=>{
+                if(name!=='submit') // submit events in other forms are redirected to `submit_btn.click()` in `onValuesChange`
+                    return;
+                if(!changed)
+                    return;
+
                 let all_values = {};
                 Object.values(forms)
                     .forEach((f)=>{
@@ -65,7 +78,7 @@ function UserProfileForm() {
                 <Form name="public" {...form_style}>
                     {info.user.profile.nickname!==undefined &&
                         <Form.Item name="nickname" label="昵称">
-                            <Input maxLength={20} />
+                            <Input maxLength={20} showCount {...input_style} />
                         </Form.Item>
                     }
                     {info.user.profile.gender!==undefined &&
@@ -95,17 +108,17 @@ function UserProfileForm() {
                 <Form name="contact" {...form_style}>
                     {info.user.profile.tel!==undefined &&
                         <Form.Item name="tel" label="电话号码">
-                            <Input maxLength={20} />
+                            <Input maxLength={20} {...input_style} />
                         </Form.Item>
                     }
                     {info.user.profile.email!==undefined &&
                         <Form.Item name="email" label="邮箱">
-                            <Input />
+                            <Input {...input_style} />
                         </Form.Item>
                     }
                     {info.user.profile.qq!==undefined &&
                         <Form.Item name="qq" label="QQ号">
-                            <Input maxLength={50} />
+                            <Input maxLength={50} {...input_style} />
                         </Form.Item>
                     }
                 </Form>
@@ -119,14 +132,16 @@ function UserProfileForm() {
                 <Form name="other" {...form_style}>
                     {info.user.profile.comment!==undefined &&
                         <Form.Item name="comment" label="了解比赛的渠道">
-                            <Input maxLength={100} placeholder="（可不填）" />
+                            <Input maxLength={100} placeholder="（可不填）" {...input_style} />
                         </Form.Item>
                     }
                 </Form>
             </Card>
             <br />
             <Form name="submit">
-                <Button type="primary" size="large" block htmlType="submit"><CheckCircleOutlined /> 保存</Button>
+                <Button type="primary" size="large" block htmlType="submit" disabled={!changed} ref={submit_btn}>
+                    <CheckCircleOutlined /> 保存
+                </Button>
             </Form>
         </Form.Provider>
     )
@@ -138,5 +153,5 @@ export function UserProfile() {
             <h1>个人资料</h1>
             <UserProfileForm />
         </div>
-    )
+    );
 }

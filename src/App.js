@@ -11,26 +11,10 @@ import {Announcements} from './page/Announcements';
 import {Triggers} from './page/Triggers';
 import {UserProfile} from './page/UserProfile';
 import {Terms} from './page/Terms';
-import {cap} from './utils'
+import {NotFound} from './utils'
 
 import './App.less';
-
-function NotFound() {
-    let loc = useLocation();
-    let nav = useNavigate();
-
-    return (
-        <Result
-            icon={<InboxOutlined />}
-            status="error"
-            title="页面不存在"
-            subTitle={cap(loc.pathname, 25)}
-            extra={[
-                <Button key="home" onClick={()=>nav('/')}>返回主页</Button>
-            ]}
-        />
-    )
-}
+import {License} from './page/License';
 
 function InfoRouter() {
     let [route, set_route] = useState('announcements');
@@ -64,9 +48,11 @@ export function App() {
                 <Routes>
                     <Route exact path="/" element={<Navigate to="/game" replace />} />
                     <Route exact path="/game" element={<Game />} />
+                    <Route exact path="/game/:challenge" element={<Game />} />
                     <Route exact path="/info" element={<InfoRouter />} />
                     <Route exact path="/user/profile" element={<UserProfile />} />
                     <Route exact path="/user/terms" element={<Terms />} />
+                    <Route exact path="/license" element={<License />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </div>

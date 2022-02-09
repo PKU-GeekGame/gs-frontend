@@ -1,0 +1,125 @@
+@import '../vars.less';
+
+@single-row-breakpoint: 550px;
+
+.portal-container {
+    display: flex;
+    flex-direction: row;
+
+    .portal-sidebar {
+        flex: 0 0 420px;
+    }
+    .portal-main {
+        flex: 1 1;
+        margin-left: 24px;
+    }
+
+    @media (max-width: @single-row-breakpoint) {
+        display: block;
+
+        .portal-sidebar {
+            display: block;
+        }
+        .portal-main {
+            display: block;
+            margin-left: unset;
+        }
+    }
+}
+
+.portal-main .announcement {
+    .ant-card {
+        background-color: #fafbff !important;
+        border-color: #b0d8e0 !important;
+
+        .ant-card-head {
+            background-color: #ebf6ff !important;
+        }
+    }
+}
+
+.portal-reloader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-left: 15px;
+}
+
+.portal-user-info {
+    background-color: #f0f0f0;
+    border-radius: @border-radius-base;
+    border: 1px solid @card-border-color;
+
+    margin-bottom: 12px;
+    padding: 6px 12px;
+
+    .portal-user-info-status {
+        font-size: 1.2em;
+    }
+}
+
+.portal-chall-list {
+    .portal-chall-row {
+        display: flex;
+        flex-direction: row;
+        padding: 8px 0;
+
+        border-top: 1px solid @card-border-color;
+        border-left: 1px solid @card-border-color;
+        border-right: 1px solid @card-border-color;
+
+        &:first-child {
+            border-top-left-radius: @border-radius-base;
+            border-top-right-radius: @border-radius-base;
+        }
+        &:last-child {
+            border-bottom-left-radius: @border-radius-base;
+            border-bottom-right-radius: @border-radius-base;
+            border-bottom: 1px solid @card-border-color;
+        }
+
+        &:not(.portal-chall-header) {
+            cursor: pointer;
+
+            &:hover {
+                background-color: #f9f9f9;
+            }
+
+            &.portal-chall-row-active {
+                cursor: unset;
+                background-color: #f0f3ff;
+            }
+        }
+
+        &.portal-chall-row-flag {
+            padding: 2px 0;
+
+            .portal-chall-col-title {
+                padding-left: 21px;
+            }
+        }
+    }
+    .portal-chall-header {
+        background-color: #f0f0f0;
+        font-weight: bold;
+    }
+
+    .portal-chall-col-title {
+        padding-left: 8px;
+        flex: 1 1;
+    }
+    .portal-chall-col-score {
+        flex: 0 0 130px;
+    }
+
+    .portal-chall-category-badge {
+        float: right;
+
+        .ant-tag {
+            vertical-align: text-bottom;
+            border-radius: 1em;
+        }
+    }
+}

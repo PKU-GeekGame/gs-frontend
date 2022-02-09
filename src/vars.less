@@ -1,15 +1,17 @@
 @body-background: #ffffff;
 @max-body-width: 1300px;
 @body-padding: 6px;
-@border-radius-base: 4px;
 
-.fancy-card-mixin() {
+@border-radius-base: 4px;
+@card-border-color: #d9d9d9;
+
+.fancy-card-mixin(@header-background) {
     .ant-card {
-        background-color: #f9f9f9 !important;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, .4);
+        background-color: #fcfcfc !important;
+        border: 1px solid @card-border-color;
 
         .ant-card-head {
-            background-color: #eeeeee !important;
+            background-color: @header-background !important;
         }
     }
 }

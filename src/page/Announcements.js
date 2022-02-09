@@ -8,11 +8,11 @@ import {TimestampAgo} from '../utils';
 
 import './Announcements.less';
 
-export function Announcement({announcement}) {
+export function Announcement({announcement, extra}) {
     return(
         <div className="announcement">
             <Card
-                type="inner" size="small" bordered={false}
+                type="inner" size="small" bordered={false} extra={extra||null}
                 title={<>
                     <Tag style={{fontSize: '1em', fontWeight: 'bold'}} color="blue">
                     <NotificationOutlined /> {announcement.title}</Tag>

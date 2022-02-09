@@ -2,6 +2,9 @@ import TimeAgo from 'react-timeago';
 import buildFormatter from 'react-timeago/lib/formatters/buildFormatter';
 
 import {AUTH_ROOT} from './branding';
+import {useLocation, useNavigate} from 'react-router-dom';
+import {Result, Button} from 'antd';
+import {InboxOutlined} from '@ant-design/icons';
 
 export function cap(s, n) {
     if(2*s.length<=n)
@@ -44,9 +47,11 @@ export function format_ts(ts) {
 const timeago_format=buildFormatter({
     prefixAgo: null,
     prefixFromNow: '未来',
-    suffixAgo: '前',
+    suffixAgo: (val, delta)=>{
+        return delta<59500 ? '' : '前';
+    },
     suffixFromNow: null,
-    seconds: '0分钟',
+    seconds: '刚刚',
     minute: '1分钟',
     minutes: '%d分钟',
     hour: '1小时',
@@ -60,8 +65,30 @@ const timeago_format=buildFormatter({
     wordSeparator: '',
 });
 export function TimestampAgo({ts}) {
-    let time = new Date(ts*1000);
     return (
-        <TimeAgo date={time} formatter={timeago_format} title={format_ts(ts)} />
+        <TimeAgo date={ts*1000} formatter={timeago_format} title={format_ts(ts)} />
+    );
+}
+
+export function NotFound() {
+    let loc = useLocation();
+    let nav = useNavigate();
+
+    return (
+        <Result
+            icon={<InboxOutlined />}
+            status="error"
+            title="页面不存在"
+            subTitle={cap(loc.pathname, 25)}
+            extra={[
+                <Button key="home" onClick={()=>nav('/')}>返回主页</Button>
+            ]}
+        />
+    )
+}
+
+export function ExtLink({href, children}) {
+    return (
+        <a href={href}  target="_blank" rel="noreferrer">{children}</a>
     );
 }
