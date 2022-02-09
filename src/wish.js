@@ -1,4 +1,5 @@
 import {WISH_ROOT} from './branding';
+import {useState, useCallback, useEffect} from 'react';
 
 const WISH_VER = 'wish.alpha.v1';
 
@@ -11,7 +12,7 @@ export function wish(endpoint, data) {
                 'X-Wish-Version': WISH_VER,
                 'Content-Type': 'application/json',
             },
-            body: data===undefined ? '{}' : JSON.stringify(data),
+            body: data ? JSON.stringify(data) : '{}',
         })
             .then((res)=>{
                 if(res.status!==200)
@@ -28,8 +29,34 @@ export function wish(endpoint, data) {
             .catch((e)=>{
                 resolve({
                     'error': 'HTTP_REQ_FAILED',
-                    'error_msg': `请求失败 ${e}`,
+                    'error_msg': `网络错误 ${e}`,
                 });
             });
     });
+}
+
+export function useWishData(endpoint, args) {
+    let [error, set_error] = useState(null);
+    let [data, set_data] = useState(null);
+
+    let load_data = useCallback(()=>{
+        set_data(null);
+        set_error(null);
+
+        wish(endpoint, args)
+            .then((res)=>{
+                if(res.error)
+                    set_error(res);
+                else {
+                    set_error(null);
+                    set_data(res);
+                }
+            });
+    }, [endpoint, args]);
+
+    useEffect(()=>{
+        load_data();
+    }, [load_data]);
+
+    return [error, data, load_data];
 }

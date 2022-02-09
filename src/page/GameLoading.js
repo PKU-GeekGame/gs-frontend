@@ -1,28 +1,15 @@
-import {useState, useEffect, useCallback} from 'react';
-import {Result, Button} from 'antd';
+import {useEffect} from 'react';
+import {Result, Button, Alert} from 'antd';
 import {LoadingOutlined, WifiOutlined, RobotOutlined} from '@ant-design/icons';
 
-import {wish} from '../wish';
+import {useWishData} from '../wish';
 
 export function GameLoading({set_info}) {
-    let [error, set_error] = useState(null);
-
-    let load_info = useCallback(()=>{
-        set_error(null);
-        wish('game_info')
-            .then((res)=>{
-                if(res.error)
-                    set_error(res);
-                else {
-                    set_error(null);
-                    set_info(res);
-                }
-            });
-    }, [set_info]);
+    let [error, data, load_data] = useWishData('game_info');
 
     useEffect(()=>{
-        load_info();
-    }, [load_info]);
+        set_info(data);
+    }, [set_info, data]);
 
     function force_reload() {
         if('serviceWorker' in navigator) {
@@ -42,7 +29,7 @@ export function GameLoading({set_info}) {
     }
 
     let retry_btn=(
-        <Button key="refresh" type="primary" onClick={load_info}>重试</Button>
+        <Button key="refresh" type="primary" onClick={load_data}>重试</Button>
     );
 
     return (
@@ -79,5 +66,17 @@ export function GameLoading({set_info}) {
                 />
             }
         </div>
+    );
+}
+
+export function Reloader({message, reload}) {
+    return (
+        <Alert
+            type="error" showIcon
+            message={message}
+            action={
+                <Button onClick={reload}>重试</Button>
+            }
+        />
     );
 }

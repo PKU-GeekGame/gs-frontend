@@ -1,7 +1,8 @@
 import {useState, useEffect, useCallback} from 'react';
-import {Alert, Button, Skeleton} from 'antd';
+import {Skeleton} from 'antd';
 
 import {TEMPLATE_ROOT} from '../branding';
+import {Reloader} from '../page/GameLoading';
 
 import './Template.less';
 
@@ -18,6 +19,7 @@ export function TemplateFile({name}) {
     let load_template = useCallback(()=>{
         set_html(null);
         set_error(null);
+
         fetch(TEMPLATE_ROOT+name, {
             method: 'GET',
             credentials: 'include',
@@ -44,13 +46,7 @@ export function TemplateFile({name}) {
 
     if(error)
         return (
-            <Alert
-                type="error" showIcon
-                message="内容加载失败" description={error}
-                action={
-                    <Button onClick={()=>load_template()}>重试</Button>
-                }
-            />
+            <Reloader message={error} reload={load_template} />
         );
     else if(html===null)
         return (

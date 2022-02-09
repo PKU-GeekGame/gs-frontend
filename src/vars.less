@@ -2,3 +2,14 @@
 @max-body-width: 1300px;
 @body-padding: 6px;
 @border-radius-base: 4px;
+
+.fancy-card-mixin() {
+    .ant-card {
+        background-color: #f9f9f9 !important;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, .4);
+
+        .ant-card-head {
+            background-color: #eeeeee !important;
+        }
+    }
+}

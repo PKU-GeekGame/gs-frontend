@@ -42,15 +42,19 @@ function UserProfileForm() {
                     .forEach((f)=>{
                         Object.assign(all_values, f.getFieldsValue());
                     });
+                message.loading({content: '正在保存…', key: 'UserProfile', duration: 10});
 
-                wish('/update_profile', {
+                wish('update_profile', {
                     'profile': all_values,
                 })
                     .then((res)=>{
-                        if(res.error)
-                            message.error(res.error_msg, 3);
+                        if(res.error) {
+                            message.error({content: res.error_msg, key: 'UserProfile', duration: 3});
+                            if(res.error==='SHOULD_AGREE_TERMS')
+                                nav('/user/terms');
+                        }
                         else {
-                            message.success('修改成功', 2);
+                            message.success({content: '保存成功', key: 'UserProfile', duration: 2});
                             reload_info();
                             nav('/');
                         }
@@ -77,12 +81,14 @@ function UserProfileForm() {
                         <Tag color="blue" icon={<TagOutlined />}>{info.user.group_disp}</Tag>
                     </Form.Item>
                 </Form>
-                {info.user.group==='banned' &&
-                    <Alert type="error" message="由于违反规则，您的参赛资格已被取消。如有疑问请联系工作人员。" />
-                }
-                {info.user.group==='other' &&
-                    <Alert type="info" message="您的身份不是北京大学在校学生，将不参与评奖。如有疑问请联系工作人员。" />
-                }
+                {info.user.group==='banned' && <>
+                    <br />
+                    <Alert type="error" showIcon message="由于违反规则，您的参赛资格已被取消。如有疑问请联系工作人员。" />
+                </>}
+                {info.user.group==='other' && <>
+                    <br />
+                    <Alert type="info" showIcon message="您的身份不是北京大学在校学生，将不参与评奖。如有疑问请联系工作人员。" />
+                </>}
             </Card>
             <br />
             <Card title="联系方式" {...card_style}>
@@ -103,16 +109,17 @@ function UserProfileForm() {
                         </Form.Item>
                     }
                 </Form>
-                {info.user.group==='pku' &&
-                    <Alert type="info" message="请正确填写以便赛后联系和颁奖" />
-                }
+                {info.user.group==='pku' && <>
+                    <br />
+                    <Alert type="info" showIcon message="请正确填写以便赛后联系和颁奖" />
+                </>}
             </Card>
             <br />
             <Card title="其他信息" {...card_style}>
                 <Form name="other" {...form_style}>
                     {info.user.profile.comment!==undefined &&
                         <Form.Item name="comment" label="了解比赛的渠道">
-                            <Input maxLength={100} />
+                            <Input maxLength={100} placeholder="（可不填）" />
                         </Form.Item>
                     }
                 </Form>
@@ -128,7 +135,7 @@ function UserProfileForm() {
 export function UserProfile() {
     return (
         <div className="slim-container user-profile-container">
-            <h1>修改个人资料</h1>
+            <h1>个人资料</h1>
             <UserProfileForm />
         </div>
     )
