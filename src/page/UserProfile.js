@@ -1,9 +1,10 @@
 import {useContext, useState, useRef} from 'react';
-import {Card, Form, Input, Alert, Radio, Button, Tag, message} from 'antd';
-import {TagOutlined, CheckCircleOutlined} from '@ant-design/icons';
+import {Card, Form, Input, Alert, Radio, Button, message} from 'antd';
+import {CheckCircleOutlined} from '@ant-design/icons';
 import {useNavigate} from 'react-router-dom';
 
 import {GameInfoCtx} from '../ctx/GameInfo';
+import {UserGroupTag} from '../widget/UserGroupTag';
 import {wish} from '../wish';
 
 import './UserProfile.less';
@@ -91,16 +92,16 @@ function UserProfileForm() {
                         </Form.Item>
                     }
                     <Form.Item label="用户组">
-                        <Tag color="blue" icon={<TagOutlined />}>{info.user.group_disp}</Tag>
+                        <UserGroupTag>{info.user.group_disp}</UserGroupTag>
                     </Form.Item>
                 </Form>
                 {info.user.group==='banned' && <>
                     <br />
-                    <Alert type="error" showIcon message="由于违反规则，您的参赛资格已被取消。如有疑问请联系工作人员。" />
+                    <Alert type="error" showIcon message="由于违反规则，你的参赛资格已被取消。如有疑问请联系工作人员。" />
                 </>}
                 {info.user.group==='other' && <>
                     <br />
-                    <Alert type="info" showIcon message="您的身份不是北京大学在校学生，将不参与评奖。如有疑问请联系工作人员。" />
+                    <Alert type="info" showIcon message="你的身份不是北京大学在校学生，将不参与评奖。如有疑问请联系工作人员。" />
                 </>}
             </Card>
             <br />

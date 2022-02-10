@@ -1,7 +1,6 @@
-import {useState} from 'react';
-import {Route, Routes, useNavigate, Navigate, useLocation} from 'react-router-dom';
-import {Result, Button, Menu} from 'antd';
-import {InboxOutlined, NotificationOutlined, QuestionCircleOutlined, CarryOutOutlined} from '@ant-design/icons';
+import {Route, Routes, useNavigate, Navigate, useParams} from 'react-router-dom';
+import {Menu} from 'antd';
+import {NotificationOutlined, QuestionCircleOutlined, CarryOutOutlined} from '@ant-design/icons';
 
 import {Header} from './widget/Header';
 import {Footer} from './widget/Footer';
@@ -17,27 +16,26 @@ import './App.less';
 import {License} from './page/License';
 
 function InfoRouter() {
-    let [route, set_route] = useState('announcements');
+    let {page} = useParams();
+    let nav = useNavigate();
 
     return (
         <div className="slim-container">
-            <Menu selectedKeys={[route]} onSelect={(e)=>{set_route(e.key)}} mode="horizontal">
+            <Menu selectedKeys={[page]} onSelect={(e)=>{nav(`/info/${e.key}`);}} mode="horizontal">
                 <Menu.Item key="announcements"><NotificationOutlined /> 比赛公告</Menu.Item>
                 <Menu.Item key="faq"><QuestionCircleOutlined /> 选手常见问题</Menu.Item>
                 <Menu.Item key="triggers"><CarryOutOutlined /> 赛程安排</Menu.Item>
             </Menu>
             <br />
-            {route==='announcements' &&
-                <Announcements />
-            }
-            {route==='faq' &&
-                <TemplateFile name="faq" />
-            }
-            {route==='triggers' &&
-                <Triggers />
+            {page==='announcements' ?
+                <Announcements /> :
+            page==='faq' ?
+                <TemplateFile name="faq" /> :
+            page==='triggers' ?
+                <Triggers /> : <NotFound />
             }
         </div>
-    )
+    );
 }
 
 export function App() {
@@ -49,10 +47,15 @@ export function App() {
                     <Route exact path="/" element={<Navigate to="/game" replace />} />
                     <Route exact path="/game" element={<Game />} />
                     <Route exact path="/game/:challenge" element={<Game />} />
-                    <Route exact path="/info" element={<InfoRouter />} />
+
+                    <Route exact path="/info" element={<Navigate to="/info/announcements" replace />} />
+                    <Route exact path="/info/:page" element={<InfoRouter />} />
+
                     <Route exact path="/user/profile" element={<UserProfile />} />
                     <Route exact path="/user/terms" element={<Terms />} />
+
                     <Route exact path="/license" element={<License />} />
+
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </div>

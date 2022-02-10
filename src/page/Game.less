@@ -1,27 +1,33 @@
 @import '../vars.less';
 
-@single-row-breakpoint: 550px;
+@single-row-breakpoint: 765px;
+@small-multi-row-breakpoint: 1020px;
 
 .portal-container {
     display: flex;
     flex-direction: row;
 
     .portal-sidebar {
-        flex: 0 0 420px;
+        flex: 0 0 390px;
+        @media (max-width: @small-multi-row-breakpoint) {
+            flex: 0 0 280px;
+        }
     }
     .portal-main {
         flex: 1 1;
-        margin-left: 24px;
+        margin-left: 18px;
+        @media (max-width: @small-multi-row-breakpoint) {
+            margin-left: 12px;
+        }
     }
 
     @media (max-width: @single-row-breakpoint) {
         display: block;
 
         .portal-sidebar {
-            display: block;
+            margin-bottom: 24px;
         }
         .portal-main {
-            display: block;
             margin-left: unset;
         }
     }
@@ -56,7 +62,10 @@
     padding: 6px 12px;
 
     .portal-user-info-status {
-        font-size: 1.2em;
+        font-size: 1.1em;
+    }
+    .portal-user-info-cat {
+        font-size: .85em;
     }
 }
 
@@ -65,6 +74,11 @@
         display: flex;
         flex-direction: row;
         padding: 8px 0;
+
+        @media (min-width: @single-row-breakpoint+1) and (max-width: @small-multi-row-breakpoint) {
+            display: block;
+            padding: 4px 0;
+        }
 
         border-top: 1px solid @card-border-color;
         border-left: 1px solid @card-border-color;
@@ -99,6 +113,12 @@
             .portal-chall-col-title {
                 padding-left: 21px;
             }
+
+            @media (min-width: @single-row-breakpoint+1) and (max-width: @small-multi-row-breakpoint) {
+                .portal-chall-col-score {
+                    padding-left: 21px;
+                }
+            }
         }
     }
     .portal-chall-header {
@@ -111,7 +131,12 @@
         flex: 1 1;
     }
     .portal-chall-col-score {
-        flex: 0 0 130px;
+        flex: 0 0 110px;
+        @media (min-width: @single-row-breakpoint+1) and (max-width: @small-multi-row-breakpoint) {
+            padding-left: 8px;
+            font-style: italic;
+            margin-top: -4px;
+        }
     }
 
     .portal-chall-category-badge {
@@ -121,5 +146,27 @@
             vertical-align: text-bottom;
             border-radius: 1em;
         }
+    }
+
+    .portal-chall-caret {
+        display: inline-block;
+        transform: scale(.75);
+        opacity: .6;
+        margin-left: .25em;
+    }
+}
+
+.challenge-body {
+    h1 {
+        margin-bottom: 0;
+    }
+    .challenge-stat {
+        font-size: small;
+        opacity: .8;
+        margin-bottom: 0;
+    }
+    .challenge-action {
+        font-weight: bold;
+        margin-bottom: .5em;
     }
 }

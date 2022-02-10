@@ -1,31 +1,124 @@
-import {useRef, useEffect, Fragment, useMemo} from 'react';
+import {useRef, useEffect, Fragment, useMemo, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
-import {Skeleton, message, Alert, Button, Card, Empty, Tag} from 'antd';
-import {PieChartFilled, CheckSquareOutlined, SyncOutlined, HistoryOutlined, RightCircleOutlined} from '@ant-design/icons';
+import {Skeleton, message, Button, Card, Empty, Tag, Alert, Input, Tooltip} from 'antd';
+import {
+    PieChartFilled, CheckSquareOutlined, SyncOutlined, HistoryOutlined, RightCircleOutlined, CaretDownOutlined,
+    QuestionCircleOutlined, FlagOutlined
+} from '@ant-design/icons';
 
 import {Reloader} from './GameLoading';
+import {Announcement} from './Announcements';
 import {useGameInfo} from '../ctx/GameInfo';
-import {TemplateFile} from '../widget/Template';
-import {useWishData} from '../wish';
+import {TemplateFile, TemplateStr} from '../widget/Template';
+import {ChallengeIcon, FlagIcon} from '../widget/ChallengeIcon';
+import {TokenWidget} from '../widget/TokenWidget';
+import {TouchedUsersLink} from '../widget/TouchedUsers';
+import {useWishData, wish} from '../wish';
 import {TimestampAgo, NotFound} from '../utils';
+import {WEB_TERMINAL_ADDR, ATTACHMENT_ADDR} from '../branding';
 
 import './Game.less';
-import {ChallengeIcon, FlagIcon} from '../widget/ChallengeIcon';
-import {Announcement} from './Announcements';
 
-function Challenge({ch}) {
+function ChallengeAction({action}) {
+    /* eslint-disable react/jsx-no-target-blank */
+
+    if(action.type==='webpage')
+        return (<>
+            你可以 <a href={action.url} target="_blank">访问{action.name}</a>
+        </>);
+    else if(action.type==='terminal')
+        return (<>
+            你可以 <a href={WEB_TERMINAL_ADDR(action)}>打开网页终端</a> 或者通过命令{' '}
+            <code>nc {action.host} {action.port}</code> 连接到{action.name}
+        </>);
+    else if(action.type==='attachment')
+        return (<>
+            你可以 <a href={ATTACHMENT_ADDR(action)}>下载{action.name}</a>
+        </>);
+}
+
+function FlagInput({do_reload_list, ch}) {
+    let [loading, set_loading] = useState(false);
+
+    function do_submit(flag) {
+        if(!flag)
+            return;
+
+        message.loading({content: '正在提交…', key: 'FlagInput', duration: 10});
+        set_loading(true);
+
+        wish('submit_flag', {
+            challenge_id: ch.id,
+            flag: flag,
+        })
+            .then((res)=>{
+                set_loading(false);
+                if(res.error)
+                    message.error({content: res.error_msg, key: 'FlagInput', duration: 3});
+                else {
+                    message.success({content: '提交成功', key: 'FlagInput', duration: 2});
+                    do_reload_list();
+                }
+            });
+    }
+
     return (
-        <div>challenge {ch.id}: {ch.title}</div>
+        <div>
+            <Input.Search
+                size="large"
+                addonBefore={
+                    ch.flags.length>1 ?
+                        <Tooltip title={`此题有 ${ch.flags.length} 个 Flag，系统会识别你提交的是哪一个`}>
+                            提交任意 Flag：<QuestionCircleOutlined />
+                        </Tooltip> :
+                        '提交 Flag：'
+                }
+                placeholder="flag{...}"
+                enterButton={<><FlagOutlined /> 提交</>}
+                onSearch={do_submit}
+                loading={loading}
+            />
+        </div>
+    );
+}
+
+function Challenge({ch, do_reload_list}) {
+    return (
+        <div className="challenge-body">
+            <h1>{ch.title}</h1>
+            <p className="challenge-stat">
+                基础分值 {ch.tot_base_score}，
+                目前分值 {ch.tot_cur_score}，
+                <TouchedUsersLink ch={ch}>共 {ch.passed_users_count} 人通过</TouchedUsersLink>
+            </p>
+            <br />
+            <TemplateStr name="challenge-desc">{ch.desc}</TemplateStr>
+            <br />
+            {ch.actions.map((action, idx)=>(
+                <p key={idx} className="challenge-action">
+                    <RightCircleOutlined />{' '}
+                    <ChallengeAction action={action} />
+                </p>
+            ))}
+            {ch.status==='passed' ?
+                <Alert type="success" showIcon message="你已经通过此题" /> :
+                <FlagInput do_reload_list={do_reload_list} ch={ch} />
+            }
+            <br />
+            <TokenWidget />
+        </div>
     )
 }
 
 function PortalUserInfo({info}) {
     return (
         <div className="portal-user-info">
-            <div className="portal-user-info-status">{info.status_line}</div>
+            <div className="portal-user-info-status">
+                {info.status_line}
+            </div>
             {info.tot_score_by_cat!==null &&
-                <div>
-                    <PieChartFilled />
+                <div className="portal-user-info-cat">
+                    <PieChartFilled />{' '}
                     {info.tot_score_by_cat.map((cat, idx)=>(
                         <>
                             {idx!==0 ? ' + ' : null}
@@ -48,7 +141,7 @@ function PortalChallengeList({list, active_id}) {
                     题目名称
                 </div>
                 <div className="portal-chall-col-score">
-                    分值 / <small><CheckSquareOutlined /> 通过人数</small>
+                    分值 / <small>通过人数</small>
                 </div>
             </div>
             {list===null ?
@@ -64,6 +157,7 @@ function PortalChallengeList({list, active_id}) {
                                     <Tag color={ch.category_color}>{ch.category}</Tag>
                                 </span>
                                 <ChallengeIcon status={ch.status} /> {ch.title}
+                                {ch.flags.length>1 && <span className="portal-chall-caret"><CaretDownOutlined /></span>}
                             </div>
                             <div className="portal-chall-col-score">
                                 {ch.tot_cur_score} / <small><CheckSquareOutlined /> {ch.passed_users_count}</small>
@@ -76,7 +170,7 @@ function PortalChallengeList({list, active_id}) {
                                         <FlagIcon status={f.status} /> {f.name}
                                     </div>
                                     <div className="portal-chall-col-score">
-                                        {f.cur_score} / <small><CheckSquareOutlined /> {ch.passed_users_count}</small>
+                                        {f.cur_score} / <small><CheckSquareOutlined /> {f.passed_users_count}</small>
                                     </div>
                                 </div>
                             ))
@@ -169,17 +263,17 @@ function Portal() {
                     <Announcement
                         announcement={data.last_announcement}
                         extra={
-                            <Button type="link" onClick={()=>nav('/info')}>
+                            <a href="#/info/announcements">
                                 <RightCircleOutlined /> 查看所有公告
-                            </Button>
+                            </a>
                         }
                     />
                 }
-                {active_challenge_id===null ?
-                    <TemplateFile name="game" /> :
-                    active_challenge===null ?
-                        <NotFound /> :
-                        <Challenge ch={active_challenge} />
+                {active_challenge!==null ?
+                    <Challenge ch={active_challenge} do_reload_list={load_data} />:
+                (active_challenge_id!==null && data!==null) ?
+                    <NotFound /> :
+                    <TemplateFile name="game" />
                 }
             </div>
         </div>
