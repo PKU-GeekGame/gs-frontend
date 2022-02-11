@@ -51,7 +51,6 @@ function BoardRouter() {
                 <Menu.Item key="score_all"><FundOutlined /> 总排名</Menu.Item>
                 <Menu.Item key="first_all"><AimOutlined /> 总一血榜</Menu.Item>
             </Menu>
-            <br />
             <Board name={name} />
         </div>
     )

@@ -17,7 +17,8 @@ export function License() {
                     <ExtLink href="https://github.com/facebook/react/blob/main/LICENSE">React</ExtLink>、
                     <ExtLink href="https://github.com/remix-run/react-router/blob/main/LICENSE.md">React-Router</ExtLink>、
                     <ExtLink href="https://github.com/nmn/react-timeago/blob/master/LICENSE">React-TimeAgo</ExtLink>、
-                    <ExtLink href="https://github.com/ant-design/ant-design/blob/master/LICENSE">Ant Design</ExtLink> 和{' '}
+                    <ExtLink href="https://github.com/ant-design/ant-design/blob/master/LICENSE">Ant-Design</ExtLink>、
+                    <ExtLink href="https://github.com/ant-design/ant-design-charts/blob/master/LICENSE">Ant-Design-Charts</ExtLink> 和{' '}
                     <ExtLink href="https://github.com/sudodoki/copy-to-clipboard/blob/master/LICENSE">copy-to-clipboard</ExtLink>{' '}
                     等第三方组件。
                 </p>
