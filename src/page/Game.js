@@ -14,7 +14,7 @@ import {ChallengeIcon, FlagIcon} from '../widget/ChallengeIcon';
 import {TokenWidget} from '../widget/TokenWidget';
 import {TouchedUsersLink} from '../widget/TouchedUsers';
 import {useWishData, wish} from '../wish';
-import {TimestampAgo, NotFound} from '../utils';
+import {TimestampAgo, NotFound, useReloadButton} from '../utils';
 import {WEB_TERMINAL_ADDR, ATTACHMENT_ADDR} from '../branding';
 
 import './Game.less';
@@ -120,10 +120,10 @@ function PortalUserInfo({info}) {
                 <div className="portal-user-info-cat">
                     <PieChartFilled />{' '}
                     {info.tot_score_by_cat.map((cat, idx)=>(
-                        <>
+                        <Fragment key={cat}>
                             {idx!==0 ? ' + ' : null}
                             {cat[0]} {cat[1]}
-                        </>
+                        </Fragment>
                     ))}
                 </div>
             }
@@ -188,8 +188,7 @@ function PortalChallengeList({list, active_id}) {
 function Portal() {
     let [error, data, load_data] = useWishData('game');
     let nav = useNavigate();
-    let last_reloaded = useRef(0);
-    let reload_btn = useRef(null);
+    let [last_reloaded, mark_reload, reload_btn] = useReloadButton(3);
     let params = useParams();
 
     let active_challenge_id = params.challenge===undefined ? null : parseInt(params.challenge);
@@ -201,10 +200,6 @@ function Portal() {
                     return ch;
         return null;
     }, [data, active_challenge_id]);
-
-    useEffect(()=>{
-        last_reloaded.current = +new Date();
-    }, []);
 
     if(error) {
         if(error.error==='SHOULD_AGREE_TERMS') {
@@ -218,22 +213,12 @@ function Portal() {
 
         return (
             <div className="slim-container">
-                <Reloader message={error.error_msg} reload={load_data} />
+                <Reloader message={error.error_msg} reload={()=>{
+                    mark_reload();
+                    load_data();
+                }} />
             </div>
         );
-    }
-
-    function manual_load_data() {
-        if(reload_btn.current)
-            reload_btn.current.disabled = true;
-        last_reloaded.current = +new Date();
-        setTimeout(()=>{
-            if((+new Date())-last_reloaded.current > 2500)
-                reload_btn.current.disabled = false;
-        }, 3000);
-
-        message.success({content: '已刷新题目数据', key: 'Portal.ManualLoadData', duration: 2});
-        load_data();
     }
 
     return (
@@ -241,10 +226,14 @@ function Portal() {
             <div className="portal-sidebar">
                 <div className="portal-reloader">
                     <div>
-                        <HistoryOutlined /> <TimestampAgo ts={last_reloaded.current/1000} />更新
+                        <HistoryOutlined /> <TimestampAgo ts={last_reloaded} />更新
                     </div>
                     <div>
-                        <Button type="link" ref={reload_btn} onClick={manual_load_data}>
+                        <Button type="link" ref={reload_btn} onClick={()=>{
+                            message.success({content: '已刷新题目数据', key: 'Portal.ManualLoadData', duration: 2});
+                            mark_reload();
+                            load_data();
+                        }}>
                             <SyncOutlined /> 刷新题目
                         </Button>
                     </div>

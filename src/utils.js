@@ -5,6 +5,7 @@ import {AUTH_ROOT} from './branding';
 import {useLocation, useNavigate} from 'react-router-dom';
 import {Result, Button} from 'antd';
 import {InboxOutlined} from '@ant-design/icons';
+import {useRef, useEffect} from 'react';
 
 export function cap(s, n) {
     if(2*s.length<=n)
@@ -39,7 +40,8 @@ function pad2(x) {
 export function format_ts(ts) {
     let time = new Date(ts*1000);
     return (
-        `${time.getFullYear()}-${pad2(time.getMonth()+1)}-${pad2(time.getDate())}`
+        //`${time.getFullYear()}-${pad2(time.getMonth()+1)}-${pad2(time.getDate())}`
+        `${pad2(time.getMonth()+1)}-${pad2(time.getDate())}`
         +` ${pad2(time.getHours())}:${pad2(time.getMinutes())}:${pad2(time.getSeconds())}`
     );
 }
@@ -91,4 +93,31 @@ export function ExtLink({href, children}) {
     return (
         <a href={href}  target="_blank" rel="noreferrer">{children}</a>
     );
+}
+
+export function useReloadButton(interval_s) {
+    // xxx: will not trigger re-render if only last_reloaded_ms is changed, because it is a ref
+    // this is generally safe because usually other states are changed after reloading
+
+    let last_reloaded_ms = useRef(0);
+    let reload_btn = useRef(null);
+
+    useEffect(()=>{
+        last_reloaded_ms.current = +new Date();
+    }, []);
+
+    function mark_reload() {
+        if(reload_btn.current)
+            reload_btn.current.disabled = true;
+
+        last_reloaded_ms.current = +new Date();
+
+        setTimeout(()=>{
+            if((+new Date())-last_reloaded_ms.current >= interval_s*1000-200)
+                if(reload_btn.current)
+                    reload_btn.current.disabled = false;
+        }, interval_s*1000);
+    }
+
+    return [last_reloaded_ms.current/1000, mark_reload, reload_btn];
 }

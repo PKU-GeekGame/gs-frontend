@@ -1,6 +1,6 @@
 import {Route, Routes, useNavigate, Navigate, useParams} from 'react-router-dom';
-import {Menu} from 'antd';
-import {NotificationOutlined, QuestionCircleOutlined, CarryOutOutlined} from '@ant-design/icons';
+import {Menu, Alert} from 'antd';
+import {NotificationOutlined, QuestionCircleOutlined, CarryOutOutlined, FundOutlined, AimOutlined} from '@ant-design/icons';
 
 import {Header} from './widget/Header';
 import {Footer} from './widget/Footer';
@@ -14,6 +14,7 @@ import {NotFound} from './utils'
 
 import './App.less';
 import {License} from './page/License';
+import {Board} from './page/Board';
 
 function InfoRouter() {
     let {page} = useParams();
@@ -38,26 +39,49 @@ function InfoRouter() {
     );
 }
 
+function BoardRouter() {
+    let {name} = useParams();
+    let nav = useNavigate();
+
+    return (
+        <div>
+            <Menu selectedKeys={[name]} onSelect={(e)=>{nav(`/board/${e.key}`);}} mode="horizontal">
+                <Menu.Item key="score_pku"><FundOutlined /> 北京大学排名</Menu.Item>
+                <Menu.Item key="first_pku"><AimOutlined /> 北京大学一血榜</Menu.Item>
+                <Menu.Item key="score_all"><FundOutlined /> 总排名</Menu.Item>
+                <Menu.Item key="first_all"><AimOutlined /> 总一血榜</Menu.Item>
+            </Menu>
+            <br />
+            <Board name={name} />
+        </div>
+    )
+}
+
 export function App() {
     return (
         <div>
             <Header />
             <div className="main-container">
-                <Routes>
-                    <Route exact path="/" element={<Navigate to="/game" replace />} />
-                    <Route exact path="/game" element={<Game />} />
-                    <Route exact path="/game/:challenge" element={<Game />} />
+                <Alert.ErrorBoundary>
+                    <Routes>
+                        <Route exact path="/" element={<Navigate to="/game" replace />} />
+                        <Route exact path="/game" element={<Game />} />
+                        <Route exact path="/game/:challenge" element={<Game />} />
 
-                    <Route exact path="/info" element={<Navigate to="/info/announcements" replace />} />
-                    <Route exact path="/info/:page" element={<InfoRouter />} />
+                        <Route exact path="/board" element={<Navigate to="/board/score_pku" replace />} />
+                        <Route exact path="/board/:name" element={<BoardRouter />} />
 
-                    <Route exact path="/user/profile" element={<UserProfile />} />
-                    <Route exact path="/user/terms" element={<Terms />} />
+                        <Route exact path="/info" element={<Navigate to="/info/announcements" replace />} />
+                        <Route exact path="/info/:page" element={<InfoRouter />} />
 
-                    <Route exact path="/license" element={<License />} />
+                        <Route exact path="/user/profile" element={<UserProfile />} />
+                        <Route exact path="/user/terms" element={<Terms />} />
 
-                    <Route path="*" element={<NotFound />} />
-                </Routes>
+                        <Route exact path="/license" element={<License />} />
+
+                        <Route path="*" element={<NotFound />} />
+                    </Routes>
+                </Alert.ErrorBoundary>
             </div>
             <Footer />
         </div>

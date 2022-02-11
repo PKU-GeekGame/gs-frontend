@@ -29,13 +29,9 @@ export function Announcements() {
     let [error, data, load_data] = useWishData('announcements');
 
     if(error)
-        return (
-            <Reloader message={error.error_msg} reload={load_data} />
-        );
+        return <Reloader message={error.error_msg} reload={load_data} />;
     if(data===null)
-        return (
-            <Skeleton />
-        );
+        return <Skeleton />;
 
     return (
         <div className="announcement-list">

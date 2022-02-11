@@ -45,15 +45,11 @@ export function TemplateFile({name}) {
     }, [load_template]);
 
     if(error)
-        return (
-            <Reloader message={error} reload={load_template} />
-        );
-    else if(html===null)
-        return (
-            <Skeleton />
-        );
-    else
-        return (
-            <TemplateStr name={name}>{html}</TemplateStr>
-        );
+        return <Reloader message={error} reload={load_template} />;
+    if(html===null)
+        return <Skeleton />;
+
+    return (
+        <TemplateStr name={name}>{html}</TemplateStr>
+    );
 }

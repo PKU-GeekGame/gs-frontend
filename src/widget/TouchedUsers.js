@@ -1,4 +1,4 @@
-import {useState, useMemo} from 'react';
+import {useState} from 'react';
 import {Modal, Skeleton, Table} from 'antd';
 
 import {useWishData} from '../wish';
@@ -9,20 +9,12 @@ import {format_ts} from '../utils';
 import './TouchedUsers.less';
 
 function TouchedUsersModal({ch}) {
-    let args = useMemo(()=>({
-        challenge_id: ch.id,
-    }), [ch]);
-
-    let [error, data, load_data] = useWishData('get_touched_users', args);
+    let [error, data, load_data] = useWishData('get_touched_users/'+ch.id);
 
     if(error)
-        return (
-            <Reloader message={error.error_msg} reload={load_data} />
-        );
+        return <Reloader message={error.error_msg} reload={load_data} />;
     if(data===null)
-        return (
-            <Skeleton />
-        );
+        return <Skeleton />;
 
     return (
         <div>
