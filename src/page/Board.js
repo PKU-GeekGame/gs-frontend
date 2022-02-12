@@ -71,12 +71,13 @@ function TopStarContent({data}) {
 
     return (
         <Line
+            height={350}
             data={points}
             xField="timestamp_ms" yField="score" seriesField="idx0"
             stepType="hv"
             legend={{
                 layout: 'horizontal',
-                position: 'bottom',
+                position: 'top',
             }}
             meta={{
                 idx0: {

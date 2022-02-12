@@ -1,5 +1,5 @@
-import {NotificationOutlined} from '@ant-design/icons';
 import {Empty, Skeleton, Card, Tag} from 'antd';
+import {NotificationOutlined} from '@ant-design/icons';
 
 import {Reloader} from './GameLoading';
 import {useWishData} from '../wish';
@@ -9,7 +9,7 @@ import {TimestampAgo} from '../utils';
 import './Announcements.less';
 
 export function Announcement({announcement, extra}) {
-    return(
+    return (
         <div className="announcement">
             <Card
                 type="inner" size="small" bordered={false} extra={extra||null}
@@ -22,7 +22,7 @@ export function Announcement({announcement, extra}) {
                 <TemplateStr name="announcement">{announcement.content}</TemplateStr>
             </Card>
         </div>
-    )
+    );
 }
 
 export function Announcements() {
@@ -42,5 +42,5 @@ export function Announcements() {
                 <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="暂无公告" />
             }
         </div>
-    )
+    );
 }
