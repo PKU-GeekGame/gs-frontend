@@ -2,19 +2,21 @@ import {Route, Routes, useNavigate, Navigate, useParams} from 'react-router-dom'
 import {Menu, Alert} from 'antd';
 import {NotificationOutlined, QuestionCircleOutlined, CarryOutOutlined, FundOutlined, AimOutlined} from '@ant-design/icons';
 
-import {Header} from './widget/Header';
-import {Footer} from './widget/Footer';
-import {TemplateFile} from './widget/Template';
+import {License} from './page/License';
+import {Board} from './page/Board';
+import {UserSubmissions} from './page/UserSubmissions';
+import {Writeup} from './page/Writeup';
 import {Game} from './page/Game';
 import {Announcements} from './page/Announcements';
 import {Triggers} from './page/Triggers';
 import {UserProfile} from './page/UserProfile';
 import {Terms} from './page/Terms';
+import {Header} from './widget/Header';
+import {Footer} from './widget/Footer';
+import {TemplateFile} from './widget/Template';
 import {NotFound} from './utils'
 
 import './App.less';
-import {License} from './page/License';
-import {Board} from './page/Board';
 
 function InfoRouter() {
     let {page} = useParams();
@@ -74,8 +76,10 @@ export function App() {
                         <Route exact path="/info/:page" element={<InfoRouter />} />
 
                         <Route exact path="/user/profile" element={<UserProfile />} />
+                        <Route exact path="/user/submissions" element={<UserSubmissions />} />
                         <Route exact path="/user/terms" element={<Terms />} />
 
+                        <Route exact path="/writeup" element={<Writeup />} />
                         <Route exact path="/license" element={<License />} />
 
                         <Route path="*" element={<NotFound />} />

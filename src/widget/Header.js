@@ -2,7 +2,7 @@ import {useNavigate, useLocation} from 'react-router-dom';
 import {Menu} from 'antd';
 import {
     UnorderedListOutlined, CrownOutlined, NotificationOutlined, UserOutlined, LoginOutlined, CaretDownOutlined,
-    EditOutlined, FileProtectOutlined, DisconnectOutlined, HomeOutlined, GlobalOutlined
+    EditOutlined, FileProtectOutlined, DisconnectOutlined, HomeOutlined, GlobalOutlined, HistoryOutlined
 } from '@ant-design/icons';
 
 import {useGameInfo} from '../ctx/GameInfo';
@@ -51,6 +51,7 @@ export function Header() {
                                 popupClassName="header-nav-popup"
                             >
                                 <Menu.Item key="/user/profile"><EditOutlined /> 个人资料</Menu.Item>
+                                <Menu.Item key="/user/submissions"><HistoryOutlined /> 提交历史记录</Menu.Item>
                                 <Menu.Item key="/user/terms"><FileProtectOutlined /> 参赛须知</Menu.Item>
                                 <Menu.Item key="_/user/logout" danger onClick={()=>to_auth('logout')}><DisconnectOutlined /> 注销</Menu.Item>
                             </Menu.SubMenu> :

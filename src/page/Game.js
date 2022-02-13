@@ -1,9 +1,9 @@
-import {useRef, useEffect, Fragment, useMemo, useState} from 'react';
+import {Fragment, useMemo, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
-import {Skeleton, message, Button, Card, Empty, Tag, Alert, Input, Tooltip} from 'antd';
+import {Skeleton, message, Button, Empty, Tag, Alert, Input, Tooltip} from 'antd';
 import {
     PieChartFilled, CheckSquareOutlined, SyncOutlined, HistoryOutlined, RightCircleOutlined, CaretDownOutlined,
-    QuestionCircleOutlined, FlagOutlined
+    QuestionCircleOutlined, FlagOutlined, SolutionOutlined
 } from '@ant-design/icons';
 
 import {Reloader} from './GameLoading';
@@ -136,50 +136,52 @@ function PortalChallengeList({list, active_id}) {
 
     return (
         <div className="portal-chall-list">
-            <div className="portal-chall-row portal-chall-header">
-                <div className="portal-chall-col-title">
-                    题目名称
-                </div>
-                <div className="portal-chall-col-score">
-                    分值 / <small>通过人数</small>
-                </div>
-            </div>
             {list===null ?
-                <Card size="small">目前不能查看题目</Card> :
-                list.map((ch)=>(
-                    <Fragment key={ch.id}>
-                        <div
-                            className={`portal-chall-row${active_id===ch.id ? ' portal-chall-row-active' : ''}`}
-                            onClick={()=>nav('/game/'+ch.id)}
-                        >
-                            <div className="portal-chall-col-title">
-                                <span className="portal-chall-category-badge">
-                                    <Tag color={ch.category_color}>{ch.category}</Tag>
-                                </span>
-                                <ChallengeIcon status={ch.status} /> {ch.title}
-                                {ch.flags.length>1 && <span className="portal-chall-caret"><CaretDownOutlined /></span>}
-                            </div>
-                            <div className="portal-chall-col-score">
-                                {ch.tot_cur_score} / <small><CheckSquareOutlined /> {ch.passed_users_count}</small>
-                            </div>
+                <Alert showIcon type="info" message="现在不允许查看题目" /> :
+                <>
+                    <div className="portal-chall-row portal-chall-header">
+                        <div className="portal-chall-col-title">
+                            题目名称
                         </div>
-                        {active_id===ch.id && ch.flags.length>1 &&
-                            ch.flags.map((f, idx)=>(
-                                <div key={idx} className="portal-chall-row portal-chall-row-active portal-chall-row-flag">
-                                    <div className="portal-chall-col-title">
-                                        <FlagIcon status={f.status} /> {f.name}
-                                    </div>
-                                    <div className="portal-chall-col-score">
-                                        {f.cur_score} / <small><CheckSquareOutlined /> {f.passed_users_count}</small>
-                                    </div>
+                        <div className="portal-chall-col-score">
+                            分值 / <small>通过人数</small>
+                        </div>
+                    </div>
+                    {list.map((ch)=>(
+                        <Fragment key={ch.id}>
+                            <div
+                                className={`portal-chall-row${active_id===ch.id ? ' portal-chall-row-active' : ''}`}
+                                onClick={()=>nav('/game/'+ch.id)}
+                            >
+                                <div className="portal-chall-col-title">
+                                    <span className="portal-chall-category-badge">
+                                        <Tag color={ch.category_color}>{ch.category}</Tag>
+                                    </span>
+                                    <ChallengeIcon status={ch.status} /> {ch.title}
+                                    {ch.flags.length>1 && <span className="portal-chall-caret"><CaretDownOutlined /></span>}
                                 </div>
-                            ))
-                        }
-                    </Fragment>
-                ))
-            }
-            {list!==null && list.length===0 &&
-                <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="暂无题目" />
+                                <div className="portal-chall-col-score">
+                                    {ch.tot_cur_score} / <small><CheckSquareOutlined /> {ch.passed_users_count}</small>
+                                </div>
+                            </div>
+                            {active_id===ch.id && ch.flags.length>1 &&
+                                ch.flags.map((f, idx)=>(
+                                    <div key={idx} className="portal-chall-row portal-chall-row-active portal-chall-row-flag">
+                                        <div className="portal-chall-col-title">
+                                            <FlagIcon status={f.status} /> {f.name}
+                                        </div>
+                                        <div className="portal-chall-col-score">
+                                            {f.cur_score} / <small><CheckSquareOutlined /> {f.passed_users_count}</small>
+                                        </div>
+                                    </div>
+                                ))
+                            }
+                        </Fragment>
+                    ))}
+                    {list.length===0 &&
+                        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="暂无题目" />
+                    }
+                </>
             }
         </div>
     )
@@ -194,7 +196,7 @@ function Portal() {
     let active_challenge_id = params.challenge===undefined ? null : parseInt(params.challenge);
 
     let active_challenge = useMemo(()=>{
-        if(data!==null)
+        if(data!==null && data.challenge_list!==null)
             for(let ch of data.challenge_list)
                 if(ch.id===active_challenge_id)
                     return ch;
@@ -226,7 +228,9 @@ function Portal() {
             <div className="portal-sidebar">
                 <div className="portal-reloader">
                     <div>
-                        <HistoryOutlined /> <TimestampAgo ts={last_reloaded} />更新
+                        <HistoryOutlined /> {last_reloaded!==0 && <>
+                            <TimestampAgo ts={last_reloaded} />更新
+                        </>}
                     </div>
                     <div>
                         <Button type="link" ref={reload_btn} onClick={()=>{
@@ -242,6 +246,13 @@ function Portal() {
                 {data===null ?
                     <Skeleton /> :
                     <>
+                        {!!data.show_writeup &&
+                            <div className="portal-writeup-btn">
+                                <Button block size="large" onClick={()=>nav('/writeup')} type="primary">
+                                    <SolutionOutlined /> 提交 Writeup
+                                </Button>
+                            </div>
+                        }
                         <PortalUserInfo info={data.user_info} />
                         <PortalChallengeList list={data.challenge_list} active_id={active_challenge_id} />
                     </>

@@ -1,7 +1,7 @@
 import {WISH_ROOT} from './branding';
 import {useState, useCallback, useEffect} from 'react';
 
-const WISH_VER = 'wish.alpha.v1';
+export const WISH_VER = 'wish.alpha.v1';
 
 export function wish(endpoint, data) {
     return new Promise((resolve)=>{

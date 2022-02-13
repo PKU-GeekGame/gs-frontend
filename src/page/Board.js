@@ -67,7 +67,7 @@ function TopStarContent({data}) {
         }
     });
 
-    console.log('! render chart', data, timepoints.map((x)=>new Date(x)), points);
+    //console.log('! render chart', data, timepoints.map((x)=>new Date(x)), points);
 
     return (
         <Line
@@ -195,7 +195,9 @@ export function Board({name}) {
         <div>
             <div className="board-reloader">
                 <div>
-                    <HistoryOutlined /> <TimestampAgo ts={last_reloaded} />更新（{format_ts(last_reloaded)}）
+                    <HistoryOutlined /> {last_reloaded!==0 && <>
+                        <TimestampAgo ts={last_reloaded} />更新（{format_ts(last_reloaded)}）
+                    </>}
                 </div>
                 <div>
                     <Button type="link" ref={reload_btn} onClick={()=>{
