@@ -167,7 +167,7 @@ function FirstBloodBoardContent({data}) {
                 text===null ? null : format_ts(text)
             )} />
         </Table>
-    )
+    );
 }
 
 function BoardContent({data}) {
@@ -214,5 +214,5 @@ export function Board({name}) {
                 <BoardContent data={data} />
             }
         </div>
-    )
+    );
 }

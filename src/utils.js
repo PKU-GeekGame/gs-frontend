@@ -86,7 +86,7 @@ export function NotFound() {
                 <Button key="home" onClick={()=>nav('/')}>返回主页</Button>
             ]}
         />
-    )
+    );
 }
 
 export function ExtLink({href, children}) {

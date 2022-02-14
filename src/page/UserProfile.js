@@ -145,7 +145,7 @@ function UserProfileForm() {
                 </Button>
             </Form>
         </Form.Provider>
-    )
+    );
 }
 
 export function UserProfile() {

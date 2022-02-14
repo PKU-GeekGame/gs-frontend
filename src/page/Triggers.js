@@ -22,7 +22,7 @@ function Splitter({children}) {
                 <p key={idx}>{frag}</p>
             ))}
         </div>
-    )
+    );
 }
 
 export function Triggers() {
@@ -54,5 +54,5 @@ export function Triggers() {
                 <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="暂无赛程" />
             }
         </div>
-    )
+    );
 }

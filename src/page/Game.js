@@ -107,7 +107,7 @@ function Challenge({ch, do_reload_list}) {
             <br />
             <TokenWidget />
         </div>
-    )
+    );
 }
 
 function PortalUserInfo({info}) {
@@ -130,7 +130,7 @@ function PortalUserInfo({info}) {
                 </div>
             }
         </div>
-    )
+    );
 }
 
 function PortalChallengeList({list, active_id}) {
@@ -186,7 +186,7 @@ function PortalChallengeList({list, active_id}) {
                 </>
             }
         </div>
-    )
+    );
 }
 
 function Portal() {
@@ -279,7 +279,7 @@ function Portal() {
                 }
             </div>
         </div>
-    )
+    );
 }
 
 export function Game() {

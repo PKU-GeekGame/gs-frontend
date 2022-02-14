@@ -32,7 +32,7 @@ function TouchedUsersModal({ch}) {
                 ))}
             </Table>
         </div>
-    )
+    );
 }
 
 export function TouchedUsersLink({ch, children}) {
@@ -55,5 +55,5 @@ export function TouchedUsersLink({ch, children}) {
                 <TouchedUsersModal ch={ch} />
             </Modal>
         </>
-    )
+    );
 }

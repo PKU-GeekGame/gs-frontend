@@ -55,7 +55,7 @@ function BoardRouter() {
             </Menu>
             <Board key={name} name={name} />
         </div>
-    )
+    );
 }
 
 export function App() {
