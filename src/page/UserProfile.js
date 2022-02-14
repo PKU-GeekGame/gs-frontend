@@ -3,7 +3,7 @@ import {Card, Form, Input, Alert, Radio, Button, message} from 'antd';
 import {CheckCircleOutlined} from '@ant-design/icons';
 import {useNavigate} from 'react-router-dom';
 
-import {GameInfoCtx} from '../ctx/GameInfo';
+import {GameInfoCtx} from '../logic/GameInfo';
 import {UserGroupTag} from '../widget/UserGroupTag';
 import {wish} from '../wish';
 

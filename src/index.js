@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {ConfigProvider, Alert} from 'antd';
 import {HashRouter} from 'react-router-dom';
 
-import {GameInfoProvider} from './ctx/GameInfo';
+import {GameInfoProvider} from './logic/GameInfo';
 import {App} from './App';
 
 import zhCN from 'antd/es/locale/zh_CN';

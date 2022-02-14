@@ -1,4 +1,4 @@
-import {useGameInfo} from '../ctx/GameInfo';
+import {useGameInfo} from '../logic/GameInfo';
 import {Button, message} from 'antd';
 import {CopyOutlined} from '@ant-design/icons';
 

@@ -3,7 +3,7 @@ import {Button, message} from 'antd';
 import {useNavigate} from 'react-router-dom';
 import {CheckCircleOutlined} from '@ant-design/icons';
 
-import {GameInfoCtx} from '../ctx/GameInfo';
+import {GameInfoCtx} from '../logic/GameInfo';
 import {TemplateFile} from '../widget/Template';
 import {wish} from '../wish';
 

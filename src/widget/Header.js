@@ -5,7 +5,7 @@ import {
     EditOutlined, FileProtectOutlined, DisconnectOutlined, HomeOutlined, GlobalOutlined, HistoryOutlined
 } from '@ant-design/icons';
 
-import {useGameInfo} from '../ctx/GameInfo';
+import {useGameInfo} from '../logic/GameInfo';
 import {GAME_TITLE, GAME_LOGO} from '../branding';
 import {cap, to_auth} from '../utils';
 

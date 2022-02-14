@@ -8,7 +8,7 @@ import {
 
 import {Reloader} from './GameLoading';
 import {Announcement} from './Announcements';
-import {useGameInfo} from '../ctx/GameInfo';
+import {useGameInfo} from '../logic/GameInfo';
 import {TemplateFile, TemplateStr} from '../widget/Template';
 import {ChallengeIcon, FlagIcon} from '../widget/ChallengeIcon';
 import {TokenWidget} from '../widget/TokenWidget';
