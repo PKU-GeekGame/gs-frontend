@@ -111,8 +111,10 @@ function Challenge({ch, do_reload_list}) {
 }
 
 function PortalUserInfo({info}) {
+    let nav = useNavigate();
+
     return (
-        <div className="portal-user-info">
+        <div className="portal-user-info" onClick={()=>nav('/board/'+info.active_board_key)}>
             <div className="portal-user-info-status">
                 {info.status_line}
             </div>

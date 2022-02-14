@@ -19,14 +19,14 @@ function SubmissionsTable() {
             dataSource={data.list}
             rowKey="idx"
         >
-            <Table.Column title="时间" dataIndex="timestamp_s" render={(text)=>format_ts(text)} />
+            <Table.Column title="提交时间" dataIndex="timestamp_s" render={(text)=>format_ts(text)} />
             <Table.Column title="题目" dataIndex="challenge_title" />
             <Table.Column title="Flag" dataIndex="matched_flag" render={(text)=>
                 text===null ?
                     <><FlagIcon status="untouched" /> 未匹配</> :
                     <><FlagIcon status="passed" /> 成功匹配 {text}</>
             } />
-            <Table.Column title="" dataIndex="overrides" render={(overrides)=>
+            <Table.Column title="备注" dataIndex="overrides" render={(overrides)=>
                 overrides.map((override, idx)=>(
                     <Tag key={idx} color="red">{override}</Tag>
                 ))

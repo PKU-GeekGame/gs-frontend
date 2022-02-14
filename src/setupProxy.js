@@ -8,9 +8,10 @@ const API_URL = 'http://localhost:8000';
 module.exports = function(app) {
     app.use(
         '/service',
-        createProxyMiddleware({
+        createProxyMiddleware('/service', {
             target: API_URL,
             changeOrigin: true,
+            ws: true,
         })
     );
 };
