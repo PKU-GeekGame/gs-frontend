@@ -10,7 +10,7 @@ Since this is a frontend project, you don't need to install requirements on the 
 
 Install requirements on the developer's machine (or a CI worker) and copy the built files to the deployment server is okay.
 
-**Installation:**
+**Setup:**
 
 - Install Node.JS (≥12)
 - `npm install`
