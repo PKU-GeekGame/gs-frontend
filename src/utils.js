@@ -1,11 +1,11 @@
+import {useRef, useEffect} from 'react';
+import {useLocation, useNavigate} from 'react-router-dom';
+import {Result, Button, message} from 'antd';
 import TimeAgo from 'react-timeago';
 import buildFormatter from 'react-timeago/lib/formatters/buildFormatter';
+import {InboxOutlined} from '@ant-design/icons';
 
 import {AUTH_ROOT} from './branding';
-import {useLocation, useNavigate} from 'react-router-dom';
-import {Result, Button} from 'antd';
-import {InboxOutlined} from '@ant-design/icons';
-import {useRef, useEffect} from 'react';
 
 export function cap(s, n) {
     if(2*s.length<=n)
@@ -31,7 +31,10 @@ export function cap(s, n) {
 }
 
 export function to_auth(endpoint) {
-    window.location.href = AUTH_ROOT+endpoint;
+    message.loading({content: '正在前往登录页面…', key: 'Utils.ToAuth', duration: 10});
+    setTimeout(()=>{
+        window.location.href = AUTH_ROOT+endpoint;
+    }, 100);
 }
 
 function pad2(x) {

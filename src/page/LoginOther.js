@@ -1,5 +1,5 @@
 import {Alert, Button} from 'antd';
-import {GithubOutlined, HomeOutlined} from '@ant-design/icons';
+import {GithubOutlined, WindowsOutlined, HomeOutlined} from '@ant-design/icons';
 
 import {to_auth} from '../utils';
 
@@ -30,8 +30,12 @@ export function LoginOther() {
             <div className="login-instruction">
                 <p><b>选择登录方式</b></p>
                 <p>
-                    <Button onClick={()=>to_auth('github/login')}>
+                    <Button size="large" onClick={()=>to_auth('github/login')}>
                         <GithubOutlined /> GitHub
+                    </Button>
+                    &emsp;
+                    <Button size="large" onClick={()=>to_auth('microsoft/login')}>
+                        <WindowsOutlined /> Microsoft
                     </Button>
                 </p>
 
@@ -44,7 +48,7 @@ export function LoginOther() {
                     本竞赛不允许选手注册多个账号，校内选手务必全程通过北京大学统一身份认证（IAAA）系统登录，否则视为放弃评奖资格。
                 </p>
                 <p>
-                    <Button onClick={()=>to_auth('pku/login')}>
+                    <Button size="large" onClick={()=>to_auth('pku/login')}>
                         <HomeOutlined /> 北京大学登录
                     </Button>
                 </p>
