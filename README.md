@@ -22,7 +22,7 @@ Install requirements on the developer's machine (or a CI worker) and copy the bu
 **Build:**
 
 - `./build.sh`
-- Find built files in `build` directory
+- Find built files in `build-finished` directory
 
 ## License
 
