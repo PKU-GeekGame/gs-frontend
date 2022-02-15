@@ -7,13 +7,37 @@ export function License() {
         <div className="slim-container">
             <h1>开源许可证</h1>
             <Card>
+                <p><b>关于本平台的使用许可：</b></p>
                 <p>
                     Guiding Star 是 PKUGGG Team 开发的 CTF 比赛平台，
-                    允许任何人在满足下列协议要求的情况下部署或二次开发本平台。
+                    允许任何人在 MIT 协议（如下）的要求下部署或二次开发本平台。
                 </p>
                 <p>
-                    平台的前端部分按照 <ExtLink href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</ExtLink> 协议发布，
-                    其源代码可以在 <ExtLink href="https://github.com/PKU-GeekGame/gs-frontend">GitHub</ExtLink> 获得。
+                    Copyright (c) 2022 @xmcp, and other members from PKUGGG Team
+                </p>
+                <p>
+                    Permission is hereby granted, free of charge, to any person obtaining a copy
+                    of this software and associated documentation files (the "Software"), to deal
+                    in the Software without restriction, including without limitation the rights
+                    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+                    copies of the Software, and to permit persons to whom the Software is
+                    furnished to do so, subject to the following conditions:
+                </p>
+                <p>
+                    The above copyright notice and this permission notice shall be included in all
+                    copies or substantial portions of the Software.
+                </p>
+                <p>
+                    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+                    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+                    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+                    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+                    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+                    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+                    SOFTWARE.
+                </p>
+                <p>
+                    平台前端部分的源代码可以在 <ExtLink href="https://github.com/PKU-GeekGame/gs-frontend">GitHub</ExtLink> 获得。
                     前端部分还使用了按照 MIT 协议开源的{' '}
                     <ExtLink href="https://github.com/facebook/react/blob/main/LICENSE">React</ExtLink>、
                     <ExtLink href="https://github.com/remix-run/react-router/blob/main/LICENSE.md">React-Router</ExtLink>、
@@ -24,13 +48,13 @@ export function License() {
                     等第三方组件。
                 </p>
                 <p>
-                    平台的后端部分按照 <ExtLink href="https://www.gnu.org/licenses/agpl-3.0.en.html">AGPLv3</ExtLink> 协议发布，
-                    其源代码可以在 <ExtLink href="https://github.com/PKU-GeekGame/gs-backend">GitHub</ExtLink> 获得。
+                    平台后端部分的源代码可以在 <ExtLink href="https://github.com/PKU-GeekGame/gs-backend">GitHub</ExtLink> 获得。
                     使用的第三方组件列表参见后端代码。
                 </p>
             </Card>
             <br />
             <Card>
+                <p><b>关于比赛内容的使用许可：</b></p>
                 {CONTEST_LICENSE}
             </Card>
         </div>

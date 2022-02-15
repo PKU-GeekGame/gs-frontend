@@ -20,7 +20,7 @@ export const CONTEST_LICENSE = (<>
     <p>
         当比赛完全结束后，
         本比赛的所有题面采用 <ExtLink href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</ExtLink> 协议许可，
-        所有题目源码采用 <ExtLink href="https://opensource.org/licenses/BSD-3-Clause">BSD</ExtLink> 协议许可，
+        所有题目源码采用 <ExtLink href="https://opensource.org/licenses/MIT">MIT</ExtLink> 协议许可，
         命题人和选手 Writeup 按照作者指定的方式进行许可。
     </p>
     <p>
