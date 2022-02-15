@@ -23,8 +23,6 @@ export function Header() {
             '/' + loc.pathname.substring(1).split('/')[0]
     );
 
-
-
     return (
         <div className="header-container">
             <div className="header">
@@ -63,7 +61,7 @@ export function Header() {
                                 </>}
                                 className="header-nav-login" popupClassName="header-nav-popup"
                             >
-                                <Menu.Item key="_/login/pku" onClick={()=>to_auth('pku')}><HomeOutlined /> 北京大学登录</Menu.Item>
+                                <Menu.Item key="_/login/pku" onClick={()=>to_auth('pku/login')}><HomeOutlined /> 北京大学登录</Menu.Item>
                                 <Menu.Item key="/login/other"><GlobalOutlined /> 校外选手</Menu.Item>
                             </Menu.SubMenu>
                         }

@@ -11,6 +11,7 @@ import {Announcements} from './page/Announcements';
 import {Triggers} from './page/Triggers';
 import {UserProfile} from './page/UserProfile';
 import {Terms} from './page/Terms';
+import {LoginOther} from './page/LoginOther';
 import {Header} from './widget/Header';
 import {Footer} from './widget/Footer';
 import {TemplateFile} from './widget/Template';
@@ -78,6 +79,8 @@ export function App() {
                         <Route exact path="/user/profile" element={<UserProfile />} />
                         <Route exact path="/user/submissions" element={<UserSubmissions />} />
                         <Route exact path="/user/terms" element={<Terms />} />
+
+                        <Route exact path="/login/other" element={<LoginOther />} />
 
                         <Route exact path="/writeup" element={<Writeup />} />
                         <Route exact path="/license" element={<License />} />

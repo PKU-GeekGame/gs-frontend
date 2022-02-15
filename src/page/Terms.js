@@ -31,14 +31,15 @@ export function Terms() {
             <h1>参赛须知</h1>
             <TemplateFile name="terms" />
             <br />
-            {info.user.terms_agreed ?
-                <Button type="primary" size="large" block disabled>
-                    <CheckCircleOutlined /> 已同意参赛须知
-                </Button> :
-                <Button type="primary" size="large" block onClick={agree_term}>
-                    <CheckCircleOutlined /> 我理解并同意参赛须知
-                </Button>
-            }
+            {info.user!==null && (
+                info.user.terms_agreed ?
+                    <Button type="primary" size="large" block disabled>
+                        <CheckCircleOutlined /> 已同意参赛须知
+                    </Button> :
+                    <Button type="primary" size="large" block onClick={agree_term}>
+                        <CheckCircleOutlined /> 我理解并同意参赛须知
+                    </Button>
+            )}
         </div>
     );
 }
