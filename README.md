@@ -17,11 +17,11 @@ Install requirements on the developer's machine (or a CI worker) and copy the bu
 
 **Development:**
 
-- npm start
+- `npm start`
 
 **Build:**
 
-- `npm run build`
+- `./build.sh`
 - Find built files in `build` directory
 
 ## License

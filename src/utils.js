@@ -31,7 +31,7 @@ export function cap(s, n) {
 }
 
 export function to_auth(endpoint) {
-    message.loading({content: '正在前往登录页面…', key: 'Utils.ToAuth', duration: 10});
+    message.loading({content: '正在前往登录页面…', key: 'Utils.ToAuth', duration: 15});
     setTimeout(()=>{
         window.location.href = AUTH_ROOT+endpoint;
     }, 100);
