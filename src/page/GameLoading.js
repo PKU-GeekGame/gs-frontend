@@ -62,7 +62,7 @@ export function GameLoading({set_info}) {
                 ) :
                 <Result
                     icon={<LoadingOutlined />}
-                    subTitle="加载比赛信息"
+                    subTitle="获取比赛信息"
                 />
             }
         </div>

@@ -1,6 +1,6 @@
 import {lazy, Suspense} from 'react';
 import {Alert, Skeleton, Table, Tooltip, Button, message} from 'antd';
-import {HistoryOutlined, SyncOutlined} from '@ant-design/icons';
+import {HistoryOutlined, SyncOutlined, LoadingOutlined} from '@ant-design/icons';
 
 import {Reloader} from './GameLoading';
 import {UserGroupTag} from '../widget/UserGroupTag';
@@ -30,11 +30,19 @@ function ChallengeStatus({ch, record}) {
     );
 }
 
+function TopStarPlotLoading() {
+    return (
+        <div className="topstar-plot-loading">
+            <p><LoadingOutlined /> 加载图表组件</p>
+        </div>
+    )
+}
+
 function ScoreBoardContent({data}) {
     return (
         <div>
             <Alert.ErrorBoundary>
-                <Suspense fallback={<Skeleton />}>
+                <Suspense fallback={<TopStarPlotLoading />}>
                     <TopStarPlot data={data} />
                 </Suspense>
             </Alert.ErrorBoundary>
