@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+//import ReactDOMServer from 'react-dom/server';
 import {ConfigProvider, Alert} from 'antd';
 import {HashRouter} from 'react-router-dom';
 
@@ -10,15 +11,17 @@ import zhCN from 'antd/es/locale/zh_CN';
 
 import './index.less';
 
-ReactDOM.render(
-  <ConfigProvider autoInsertSpaceInButton={false} locale={zhCN}>
-      <HashRouter>
-          <Alert.ErrorBoundary>
-              <GameInfoProvider>
-                  <App />
-              </GameInfoProvider>
-          </Alert.ErrorBoundary>
-      </HashRouter>
-  </ConfigProvider>,
-  document.getElementById('root')
+let component = (
+    <ConfigProvider autoInsertSpaceInButton={false} locale={zhCN}>
+        <HashRouter>
+            <Alert.ErrorBoundary>
+                <GameInfoProvider>
+                    <App />
+                </GameInfoProvider>
+            </Alert.ErrorBoundary>
+        </HashRouter>
+    </ConfigProvider>
 );
+
+//console.log(ReactDOMServer.renderToString(component));
+ReactDOM.hydrate(component, document.getElementById('root'));
