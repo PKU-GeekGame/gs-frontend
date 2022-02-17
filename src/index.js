@@ -24,4 +24,4 @@ let component = (
 );
 
 //console.log(ReactDOMServer.renderToString(component));
-ReactDOM.hydrate(component, document.getElementById('root'));
+ReactDOM.render(component, document.getElementById('root'));
