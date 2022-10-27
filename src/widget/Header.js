@@ -9,7 +9,6 @@ import {useGameInfo} from '../logic/GameInfo';
 import {GAME_TITLE, GAME_LOGO} from '../branding';
 import {cap, to_auth} from '../utils';
 
-
 import "./Header.less";
 
 export function Header() {
@@ -27,7 +26,13 @@ export function Header() {
         <div className="header-container">
             <div className="header">
                 <div className="header-logo">
-                    <span className="clickable" onClick={()=>nav('/')}>{GAME_LOGO}{GAME_TITLE}</span>
+                    <span className="clickable" onClick={()=>nav('/')}>
+                        {cur_key==="/license" ?
+                            <img src="you-sticker.png" alt="" title="ヒトリダケナンテエラベイナイヨ" className="game-logo" style={{backgroundColor: "#bdb"}} /> :
+                            GAME_LOGO
+                        }
+                        {GAME_TITLE}
+                    </span>
                 </div>
                 <div className="header-nav">
                     <Menu
