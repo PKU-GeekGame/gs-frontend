@@ -48,7 +48,7 @@ function FlagInput({do_reload_list, ch}) {
         set_loading(true);
 
         wish('submit_flag', {
-            challenge_id: ch.id,
+            challenge_key: ch.key,
             flag: flag,
         })
             .then((res)=>{
@@ -133,7 +133,7 @@ function PortalUserInfo({info}) {
     );
 }
 
-function PortalChallengeList({list, active_id}) {
+function PortalChallengeList({list, active_key}) {
     let nav = useNavigate();
 
     return (
@@ -150,10 +150,10 @@ function PortalChallengeList({list, active_id}) {
                         </div>
                     </div>
                     {list.map((ch)=>(
-                        <Fragment key={ch.id}>
+                        <Fragment key={ch.key}>
                             <div
-                                className={`portal-chall-row${active_id===ch.id ? ' portal-chall-row-active' : ''}`}
-                                onClick={()=>nav('/game/'+ch.id)}
+                                className={`portal-chall-row${active_key===ch.key ? ' portal-chall-row-active' : ''}`}
+                                onClick={()=>nav('/game/'+ch.key)}
                             >
                                 <div className="portal-chall-col-title">
                                     <span className="portal-chall-category-badge">
@@ -166,7 +166,7 @@ function PortalChallengeList({list, active_id}) {
                                     {ch.tot_cur_score} / <small><CheckSquareOutlined /> {ch.passed_users_count}</small>
                                 </div>
                             </div>
-                            {active_id===ch.id && ch.flags.length>1 &&
+                            {active_key===ch.key && ch.flags.length>1 &&
                                 ch.flags.map((f, idx)=>(
                                     <div key={idx} className="portal-chall-row portal-chall-row-active portal-chall-row-flag">
                                         <div className="portal-chall-col-title">
@@ -195,15 +195,15 @@ function Portal() {
     let [last_reloaded, mark_reload, reload_btn] = useReloadButton(3);
     let params = useParams();
 
-    let active_challenge_id = params.challenge===undefined ? null : parseInt(params.challenge);
+    let active_challenge_key = params.challenge===undefined ? null : params.challenge;
 
     let active_challenge = useMemo(()=>{
         if(data!==null && data.challenge_list!==null)
             for(let ch of data.challenge_list)
-                if(ch.id===active_challenge_id)
+                if(ch.key===active_challenge_key)
                     return ch;
         return null;
-    }, [data, active_challenge_id]);
+    }, [data, active_challenge_key]);
 
     if(error) {
         if(error.error==='SHOULD_AGREE_TERMS') {
@@ -256,7 +256,7 @@ function Portal() {
                             </div>
                         }
                         <PortalUserInfo info={data.user_info} />
-                        <PortalChallengeList list={data.challenge_list} active_id={active_challenge_id} />
+                        <PortalChallengeList list={data.challenge_list} active_key={active_challenge_key} />
                     </>
                 }
             </div>
@@ -273,7 +273,7 @@ function Portal() {
                 }
                 {active_challenge!==null ?
                     <Challenge ch={active_challenge} do_reload_list={load_data} />:
-                (active_challenge_id!==null && data!==null) ?
+                (active_challenge_key!==null && data!==null) ?
                     <NotFound /> :
                     <TemplateFile name="game" />
                 }

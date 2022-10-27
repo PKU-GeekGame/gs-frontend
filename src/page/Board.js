@@ -17,7 +17,7 @@ function ChallengeStatus({ch, record}) {
         <div>
             <p>{ch.title} ({ch.category})</p>
             {ch.flags.map((name, idx)=>{
-                let ts = record.flag_pass_ts[`${ch.id}_${idx}`] || null;
+                let ts = record.flag_pass_ts[`${ch.key}_${idx}`] || null;
                 return (
                     <p key={idx}>
                         <FlagIcon status={ts===null ? 'untouched' : 'passed'} />{' '}
@@ -63,14 +63,14 @@ function ScoreBoardContent({data}) {
                 <Table.Column title="答题进度" key="challenges" render={(_text, record)=>(
                     data.challenges.map((ch)=>(
                         <Tooltip
-                            key={ch.id} trigger="hover" destroyTooltipOnHide={true}
+                            key={ch.key} trigger="hover" destroyTooltipOnHide={true}
                             title={<ChallengeStatus ch={ch} record={record} />}
                             placement="topRight" align={{offset: [10, 8]}}
                             mouseEnterDelay={0} mouseLeaveDelay={0}
                             overlayClassName="board-challenge-status-tooltip" autoAdjustOverflow={false}
                         >
                             <div className="board-challenge-status-icon">
-                                <ChallengeIcon status={record.challenge_status[ch.id]} />
+                                <ChallengeIcon status={record.challenge_status[ch.key]} />
                             </div>
                         </Tooltip>
                     ))
@@ -88,7 +88,7 @@ function FirstBloodBoardContent({data}) {
             challenge_title: ch.title,
             flags_count: ch.flags.length,
             flag_idx0: idx,
-            key: `${ch.id}_${idx}`
+            key: `${ch.key}_${idx}`
         }))
     ));
 

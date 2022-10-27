@@ -9,7 +9,7 @@ import {format_ts} from '../utils';
 import './TouchedUsers.less';
 
 function TouchedUsersModal({ch}) {
-    let [error, data, load_data] = useWishData('get_touched_users/'+ch.id);
+    let [error, data, load_data] = useWishData('get_touched_users/'+ch.key);
 
     if(error)
         return <Reloader message={error.error_msg} reload={load_data} />;

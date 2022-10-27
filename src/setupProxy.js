@@ -3,7 +3,7 @@
 
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
-const API_URL = 'http://localhost:8000';
+const API_URL = 'http://localhost:8010';
 
 module.exports = function(app) {
     app.use(
