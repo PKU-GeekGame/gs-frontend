@@ -15,11 +15,11 @@ import {TokenWidget} from '../widget/TokenWidget';
 import {TouchedUsersLink} from '../widget/TouchedUsers';
 import {useWishData, wish} from '../wish';
 import {TimestampAgo, NotFound, useReloadButton} from '../utils';
-import {WEB_TERMINAL_ADDR, ATTACHMENT_ADDR} from '../branding';
+import {WEB_TERMINAL_ADDR, ATTACHMENT_ROOT} from '../branding';
 
 import './Game.less';
 
-function ChallengeAction({action}) {
+function ChallengeAction({action, ch}) {
     /* eslint-disable react/jsx-no-target-blank */
 
     if(action.type==='webpage')
@@ -28,12 +28,12 @@ function ChallengeAction({action}) {
         </>);
     else if(action.type==='terminal')
         return (<>
-            你可以 <a href={WEB_TERMINAL_ADDR(action)}>打开网页终端</a> 或者通过命令{' '}
+            你可以 <a href={WEB_TERMINAL_ADDR(action)} target="_blank">打开网页终端</a> 或者通过命令{' '}
             <code>nc {action.host} {action.port}</code> 连接到{action.name}
         </>);
     else if(action.type==='attachment')
         return (<>
-            你可以 <a href={ATTACHMENT_ADDR(action)}>下载{action.name}</a>
+            你可以 <a href={`${ATTACHMENT_ROOT}${ch.key}/${action.filename}`} target="_blank">下载{action.name}</a>
         </>);
 }
 
@@ -97,7 +97,7 @@ function Challenge({ch, do_reload_list}) {
             {ch.actions.map((action, idx)=>(
                 <p key={idx} className="challenge-action">
                     <RightCircleOutlined />{' '}
-                    <ChallengeAction action={action} />
+                    <ChallengeAction ch={ch} action={action} />
                 </p>
             ))}
             {ch.status==='passed' ?
