@@ -38,7 +38,7 @@ function ChallengeAction({action, ch}) {
                     window.open(`https://${action.host}/docker-manager/stop?${info.user.token}`);
                 }}>关闭环境</Button>
             </div>}>
-                <Button size="small" style={{marginLeft: '.5em'}}><CodepenOutlined />题目环境控制</Button>
+                <Button size="small" style={{marginLeft: '.5em'}}><CodepenOutlined />环境控制</Button>
             </Popover>
         </>);
     else if(action.type==='terminal')

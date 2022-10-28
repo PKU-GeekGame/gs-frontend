@@ -50,6 +50,7 @@ export function TouchedUsersLink({ch, children}) {
                 footer={null}
                 destroyOnClose={true}
                 onCancel={()=>set_modal_open(false)}
+                width={600}
                 className="touched-users-modal"
             >
                 <TouchedUsersModal ch={ch} />
