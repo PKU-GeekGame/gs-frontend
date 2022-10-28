@@ -1,9 +1,9 @@
 import {Fragment, useMemo, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
-import {Skeleton, message, Button, Empty, Tag, Alert, Input, Tooltip} from 'antd';
+import {Skeleton, message, Button, Empty, Tag, Alert, Input, Tooltip, Popover} from 'antd';
 import {
     PieChartFilled, CheckSquareOutlined, SyncOutlined, HistoryOutlined, RightCircleOutlined, CaretDownOutlined,
-    QuestionCircleOutlined, FlagOutlined, SolutionOutlined
+    QuestionCircleOutlined, FlagOutlined, SolutionOutlined, CodepenOutlined
 } from '@ant-design/icons';
 
 import {Reloader} from './GameLoading';
@@ -21,10 +21,25 @@ import './Game.less';
 
 function ChallengeAction({action, ch}) {
     /* eslint-disable react/jsx-no-target-blank */
+    let info = useGameInfo();
 
     if(action.type==='webpage')
         return (<>
             你可以 <a href={action.url} target="_blank">访问{action.name}</a>
+        </>);
+    else if(action.type==='webdocker')
+        return (<>
+            你可以 <a href={`https://${action.host}/docker-manager/start?${info.user.token}`} target="_blank">访问{action.name}</a>
+            {' '}
+            <Popover trigger="click" content={<div>
+                <p>本题为每名选手分配一个独立的后端环境，参见 <a href="#/info/faq">FAQ：关于 Web 题目环境</a></p>
+                <p>如果题目出现问题可以手动关闭环境，下次访问时将启动新的环境</p>
+                <Button block danger onClick={()=>{
+                    window.open(`https://${action.host}/docker-manager/stop?${info.user.token}`);
+                }}>关闭环境</Button>
+            </div>}>
+                <Button size="small" style={{marginLeft: '.5em'}}><CodepenOutlined />题目环境控制</Button>
+            </Popover>
         </>);
     else if(action.type==='terminal')
         return (<>
