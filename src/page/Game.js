@@ -82,6 +82,26 @@ function FlagInput({do_reload_list, ch}) {
     );
 }
 
+function ChallengeBody({ch}) {
+    let [error, data, load_data] = useWishData('challenge/'+ch.key);
+
+    if(error)
+        return <Reloader message={error.error_msg} reload={load_data} />;
+    if(data===null)
+        return <Skeleton />;
+
+    return (<>
+        <TemplateStr name="challenge-desc">{data.desc}</TemplateStr>
+        <br />
+        {data.actions.map((action, idx)=>(
+            <p key={idx} className="challenge-action">
+                <RightCircleOutlined />{' '}
+                <ChallengeAction ch={ch} action={action} />
+            </p>
+        ))}
+    </>);
+}
+
 function Challenge({ch, do_reload_list}) {
     return (
         <div className="challenge-body">
@@ -89,17 +109,15 @@ function Challenge({ch, do_reload_list}) {
             <p className="challenge-stat">
                 基础分值 {ch.tot_base_score}，
                 目前分值 {ch.tot_cur_score}，
-                <TouchedUsersLink ch={ch}>共 {ch.passed_users_count} 人通过</TouchedUsersLink>
+                <TouchedUsersLink ch={ch}>
+                    共 {ch.passed_users_count} 人通过
+                    {ch.touched_users_count>ch.passed_users_count && <>
+                        （{ch.touched_users_count} 人部分通过）
+                    </>}
+                </TouchedUsersLink>
             </p>
             <br />
-            <TemplateStr name="challenge-desc">{ch.desc}</TemplateStr>
-            <br />
-            {ch.actions.map((action, idx)=>(
-                <p key={idx} className="challenge-action">
-                    <RightCircleOutlined />{' '}
-                    <ChallengeAction ch={ch} action={action} />
-                </p>
-            ))}
+            <ChallengeBody ch={ch} />
             {ch.status==='passed' ?
                 <Alert type="success" showIcon message="你已经通过此题" /> :
                 <FlagInput do_reload_list={do_reload_list} ch={ch} />
