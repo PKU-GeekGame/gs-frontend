@@ -19,12 +19,26 @@ function TouchedUsersModal({ch}) {
     return (
         <div>
             <Table dataSource={data.list} size="small">
-                <Table.Column title="用户" key="user" render={(_text, record)=>(
+                <Table.Column
+                    title="用户"
+                    key="user"
+                    render={(_text, record)=>(
                     <>
                         {record.nickname}{' '}
                         <UserGroupTag>{record.group_disp}</UserGroupTag>
                     </>
-                )} />
+                    )}
+                    filters={[
+                        {text: '北京大学选手', value: 'pku'},
+                        {text: '其他选手', value: 'other'},
+                    ]}
+                    onFilter={(value, record)=>(
+                        value==='pku'? record.group_disp==='北京大学' :
+                        value==='other'? record.group_disp!=='北京大学' :
+                                true
+                    )}
+                    filterMultiple={false}
+                />
                 {ch.flags.map((flag, idx)=>(
                     <Table.Column key={idx} title={flag.name || '通过时间'} dataIndex={['flags', idx]} render={(text)=>(
                         text ? format_ts(text) : ''
