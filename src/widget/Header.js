@@ -61,7 +61,7 @@ export function Header() {
                             <Menu.SubMenu
                                 key="_/login" popupOffset={[-6, 2]}
                                 title={<>
-                                    <LoginOutlined /> 登录
+                                    <LoginOutlined /> 参赛
                                     <span className="header-nav-caret"><CaretDownOutlined /></span>
                                 </>}
                                 className="header-nav-login" popupClassName="header-nav-popup"

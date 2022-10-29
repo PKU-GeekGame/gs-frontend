@@ -1,9 +1,9 @@
 import {Fragment, useMemo, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
-import {Skeleton, message, Button, Empty, Tag, Alert, Input, Tooltip, Popover} from 'antd';
+import {Skeleton, message, Button, Empty, Tag, Alert, Input, Tooltip, Popover, Card} from 'antd';
 import {
     PieChartFilled, CheckSquareOutlined, SyncOutlined, HistoryOutlined, RightCircleOutlined, CaretDownOutlined,
-    QuestionCircleOutlined, FlagOutlined, SolutionOutlined, CodepenOutlined
+    QuestionCircleOutlined, FlagOutlined, SolutionOutlined, CodepenOutlined, HomeOutlined, GlobalOutlined
 } from '@ant-design/icons';
 
 import {Reloader} from './GameLoading';
@@ -14,7 +14,7 @@ import {ChallengeIcon, FlagIcon} from '../widget/ChallengeIcon';
 import {TokenWidget} from '../widget/TokenWidget';
 import {TouchedUsersLink} from '../widget/TouchedUsers';
 import {useWishData, wish} from '../wish';
-import {TimestampAgo, NotFound, useReloadButton} from '../utils';
+import {TimestampAgo, NotFound, useReloadButton, to_auth} from '../utils';
 import {WEB_TERMINAL_ADDR, ATTACHMENT_ROOT} from '../branding';
 
 import './Game.less';
@@ -322,6 +322,15 @@ export function Game() {
         return (
             <div className="slim-container">
                 <TemplateFile name="game" />
+                <br />
+                <div className="landing-login-form">
+                    <Card type="inner" size="small" bordered={false}>
+                        <b>报名参赛：</b>
+                        <Button type="primary" onClick={()=>to_auth('pku/login')}><HomeOutlined /> 北京大学登录</Button>
+                        {' '}
+                        <Button onClick={()=>window.location.href='#/login/other'}><GlobalOutlined /> 校外选手</Button>
+                    </Card>
+                </div>
             </div>
         );
     else
