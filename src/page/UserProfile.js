@@ -83,7 +83,7 @@ function UserProfileForm() {
                         </Form.Item>
                     }
                     {info.user.profile.gender!==undefined &&
-                        <Form.Item name="gender" label="性别">
+                        <Form.Item name="gender" label="性别" extra="用于确认女生特别奖资格，请如实填写，选择后无法修改">
                             <Radio.Group buttonStyle="solid">
                                 <Radio.Button value="male">男</Radio.Button>
                                 <Radio.Button value="female">女</Radio.Button>
@@ -125,7 +125,7 @@ function UserProfileForm() {
                 </Form>
                 {info.user.group==='pku' && <>
                     <br />
-                    <Alert type="info" showIcon message="请正确填写以便赛后联系和颁奖" />
+                    <Alert type="info" showIcon message="请正确填写以便赛后联系和颁奖，同时请加入选手 QQ 群 691076890" />
                 </>}
             </Card>
             <br />
