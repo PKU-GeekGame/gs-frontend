@@ -326,7 +326,7 @@ export function Game() {
                 <div className="landing-login-form">
                     <Card type="inner" size="small" bordered={false}>
                         <b>报名参赛：</b>
-                        <Button type="primary" onClick={()=>to_auth('pku/login')}><HomeOutlined /> 北京大学登录</Button>
+                        <Button type="primary" onClick={()=>to_auth('pku/redirect')}><HomeOutlined /> 北京大学登录</Button>
                         {' '}
                         <Button onClick={()=>window.location.href='#/login/other'}><GlobalOutlined /> 校外选手</Button>
                     </Card>

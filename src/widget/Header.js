@@ -66,7 +66,7 @@ export function Header() {
                                 </>}
                                 className="header-nav-login" popupClassName="header-nav-popup"
                             >
-                                <Menu.Item key="_/login/pku" onClick={()=>to_auth('pku/login')}><HomeOutlined /> 北京大学登录</Menu.Item>
+                                <Menu.Item key="_/login/pku" onClick={()=>to_auth('pku/redirect')}><HomeOutlined /> 北京大学登录</Menu.Item>
                                 <Menu.Item key="/login/other"><GlobalOutlined /> 校外选手</Menu.Item>
                             </Menu.SubMenu>
                         }

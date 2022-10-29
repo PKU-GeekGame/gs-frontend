@@ -48,7 +48,7 @@ export function LoginOther() {
                     本竞赛不允许选手注册多个账号，校内选手务必全程通过北京大学统一身份认证（IAAA）系统登录，否则视为放弃评奖资格。
                 </p>
                 <p>
-                    <Button size="large" onClick={()=>to_auth('pku/login')}>
+                    <Button size="large" onClick={()=>to_auth('pku/redirect')}>
                         <HomeOutlined /> 北京大学登录
                     </Button>
                 </p>
