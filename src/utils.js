@@ -30,6 +30,14 @@ export function cap(s, n) {
         return <span>{s}</span>;
 }
 
+export function random_str(len) {
+    let alphabet = 'qwertyuiopasdfghjkzxcvbnmQWERTYUPASDFGHJKLZXCVBNM23456789';
+    let out = '';
+    for(let i=0; i<len; i++)
+        out += alphabet.charAt(Math.floor(Math.random()*alphabet.length));
+    return out;
+}
+
 export function to_auth(endpoint) {
     message.loading({content: '正在前往登录页面…', key: 'Utils.ToAuth', duration: 15});
     setTimeout(()=>{

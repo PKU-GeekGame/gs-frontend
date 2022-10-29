@@ -3,6 +3,7 @@ import {Skeleton} from 'antd';
 
 import {TEMPLATE_ROOT} from '../branding';
 import {Reloader} from '../page/GameLoading';
+import {TABID} from '../wish';
 
 import './Template.less';
 
@@ -20,7 +21,7 @@ export function TemplateFile({name}) {
         set_html(null);
         set_error(null);
 
-        fetch(TEMPLATE_ROOT+name, {
+        fetch(TEMPLATE_ROOT+name+'?tabid=' + TABID, {
             method: 'GET',
             credentials: 'include',
         })

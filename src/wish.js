@@ -1,11 +1,15 @@
-import {WISH_ROOT} from './branding';
 import {useState, useCallback, useEffect} from 'react';
+
+import {WISH_ROOT} from './branding';
+import {random_str} from './utils';
 
 export const WISH_VER = 'wish.alpha.v1';
 
+export const TABID = random_str(4);
+
 export function wish(endpoint, data) {
     return new Promise((resolve)=>{
-        fetch(WISH_ROOT+endpoint, {
+        fetch(WISH_ROOT + endpoint + (endpoint.includes('?') ? '&' : '?') + 'tabid=' + TABID, {
             method: 'POST',
             credentials: 'include',
             headers: {
