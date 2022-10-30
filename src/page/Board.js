@@ -1,6 +1,6 @@
 import {lazy, Suspense} from 'react';
 import {Alert, Skeleton, Table, Tooltip, Button, message} from 'antd';
-import {HistoryOutlined, SyncOutlined, LoadingOutlined} from '@ant-design/icons';
+import {HistoryOutlined, SyncOutlined, LoadingOutlined, HeartTwoTone, StarTwoTone} from '@ant-design/icons';
 
 import {Reloader} from './GameLoading';
 import {UserGroupTag} from '../widget/UserGroupTag';
@@ -38,6 +38,27 @@ function TopStarPlotLoading() {
     )
 }
 
+function UserBadges({badges}) {
+    if(badges.length===0)
+        return null;
+
+    let icons = [];
+    for(let badge of badges) {
+        if(badge==='girl')
+            icons.push(<Tooltip key={badge} title="具有女生特别奖资格"><HeartTwoTone twoToneColor="#eb2f96" /></Tooltip>);
+        else if(badge==='rookie')
+            icons.push(<Tooltip key={badge} title="具有新生特别奖资格"><StarTwoTone /></Tooltip>);
+        else
+            icons.push(<span key={badge}>[{badge}]</span>)
+    }
+
+    return (
+        <span className="user-badges">
+            {icons}
+        </span>
+    );
+}
+
 function ScoreBoardContent({data}) {
     return (
         <div>
@@ -55,6 +76,7 @@ function ScoreBoardContent({data}) {
                 <Table.Column title="#" dataIndex="rank" />
                 <Table.Column title="昵称" key="name" render={(_text, record)=>(<>
                     {record.nickname} {record.group_disp===null ? null : <UserGroupTag>{record.group_disp}</UserGroupTag>}
+                    <UserBadges badges={record.badges} />
                 </>)} />
                 <Table.Column title="总分" dataIndex="score" />
                 <Table.Column title="最后提交时间" dataIndex="last_succ_submission_ts" render={(text)=>(
@@ -109,6 +131,7 @@ function FirstBloodBoardContent({data}) {
                 record.nickname!==null &&
                     <>
                         {record.nickname} {record.group_disp===null ? null : <UserGroupTag>{record.group_disp}</UserGroupTag>}
+                        <UserBadges badges={record.badges} />
                     </>
             )} />
             <Table.Column title="提交时间" dataIndex="timestamp" render={(text)=>(
