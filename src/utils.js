@@ -59,12 +59,14 @@ export function format_ts(ts) {
 
 const timeago_format=buildFormatter({
     prefixAgo: null,
-    prefixFromNow: '未来',
+    prefixFromNow: '',
     suffixAgo: (val, delta)=>{
-        return delta<59500 ? '' : '前';
+        return delta<59500 ? '刚刚' : '前';
     },
-    suffixFromNow: null,
-    seconds: '刚刚',
+    suffixFromNow: (val, delta)=>{
+        return (-delta)<59500 ? '1分钟之内' : '后';
+    },
+    seconds: '\u200b', // ZWSP, not '' because TimeAgo will fall back to default
     minute: '1分钟',
     minutes: '%d分钟',
     hour: '1小时',
@@ -77,9 +79,9 @@ const timeago_format=buildFormatter({
     years: '%d年',
     wordSeparator: '',
 });
-export function TimestampAgo({ts}) {
+export function TimestampAgo({ts, delta=0}) {
     return (
-        <TimeAgo date={ts*1000} formatter={timeago_format} title={format_ts(ts)} />
+        <TimeAgo date={(ts+delta)*1000} formatter={timeago_format} title={format_ts(ts)} />
     );
 }
 

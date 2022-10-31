@@ -40,7 +40,7 @@ class PushClient {
         let notif_conf = {
             key: key,
             className: 'push-notif',
-        }
+        };
 
         if(data.type==='new_announcement') {
             notification.info({
@@ -50,13 +50,15 @@ class PushClient {
                 description: `有新的公告【${data.title}】`,
             });
         } else if(data.type==='tick_update') {
-            notification.info({
-                ...notif_conf,
-                icon: <CarryOutOutlined />,
-                message: '赛程提醒',
-                description: `目前赛程进入【${data.new_tick_name.replace(/;/, '；')}】`,
-            });
-            this.reload_info();
+            setTimeout(()=>{
+                notification.info({
+                    ...notif_conf,
+                    icon: <CarryOutOutlined />,
+                    message: '赛程提醒',
+                    description: data.new_tick_name.replace(/;/, '，'),
+                });
+                this.reload_info();
+            }, 200+Math.random()*1300); // add a random delay to flatten the backend load
         } else if(data.type==='flag_first_blood') {
             notification.success({
                 ...notif_conf,

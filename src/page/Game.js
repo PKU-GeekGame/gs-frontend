@@ -2,8 +2,18 @@ import {Fragment, useMemo, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import {Skeleton, message, Button, Empty, Tag, Alert, Input, Tooltip, Popover, Card} from 'antd';
 import {
-    PieChartFilled, SyncOutlined, HistoryOutlined, RightCircleOutlined, CaretDownOutlined,
-    QuestionCircleOutlined, FlagOutlined, SolutionOutlined, CodepenOutlined, HomeOutlined, GlobalOutlined
+    PieChartFilled,
+    SyncOutlined,
+    HistoryOutlined,
+    RightCircleOutlined,
+    CaretDownOutlined,
+    QuestionCircleOutlined,
+    FlagOutlined,
+    SolutionOutlined,
+    CodepenOutlined,
+    HomeOutlined,
+    GlobalOutlined,
+    CarryOutOutlined
 } from '@ant-design/icons';
 
 import {Reloader} from './GameLoading';
@@ -274,7 +284,7 @@ function Portal() {
     return (
         <div className="portal-container">
             <div className="portal-sidebar">
-                <div className="portal-reloader">
+                <div className="portal-headline">
                     <div>
                         <HistoryOutlined /> {last_reloaded!==0 && <>
                             <TimestampAgo ts={last_reloaded} />更新
@@ -307,6 +317,23 @@ function Portal() {
                 }
             </div>
             <div className="portal-main">
+                <div className="portal-headline">
+                    {data!==null &&
+                        <div>
+                            <CarryOutOutlined /> {data.trigger.current_name.replace(/;/, '，')}
+                            {!!data.trigger.next_name && <>
+                                （<TimestampAgo ts={data.trigger.next_timestamp_s} delta={5} />：{data.trigger.next_name.replace(/;/, '，')}）
+                            </>}
+                        </div>
+                    }
+                    <div>
+                        <Button type="link" ref={reload_btn} onClick={()=>{
+                            window.location.href = '#/info/triggers';
+                        }}>
+                            <RightCircleOutlined /> 查看赛程安排
+                        </Button>
+                    </div>
+                </div>
                 {data!==null && data.last_announcement!==null &&
                     <Announcement
                         announcement={data.last_announcement}
