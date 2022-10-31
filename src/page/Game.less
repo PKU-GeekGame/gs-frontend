@@ -79,6 +79,10 @@
 }
 
 .portal-chall-list {
+    .label-for-score {
+        display: none;
+    }
+
     .portal-chall-row {
         display: flex;
         flex-direction: row;
@@ -86,7 +90,10 @@
 
         @media (min-width: @single-row-breakpoint+1) and (max-width: @small-multi-row-breakpoint) {
             display: block;
-            padding: 4px 0;
+
+            &.portal-chall-header .portal-chall-col-score {
+                display: none;
+            }
         }
 
         border-top: 1px solid @card-border-color;
@@ -140,11 +147,18 @@
         flex: 1 1;
     }
     .portal-chall-col-score {
-        flex: 0 0 110px;
+        flex: 0 0 85px;
+        padding-left: 2px;
+
         @media (min-width: @single-row-breakpoint+1) and (max-width: @small-multi-row-breakpoint) {
             padding-left: 8px;
-            font-style: italic;
-            margin-top: -4px;
+            margin-top: -2px;
+            font-size: small;
+            opacity: .8;
+
+            .label-for-score {
+                display: initial;
+            }
         }
     }
 
@@ -162,6 +176,11 @@
         transform: scale(.75);
         opacity: .6;
         margin-left: .25em;
+    }
+
+    .item-discount {
+        color: darkred;
+        font-size: small;
     }
 }
 

@@ -2,7 +2,7 @@ import {Fragment, useMemo, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import {Skeleton, message, Button, Empty, Tag, Alert, Input, Tooltip, Popover, Card} from 'antd';
 import {
-    PieChartFilled, CheckSquareOutlined, SyncOutlined, HistoryOutlined, RightCircleOutlined, CaretDownOutlined,
+    PieChartFilled, SyncOutlined, HistoryOutlined, RightCircleOutlined, CaretDownOutlined,
     QuestionCircleOutlined, FlagOutlined, SolutionOutlined, CodepenOutlined, HomeOutlined, GlobalOutlined
 } from '@ant-design/icons';
 
@@ -117,6 +117,17 @@ function ChallengeBody({ch}) {
     </>);
 }
 
+function ScoreDeduction({base, cur}) {
+    if(base===cur)
+        return null;
+    else {
+        let ratio = (1-cur/base)*100;
+        return (
+            <span className="item-discount" title={'基础分值：'+base}>(-{ratio.toFixed(0)}%)</span>
+        );
+    }
+}
+
 function Challenge({ch, do_reload_list}) {
     return (
         <div className="challenge-body">
@@ -179,7 +190,7 @@ function PortalChallengeList({list, active_key}) {
                             题目名称
                         </div>
                         <div className="portal-chall-col-score">
-                            分值 / <small>通过人数</small>
+                            分值
                         </div>
                     </div>
                     {list.map((ch)=>(
@@ -196,7 +207,8 @@ function PortalChallengeList({list, active_key}) {
                                     {ch.flags.length>1 && <span className="portal-chall-caret"><CaretDownOutlined /></span>}
                                 </div>
                                 <div className="portal-chall-col-score">
-                                    {ch.tot_cur_score} / <small><CheckSquareOutlined /> {ch.passed_users_count}</small>
+                                    {ch.tot_cur_score}<span className="label-for-score">分</span>
+                                    {' '}<ScoreDeduction base={ch.tot_base_score} cur={ch.tot_cur_score} />
                                 </div>
                             </div>
                             {active_key===ch.key && ch.flags.length>1 &&
@@ -206,7 +218,8 @@ function PortalChallengeList({list, active_key}) {
                                             <FlagIcon status={f.status} /> {f.name}
                                         </div>
                                         <div className="portal-chall-col-score">
-                                            {f.cur_score} / <small><CheckSquareOutlined /> {f.passed_users_count}</small>
+                                            {f.cur_score}<span className="label-for-score">分</span>
+                                            {' '}<ScoreDeduction base={f.base_score} cur={f.cur_score} />
                                         </div>
                                     </div>
                                 ))
