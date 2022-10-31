@@ -1,6 +1,6 @@
 import {lazy, Suspense} from 'react';
 import {Alert, Skeleton, Table, Tooltip, Button, message} from 'antd';
-import {HistoryOutlined, SyncOutlined, LoadingOutlined, HeartTwoTone, StarTwoTone} from '@ant-design/icons';
+import {HistoryOutlined, SyncOutlined, LoadingOutlined, HeartTwoTone, StarTwoTone, InfoCircleTwoTone} from '@ant-design/icons';
 
 import {Reloader} from './GameLoading';
 import {UserGroupTag} from '../widget/UserGroupTag';
@@ -48,6 +48,8 @@ function UserBadges({badges}) {
             icons.push(<Tooltip key={badge} title="具有女生特别奖资格"><HeartTwoTone twoToneColor="#eb2f96" /></Tooltip>);
         else if(badge==='rookie')
             icons.push(<Tooltip key={badge} title="具有新生特别奖资格"><StarTwoTone /></Tooltip>);
+        else if(badge.startsWith('remark:'))
+            icons.push(<Tooltip key={badge} title={badge.substring(7)}><InfoCircleTwoTone /></Tooltip>);
         else
             icons.push(<span key={badge}>[{badge}]</span>)
     }
