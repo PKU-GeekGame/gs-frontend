@@ -38,6 +38,21 @@ function TopStarPlotLoading() {
     )
 }
 
+function UserName({name}) {
+    let idx = name.indexOf(' #');
+    if(idx===-1)
+        return name;
+    else {
+        let basename = name.substring(0, idx);
+        let tag = name.substring(idx);
+        return (<>
+            <span>{basename}</span>
+            <span className="name-tag-part">{tag}</span>
+        </>);
+    }
+}
+
+
 function UserBadges({badges}) {
     if(badges.length===0)
         return null;
@@ -49,7 +64,7 @@ function UserBadges({badges}) {
         else if(badge==='rookie')
             icons.push(<Tooltip key={badge} title="具有新生特别奖资格"><StarTwoTone /></Tooltip>);
         else if(badge.startsWith('remark:'))
-            icons.push(<Tooltip key={badge} title={badge.substring(7)}><InfoCircleTwoTone /></Tooltip>);
+            icons.push(<Tooltip key={badge} title={badge.substring(7)}><InfoCircleTwoTone twoToneColor="#ff6600" /></Tooltip>);
         else
             icons.push(<span key={badge}>[{badge}]</span>)
     }
@@ -69,6 +84,7 @@ function ScoreBoardContent({data}) {
                     <TopStarPlot data={data} />
                 </Suspense>
             </Alert.ErrorBoundary>
+            <br />
             <Table
                 size="small"
                 dataSource={data.list}
@@ -77,7 +93,8 @@ function ScoreBoardContent({data}) {
             >
                 <Table.Column title="#" dataIndex="rank" />
                 <Table.Column title="昵称" key="name" render={(_text, record)=>(<>
-                    {record.nickname} {record.group_disp===null ? null : <UserGroupTag>{record.group_disp}</UserGroupTag>}
+                    <UserName name={record.nickname} />
+                    {record.group_disp===null ? null : <>&nbsp;&nbsp;<UserGroupTag>{record.group_disp}</UserGroupTag></>}
                     <UserBadges badges={record.badges} />
                 </>)} />
                 <Table.Column title="总分" dataIndex="score" />
@@ -127,12 +144,15 @@ function FirstBloodBoardContent({data}) {
                 rowSpan: record.flag_idx0===0 ? record.flags_count : 0,
             })} />
             <Table.Column title="Flag" dataIndex="flag_name" render={(text, record)=>(
-                (text===null && record.flags_count>1) ? '解出所有 Flag' : text
+                text===null ? (
+                    record.flags_count>1 ? '（解出所有 Flag）' : '（解出 Flag）'
+                ) : text
             )} />
             <Table.Column title="一血获得者" key="user" render={(_text, record)=>(
                 record.nickname!==null &&
                     <>
-                        {record.nickname} {record.group_disp===null ? null : <UserGroupTag>{record.group_disp}</UserGroupTag>}
+                        <UserName name={record.nickname} />
+                        {record.group_disp===null ? null : <>&nbsp;&nbsp;<UserGroupTag>{record.group_disp}</UserGroupTag></>}
                         <UserBadges badges={record.badges} />
                     </>
             )} />
