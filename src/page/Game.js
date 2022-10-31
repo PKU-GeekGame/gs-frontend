@@ -327,7 +327,7 @@ function Portal() {
                         </div>
                     }
                     <div>
-                        <Button type="link" ref={reload_btn} onClick={()=>{
+                        <Button type="link" onClick={()=>{
                             window.location.href = '#/info/triggers';
                         }}>
                             <RightCircleOutlined /> 查看赛程安排
