@@ -29,7 +29,7 @@ export function Triggers() {
     let [error, data, load_data] = useWishData('triggers');
 
     if(error)
-        return <Reloader message={error.error_msg} reload={load_data()} />;
+        return <Reloader message={error.error_msg} reload={load_data} />;
     if(data===null)
         return <Skeleton />;
 
