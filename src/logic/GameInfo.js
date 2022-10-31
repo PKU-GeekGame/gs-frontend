@@ -22,6 +22,7 @@ export let GameInfoCtx = createContext({
         feature: {
             game: false,
             push: false,
+            templates: [],
         },
     },
     reload_info: ()=>{},

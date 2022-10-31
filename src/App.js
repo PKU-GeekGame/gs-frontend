@@ -1,6 +1,6 @@
 import {Route, Routes, useNavigate, Navigate, useParams} from 'react-router-dom';
 import {Menu, Alert} from 'antd';
-import {NotificationOutlined, QuestionCircleOutlined, CarryOutOutlined, FundOutlined, AimOutlined} from '@ant-design/icons';
+import {NotificationOutlined, FileTextOutlined, CarryOutOutlined, FundOutlined, AimOutlined} from '@ant-design/icons';
 
 import {License} from './page/License';
 import {Board} from './page/Board';
@@ -16,27 +16,31 @@ import {Header} from './widget/Header';
 import {Footer} from './widget/Footer';
 import {TemplateFile} from './widget/Template';
 import {NotFound} from './utils'
+import {useGameInfo} from './logic/GameInfo';
 
 import './App.less';
 
 function InfoRouter() {
     let {page} = useParams();
     let nav = useNavigate();
+    let info = useGameInfo();
 
     return (
         <div className="slim-container">
             <Menu selectedKeys={[page]} onSelect={(e)=>{nav(`/info/${e.key}`);}} mode="horizontal">
                 <Menu.Item key="announcements"><NotificationOutlined /> 比赛公告</Menu.Item>
-                <Menu.Item key="faq"><QuestionCircleOutlined /> 选手常见问题</Menu.Item>
                 <Menu.Item key="triggers"><CarryOutOutlined /> 赛程安排</Menu.Item>
+                {info.feature.templates.map(([name, title])=>(
+                    <Menu.Item key={name}><FileTextOutlined /> {title}</Menu.Item>
+                ))}
             </Menu>
             <br />
-            {page==='announcements' ?
-                <Announcements /> :
-            page==='faq' ?
-                <TemplateFile name="faq" /> :
-            page==='triggers' ?
-                <Triggers /> : <NotFound />
+            {
+                page==='announcements' ?
+                    <Announcements /> :
+                page==='triggers' ?
+                    <Triggers /> :
+                <TemplateFile name={page} />
             }
         </div>
     );
