@@ -13,6 +13,8 @@ export function Terms() {
 
     function agree_term() {
         message.loading({content: '正在保存…', key: 'Terms', duration: 10});
+        if(window._anticheat_report)
+            window._anticheat_report();
 
         wish('agree_term', {})
             .then((res)=>{
@@ -23,7 +25,7 @@ export function Terms() {
                     reload_info();
                     nav('/');
                 }
-            })
+            });
     }
 
     return (

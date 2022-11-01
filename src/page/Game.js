@@ -1,4 +1,4 @@
-import {Fragment, useMemo, useState} from 'react';
+import {Fragment, useMemo, useState, useEffect} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import {Skeleton, message, Button, Empty, Tag, Alert, Input, Tooltip, Popover, Card} from 'antd';
 import {
@@ -260,6 +260,12 @@ function Portal() {
                     return ch;
         return null;
     }, [data, active_challenge_key]);
+
+    useEffect(()=>{
+        if(window._anticheat_report) {
+            window._anticheat_report();
+        }
+    }, []);
 
     if(error) {
         if(error.error==='SHOULD_AGREE_TERMS') {

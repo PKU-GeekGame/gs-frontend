@@ -6,6 +6,7 @@ import {random_str} from './utils';
 export const WISH_VER = 'wish.alpha.v1';
 
 export const TABID = random_str(4);
+window._TABID = TABID;
 
 export function wish(endpoint, data) {
     return new Promise((resolve)=>{

@@ -5,6 +5,7 @@ import {NotificationOutlined, CarryOutOutlined, RocketOutlined, CloseCircleOutli
 import {WS_ROOT} from '../branding';
 
 import './PushDaemon.less';
+import {TABID} from '../wish';
 
 const PUSH_STARTUP_DELAY_MS = 2000;
 const PUSH_RECONNECT_DELAY_MS = 5000;
@@ -80,7 +81,7 @@ class PushClient {
         if(this.stopped)
             return;
 
-        let url = new URL(WS_ROOT+'push', window.location.href);
+        let url = new URL(WS_ROOT+'push?tabid='+TABID, window.location.href);
         url.protocol = url.protocol==='http:' ? 'ws:' : 'wss:';
 
         this.ws = new WebSocket(url.href);
