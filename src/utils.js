@@ -7,27 +7,12 @@ import {InboxOutlined} from '@ant-design/icons';
 
 import {AUTH_ROOT} from './branding';
 
-export function cap(s, n) {
-    if(2*s.length<=n)
-        return <span>{s}</span>;
-
-    // check for full-width chars
-    let out = '';
-    let curlen = 0;
-    let capped = false;
-    for(let i=0; i<s.length; i++) {
-        curlen += s.charCodeAt(i)>=128 ? 2 : 1;
-        if(curlen>n) {
-            capped = true;
-            break;
-        }
-        out += s.charAt(i);
-    }
-
-    if(capped)
-        return <span title={s}>{out+'…'}</span>;
-    else
-        return <span>{s}</span>;
+export function Cap({text, width}) {
+    return (
+        <span className="capped-text" style={{
+            maxWidth: width+'px',
+        }}>{text}</span>
+    );
 }
 
 export function random_str(len) {
@@ -94,7 +79,7 @@ export function NotFound() {
             icon={<InboxOutlined />}
             status="error"
             title="页面不存在"
-            subTitle={cap(loc.pathname, 25)}
+            subTitle={<Cap text={loc.pathname} width={300} />}
             extra={[
                 <Button key="home" onClick={()=>nav('/')}>返回主页</Button>
             ]}

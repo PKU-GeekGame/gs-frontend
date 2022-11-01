@@ -7,7 +7,7 @@ import {
 
 import {useGameInfo} from '../logic/GameInfo';
 import {GAME_TITLE, GAME_LOGO} from '../branding';
-import {cap, to_auth} from '../utils';
+import {Cap, to_auth} from '../utils';
 
 import "./Header.less";
 
@@ -48,7 +48,7 @@ export function Header() {
                             <Menu.SubMenu
                                 key="_/user" popupOffset={[-6, 2]}
                                 title={<>
-                                    <span><UserOutlined /></span> {cap(game_info.user.profile.nickname||'账户', 15)}
+                                    <span><UserOutlined /></span> <Cap text={game_info.user.profile.nickname||'账户'} width={110} />
                                     <span className="header-nav-caret"><CaretDownOutlined /></span>
                                 </>}
                                 popupClassName="header-nav-popup"
