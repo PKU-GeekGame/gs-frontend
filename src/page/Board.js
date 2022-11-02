@@ -46,7 +46,7 @@ function UserName({name}) {
         let basename = name.substring(0, idx);
         let tag = name.substring(idx);
         return (<>
-            <span>{basename}</span>
+            <span className="name-base-part">{basename}</span>
             <span className="name-tag-part">{tag}</span>
         </>);
     }
