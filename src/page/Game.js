@@ -35,7 +35,7 @@ function ChallengeAction({action, ch}) {
 
     if(action.type==='webpage')
         return (<>
-            你可以 <a href={action.url} target="_blank">访问{action.name}</a>
+            你可以 <a href={action.url.replace(/\{\{token}}/g, info.user.token)} target="_blank">访问{action.name}</a>
         </>);
     else if(action.type==='webdocker')
         return (<>
@@ -53,7 +53,7 @@ function ChallengeAction({action, ch}) {
         </>);
     else if(action.type==='terminal')
         return (<>
-            你可以 <a href={WEB_TERMINAL_ADDR(action)} target="_blank">打开网页终端</a> 或者通过命令{' '}
+            你可以 <a href={WEB_TERMINAL_ADDR(action, info.user.token)} target="_blank">打开网页终端</a> 或者通过命令{' '}
             <code>nc {action.host} {action.port}</code> 连接到{action.name}
         </>);
     else if(action.type==='attachment')

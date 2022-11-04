@@ -10,8 +10,8 @@ export const TEMPLATE_ROOT = SVC_ROOT+'template/';
 export const WS_ROOT = SVC_ROOT+'ws/';
 export const ATTACHMENT_ROOT = SVC_ROOT+'attachment/';
 
-export function WEB_TERMINAL_ADDR(action) {
-    return `https://${action.host}/`;
+export function WEB_TERMINAL_ADDR(action, token) {
+    return `https://${action.host}/?token=${token}`;
 }
 
 export const CONTEST_LICENSE = (<>
