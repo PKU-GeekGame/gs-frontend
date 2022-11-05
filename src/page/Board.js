@@ -90,6 +90,9 @@ function ScoreBoardContent({data}) {
                 dataSource={data.list}
                 pagination={false}
                 rowKey="rank"
+                scroll={{
+                    x: 'max-content',
+                }}
             >
                 <Table.Column title="#" dataIndex="rank" />
                 <Table.Column title="昵称" key="name" render={(_text, record)=>(<>
@@ -139,6 +142,9 @@ function FirstBloodBoardContent({data}) {
             dataSource={disp_data}
             pagination={false}
             rowKey="key"
+            scroll={{
+                x: 'max-content',
+            }}
         >
             <Table.Column title="题目" dataIndex="challenge_title" render={(text)=><b>{text}</b>} onCell={(record)=>({
                 rowSpan: record.flag_idx0===0 ? record.flags_count : 0,
