@@ -13,7 +13,8 @@ import {
     CodepenOutlined,
     HomeOutlined,
     GlobalOutlined,
-    CarryOutOutlined
+    CarryOutOutlined,
+    FileTextOutlined
 } from '@ant-design/icons';
 
 import {Reloader} from './GameLoading';
@@ -310,13 +311,16 @@ function Portal() {
                 {data===null ?
                     <Skeleton /> :
                     <>
-                        {!!data.show_writeup &&
-                            <div className="portal-writeup-btn">
+                        <div className="portal-primary-btn">
+                            {!!data.show_writeup ?
                                 <Button block size="large" onClick={()=>nav('/writeup')} type="primary">
                                     <SolutionOutlined /> 提交 Writeup
+                                </Button> :
+                                <Button block size="large" onClick={()=>nav('/info/faq')}>
+                                    <FileTextOutlined /> 选手常见问题
                                 </Button>
-                            </div>
-                        }
+                            }
+                        </div>
                         <PortalUserInfo info={data.user_info} />
                         <PortalChallengeList list={data.challenge_list} active_key={active_challenge_key} />
                     </>

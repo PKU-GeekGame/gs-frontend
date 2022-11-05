@@ -121,7 +121,7 @@ function WriteupForm() {
                                 {file ? <>
                                     {(file.size/1024/1024).toFixed(2)}MB
                                 </> : <>
-                                    文件格式：建议使用 .pdf, .md, .pptx, .7z, .zip 之一<br />
+                                    文件格式：建议使用 .md, .pdf, .pptx, .7z, .zip 之一<br />
                                     文件大小：上限 {data.max_size_mb}MB，但一个正常的 Writeup 应当 <b>远小于</b> 此大小
                                 </>}
                             </p>
