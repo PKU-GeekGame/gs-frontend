@@ -47,7 +47,7 @@ export function GameLoading({set_info}) {
                     <Result
                         icon={<RobotOutlined />}
                         status="error"
-                        title="版本不匹配"
+                        title="API 版本更新"
                         subTitle={error.error_msg}
                         extra={[
                             <Button key="refresh" type="primary" onClick={force_reload}>刷新页面（可能需要清除浏览器缓存）</Button>,

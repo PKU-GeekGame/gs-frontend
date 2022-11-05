@@ -15,14 +15,14 @@ const TopStarPlot = lazy(()=>import('../widget/TopStarPlot'));
 function ChallengeStatus({ch, record}) {
     return (
         <div>
-            <p>{ch.title} ({ch.category})</p>
+            <p><b>{ch.title}</b> ({ch.category})</p>
             {ch.flags.map((name, idx)=>{
-                let ts = record.flag_pass_ts[`${ch.key}_${idx}`] || null;
+                let flg = record.flag_status[`${ch.key}_${idx}`] || null;
                 return (
                     <p key={idx}>
-                        <FlagIcon status={ts===null ? 'untouched' : 'passed'} />{' '}
+                        <FlagIcon status={flg===null ? 'untouched' : 'passed'} />{' '}
                         {name}：
-                        {ts===null ? '尚未通过' : format_ts(ts)}
+                        {flg===null ? '尚未通过' : `(+${flg.gained_score}) ${format_ts(flg.timestamp_s)}`}
                     </p>
                 );
             })}
@@ -40,8 +40,8 @@ function TopStarPlotLoading() {
 
 function UserName({name}) {
     let idx = name.indexOf(' #');
-    if(idx===-1)
-        return name;
+    if(idx<=0)
+        return <span className="name-base-part">{name}</span>;
     else {
         let basename = name.substring(0, idx);
         let tag = name.substring(idx);
@@ -97,7 +97,7 @@ function ScoreBoardContent({data}) {
                     {record.group_disp===null ? null : <>&nbsp;&nbsp;<UserGroupTag>{record.group_disp}</UserGroupTag></>}
                     <UserBadges badges={record.badges} />
                 </>)} />
-                <Table.Column title="总分" dataIndex="score" />
+                <Table.Column title="总分" dataIndex="score" render={(text)=><b>{text}</b>} />
                 <Table.Column title="最后提交时间" dataIndex="last_succ_submission_ts" render={(text)=>(
                     format_ts(text)
                 )} />
@@ -140,7 +140,7 @@ function FirstBloodBoardContent({data}) {
             pagination={false}
             rowKey="key"
         >
-            <Table.Column title="题目" dataIndex="challenge_title" onCell={(record)=>({
+            <Table.Column title="题目" dataIndex="challenge_title" render={(text)=><b>{text}</b>} onCell={(record)=>({
                 rowSpan: record.flag_idx0===0 ? record.flags_count : 0,
             })} />
             <Table.Column title="Flag" dataIndex="flag_name" render={(text, record)=>(
@@ -204,7 +204,13 @@ export function Board({name}) {
             </div>
             {data===null ?
                 <Skeleton /> :
-                <BoardContent data={data} />
+                <div>
+                    {!!data.desc && <>
+                        <Alert type="info" message={data.desc} showIcon />
+                        <br />
+                    </>}
+                    <BoardContent data={data} />
+                </div>
             }
         </div>
     );
