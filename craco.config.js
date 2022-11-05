@@ -17,6 +17,10 @@ module.exports = {
 
                             'primary-color': '#096dd9',
                             'primary-color-active': '#096dd9',
+
+                            'text-color': '#000',
+                            'text-color-dark': '#000',
+                            'heading-color': '#000',
                         },
                         javascriptEnabled: true,
                     },
