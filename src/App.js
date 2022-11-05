@@ -27,7 +27,7 @@ function InfoRouter() {
 
     return (
         <div className="slim-container">
-            <Menu selectedKeys={[page]} onSelect={(e)=>{nav(`/info/${e.key}`);}} mode="horizontal">
+            <Menu className="router-menu" selectedKeys={[page]} onSelect={(e)=>{nav(`/info/${e.key}`);}} mode="horizontal">
                 <Menu.Item key="announcements"><NotificationOutlined /> 比赛公告</Menu.Item>
                 <Menu.Item key="triggers"><CarryOutOutlined /> 赛程安排</Menu.Item>
                 {info.feature.templates.map(([name, title])=>(
@@ -52,7 +52,7 @@ function BoardRouter() {
 
     return (
         <div>
-            <Menu selectedKeys={[name]} onSelect={(e)=>{nav(`/board/${e.key}`);}} mode="horizontal">
+            <Menu className="router-menu" selectedKeys={[name]} onSelect={(e)=>{nav(`/board/${e.key}`);}} mode="horizontal">
                 <Menu.Item key="score_pku"><FundOutlined /> 北京大学排名</Menu.Item>
                 <Menu.Item key="first_pku"><AimOutlined /> 北京大学一血榜</Menu.Item>
                 <Menu.Item key="score_all"><FundOutlined /> 总排名</Menu.Item>
