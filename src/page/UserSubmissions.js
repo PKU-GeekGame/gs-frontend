@@ -18,6 +18,9 @@ function SubmissionsTable() {
             size="small"
             dataSource={data.list}
             rowKey="idx"
+            scroll={{
+                x: 'max-content',
+            }}
         >
             <Table.Column title="提交时间" dataIndex="timestamp_s" render={(text)=>format_ts(text)} />
             <Table.Column title="题目" dataIndex="challenge_title" />
