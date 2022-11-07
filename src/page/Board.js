@@ -1,6 +1,14 @@
 import {lazy, Suspense} from 'react';
-import {Alert, Skeleton, Table, Tooltip, Button, message} from 'antd';
-import {HistoryOutlined, SyncOutlined, LoadingOutlined, HeartTwoTone, StarTwoTone, InfoCircleTwoTone} from '@ant-design/icons';
+import {Alert, Skeleton, Table, Tooltip, Button, message, Tag} from 'antd';
+import {
+    HistoryOutlined,
+    SyncOutlined,
+    LoadingOutlined,
+    HeartTwoTone,
+    StarTwoTone,
+    InfoCircleTwoTone,
+    FireOutlined
+} from '@ant-design/icons';
 
 import {Reloader} from './GameLoading';
 import {UserGroupTag} from '../widget/UserGroupTag';
@@ -130,6 +138,7 @@ function FirstBloodBoardContent({data}) {
             ...f,
 
             challenge_title: ch.title,
+            challenge_metadata: ch.metadata,
             flags_count: ch.flags.length,
             flag_idx0: idx,
             key: `${ch.key}_${idx}`
@@ -149,11 +158,18 @@ function FirstBloodBoardContent({data}) {
             <Table.Column title="题目" dataIndex="challenge_title" render={(text)=><b>{text}</b>} onCell={(record)=>({
                 rowSpan: record.flag_idx0===0 ? record.flags_count : 0,
             })} />
-            <Table.Column title="Flag" dataIndex="flag_name" render={(text, record)=>(
-                text===null ? (
-                    record.flags_count>1 ? '（解出所有 Flag）' : '（解出 Flag）'
-                ) : text
-            )} />
+            <Table.Column title="Flag" dataIndex="flag_name" render={(text, record)=>(<>
+                {text===null ? (
+                    record.flags_count>1 ? '解出所有 Flag' : '解出 Flag'
+                ) : text}
+                {!!(text===null && record.challenge_metadata.first_blood_award_eligible) &&
+                    <Tooltip title="首个完全解出的校内选手可获得此题的解题先锋奖">
+                        {' '}<Tag color="#a00">
+                            <FireOutlined twoToneColor="red" /> 解题先锋奖
+                        </Tag>
+                    </Tooltip>
+                }
+            </>)} />
             <Table.Column title="一血获得者" key="user" render={(_text, record)=>(
                 record.nickname!==null &&
                     <>

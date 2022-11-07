@@ -14,7 +14,8 @@ import {
     HomeOutlined,
     GlobalOutlined,
     CarryOutOutlined,
-    FileTextOutlined
+    FileTextOutlined,
+    FireOutlined
 } from '@ant-design/icons';
 
 import {Reloader} from './GameLoading';
@@ -144,14 +145,30 @@ function Challenge({ch, do_reload_list}) {
         <div className="challenge-body">
             <h1>{ch.title}</h1>
             <p className="challenge-stat">
-                基础分值 {ch.tot_base_score}，
-                目前分值 {ch.tot_cur_score}，
-                <TouchedUsersLink ch={ch}>
-                    共 {ch.passed_users_count} 人通过
-                    {ch.touched_users_count>ch.passed_users_count && <>
-                        （{ch.touched_users_count} 人部分通过）
-                    </>}
-                </TouchedUsersLink>
+                <Tag color="default">
+                    基础分值 {ch.tot_base_score}
+                </Tag>
+                <Tag color="default">
+                    <TouchedUsersLink ch={ch}>
+                        <RightCircleOutlined />{' '}
+                        共 {ch.passed_users_count} 人通过
+                        {ch.touched_users_count>ch.passed_users_count && <>
+                            （{ch.touched_users_count} 人部分通过）
+                        </>}
+                    </TouchedUsersLink>
+                </Tag>
+                {!!ch.metadata.author &&
+                    <Tag color="default">
+                        命题人：{ch.metadata.author}
+                    </Tag>
+                }
+                {!!ch.metadata.first_blood_award_eligible &&
+                    <Tag color="default">
+                        <a href="#/board/first_pku">
+                            <b><FireOutlined /> 解题先锋奖</b>
+                        </a>
+                    </Tag>
+                }
             </p>
             <br />
             <ChallengeBody ch={ch} />
