@@ -1,14 +1,6 @@
 import {lazy, Suspense} from 'react';
 import {Alert, Skeleton, Table, Tooltip, Button, message, Tag} from 'antd';
-import {
-    HistoryOutlined,
-    SyncOutlined,
-    LoadingOutlined,
-    HeartTwoTone,
-    StarTwoTone,
-    InfoCircleTwoTone,
-    FireOutlined
-} from '@ant-design/icons';
+import {HistoryOutlined, SyncOutlined, LoadingOutlined, FireOutlined} from '@ant-design/icons';
 
 import {Reloader} from './GameLoading';
 import {UserGroupTag} from '../widget/UserGroupTag';
@@ -17,6 +9,7 @@ import {useWishData} from '../wish';
 import {format_ts, TimestampAgo, useReloadButton} from '../utils';
 
 import './Board.less';
+import {UserBadges} from '../widget/UserBadges';
 
 const TopStarPlot = lazy(()=>import('../widget/TopStarPlot'));
 
@@ -58,30 +51,6 @@ function UserName({name}) {
             <span className="name-tag-part">{tag}</span>
         </>);
     }
-}
-
-
-function UserBadges({badges}) {
-    if(badges.length===0)
-        return null;
-
-    let icons = [];
-    for(let badge of badges) {
-        if(badge==='girl')
-            icons.push(<Tooltip key={badge} title="具有女生特别奖资格"><HeartTwoTone twoToneColor="#eb2f96" /></Tooltip>);
-        else if(badge==='rookie')
-            icons.push(<Tooltip key={badge} title="具有新生特别奖资格"><StarTwoTone /></Tooltip>);
-        else if(badge.startsWith('remark:'))
-            icons.push(<Tooltip key={badge} title={badge.substring(7)}><InfoCircleTwoTone twoToneColor="#ff6600" /></Tooltip>);
-        else
-            icons.push(<span key={badge}>[{badge}]</span>)
-    }
-
-    return (
-        <span className="user-badges">
-            {icons}
-        </span>
-    );
 }
 
 function ScoreBoardContent({data}) {

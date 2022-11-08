@@ -5,6 +5,7 @@ import {useNavigate} from 'react-router-dom';
 
 import {GameInfoCtx} from '../logic/GameInfo';
 import {UserGroupTag} from '../widget/UserGroupTag';
+import {UserBadges} from '../widget/UserBadges';
 import {wish} from '../wish';
 
 import './UserProfile.less';
@@ -93,6 +94,7 @@ function UserProfileForm() {
                     }
                     <Form.Item label="用户组">
                         <UserGroupTag>{info.user.group_disp}</UserGroupTag>
+                        <UserBadges badges={info.user.badges} />
                     </Form.Item>
                 </Form>
                 {info.user.group==='banned' && <>
