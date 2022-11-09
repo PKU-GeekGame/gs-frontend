@@ -1,5 +1,8 @@
 # Project Guiding Star: The Frontend
 
+It is a part of the Guiding Star project.
+[Learn more about the overall architecture here.](https://github.com/pku-GeekGame/guiding-star)
+
 ## Screenshots
 
 TODO
