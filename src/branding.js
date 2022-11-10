@@ -8,6 +8,7 @@ export const WISH_ROOT = SVC_ROOT+'wish/';
 export const AUTH_ROOT = SVC_ROOT+'auth/';
 export const TEMPLATE_ROOT = SVC_ROOT+'template/';
 export const WS_ROOT = SVC_ROOT+'ws/';
+export const SYBIL_ROOT = SVC_ROOT+'anticheat/';
 export const ATTACHMENT_ROOT = SVC_ROOT+'attachment/';
 
 export function WEB_TERMINAL_ADDR(action, token) {

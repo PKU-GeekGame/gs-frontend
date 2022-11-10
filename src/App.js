@@ -1,3 +1,4 @@
+import {useEffect} from 'react';
 import {Route, Routes, useNavigate, Navigate, useParams} from 'react-router-dom';
 import {Menu, Alert} from 'antd';
 import {NotificationOutlined, FileTextOutlined, CarryOutOutlined, FundOutlined, AimOutlined} from '@ant-design/icons';
@@ -15,8 +16,10 @@ import {LoginOther} from './page/LoginOther';
 import {Header} from './widget/Header';
 import {Footer} from './widget/Footer';
 import {TemplateFile} from './widget/Template';
-import {NotFound} from './utils'
 import {useGameInfo} from './logic/GameInfo';
+import {NotFound} from './utils'
+import {SYBIL_ROOT} from './branding';
+import {TABID} from './wish';
 
 import './App.less';
 
@@ -63,9 +66,40 @@ function BoardRouter() {
     );
 }
 
+function PageStateReporter() {
+    let info = useGameInfo();
+
+    useEffect(()=>{
+        function on_focus() {
+            fetch(`${SYBIL_ROOT}event?name=focus&tabid=${TABID}`, {
+                method: 'POST',
+                credentials: 'include',
+            });
+        }
+        function on_blur() {
+            fetch(`${SYBIL_ROOT}event?name=blur&tabid=${TABID}`, {
+                method: 'POST',
+                credentials: 'include',
+            });
+        }
+
+        if(info.user && info.user.terms_agreed) {
+            window.addEventListener('focus', on_focus);
+            window.addEventListener('blur', on_blur);
+            return ()=>{
+                window.removeEventListener('focus', on_focus);
+                window.removeEventListener('blur', on_blur);
+            };
+        }
+    }, [info.user]);
+
+    return null;
+}
+
 export function App() {
     return (
         <div>
+            <PageStateReporter />
             <Header />
             <div className="main-container">
                 <Alert.ErrorBoundary>
