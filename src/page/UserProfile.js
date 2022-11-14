@@ -79,8 +79,8 @@ function UserProfileForm() {
             <Card title="公开资料" {...card_style}>
                 <Form name="public" {...form_style}>
                     {info.user.profile.nickname!==undefined &&
-                        <Form.Item name="nickname" label="昵称">
-                            <Input maxLength={20} showCount {...input_style} />
+                        <Form.Item name="nickname" label="昵称" extra="如包含不适宜内容可能会被强制修改、封禁账号或追究责任">
+                            <Input maxLength={20} showCount placeholder="（将显示在排行榜上）" {...input_style} />
                         </Form.Item>
                     }
                     {info.user.profile.gender!==undefined &&
