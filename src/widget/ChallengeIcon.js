@@ -8,7 +8,7 @@ export function ChallengeIcon({status}) {
     else if(status==='partial')
         return <MinusSquareTwoTone className="challenge-icon-partial" twoToneColor="#1e63bd" />;
     else if(status==='passed')
-        return <CheckSquareTwoTone className="challenge-icon-passed" twoToneColor="#49b000" />;
+        return <CheckSquareTwoTone className="challenge-icon-passed" twoToneColor="#1ab500" />;
     else
         return '??';
 }
@@ -17,7 +17,7 @@ export function FlagIcon({status}) {
     if(status==='untouched')
         return <FlagTwoTone className="flag-icon-passed" twoToneColor="#a7a7a7" />;
     else if(status==='passed')
-        return <FlagTwoTone className="flag-icon-passed" twoToneColor="#49b000" />;
+        return <FlagTwoTone className="flag-icon-passed" twoToneColor="#1ab500" />;
     else
         return '??';
 }
