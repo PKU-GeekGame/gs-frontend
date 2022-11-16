@@ -2,9 +2,15 @@ import {Line} from '@ant-design/plots';
 
 import {format_ts} from '../utils';
 
+function minmax(x, a, b) {
+    return Math.max(a, Math.min(b, x));
+}
+
 export default function TopStarPlot({data}) {
     let points=[];
     let timepoints={};
+
+    let time_range_disp = [data.time_range[0]*1000, minmax(+new Date()+1000, data.time_range[0]*1000+1000, data.time_range[1]*1000)];
 
     data.topstars.forEach((topstar) => {
         topstar.submissions.forEach((sub) => {
@@ -13,8 +19,8 @@ export default function TopStarPlot({data}) {
     });
     timepoints=[
         ...Object.keys(timepoints).map((x) => +x),
-        data.time_range[0]*1000,
-        data.time_range[1]*1000,
+        time_range_disp[0],
+        time_range_disp[1],
         Infinity,
     ].sort();
 
@@ -59,8 +65,8 @@ export default function TopStarPlot({data}) {
                 },
                 timestamp_ms: {
                     type: 'linear',
-                    minLimit: data.time_range[0]*1000,
-                    maxLimit: data.time_range[1]*1000,
+                    minLimit: time_range_disp[0],
+                    maxLimit: time_range_disp[1],
                     formatter: (x) => format_ts(x/1000),
                 }
             }}
