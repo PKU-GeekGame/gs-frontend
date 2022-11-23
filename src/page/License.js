@@ -9,7 +9,9 @@ export function License() {
             <Card>
                 <p><b>关于本平台的使用许可：</b></p>
                 <p>
-                    Guiding Star 是为了 PKU GeekGame 而开发的 CTF 比赛平台，
+                    Guiding Star 是为了 PKU GeekGame 而开发的 CTF 比赛平台，<ExtLink href="https://github.com/PKU-GeekGame/guiding-star">在 GitHub 开放源代码</ExtLink>。
+                </p>
+                <p>
                     允许任何人在 MIT 协议（如下）的要求下部署或二次开发本平台。
                 </p>
                 <p>
@@ -37,8 +39,7 @@ export function License() {
                     SOFTWARE.
                 </p>
                 <p>
-                    平台前端部分的源代码可以在 <ExtLink href="https://github.com/PKU-GeekGame/gs-frontend">GitHub</ExtLink> 获得。
-                    前端部分还使用了按照 MIT 协议开源的{' '}
+                    平台前端部分使用了按照 MIT 协议开源的{' '}
                     <ExtLink href="https://github.com/facebook/react/blob/main/LICENSE">React</ExtLink>、
                     <ExtLink href="https://github.com/remix-run/react-router/blob/main/LICENSE.md">React-Router</ExtLink>、
                     <ExtLink href="https://github.com/nmn/react-timeago/blob/master/LICENSE">React-TimeAgo</ExtLink>、
@@ -48,8 +49,7 @@ export function License() {
                     等第三方组件。
                 </p>
                 <p>
-                    平台后端部分的源代码可以在 <ExtLink href="https://github.com/PKU-GeekGame/gs-backend">GitHub</ExtLink> 获得。
-                    使用的第三方组件列表参见后端代码。
+                    平台后端部分使用的第三方组件列表参见后端代码。
                 </p>
             </Card>
             <br />
