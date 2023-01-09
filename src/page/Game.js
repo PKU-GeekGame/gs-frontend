@@ -285,16 +285,20 @@ function Portal() {
         }
     }, []);
 
+    useEffect(()=>{
+        if(error) {
+            if(error.error==='SHOULD_AGREE_TERMS') {
+                message.info({content: error.error_msg, key: 'Portal.Error', duration: 2});
+                nav('/user/terms');
+            }
+            if(error.error==='SHOULD_UPDATE_PROFILE') {
+                message.info({content: error.error_msg, key: 'Portal.Error', duration: 2});
+                nav('/user/profile');
+            }
+        }
+    }, [error, nav]);
+    
     if(error) {
-        if(error.error==='SHOULD_AGREE_TERMS') {
-            message.info({content: error.error_msg, key: 'Portal.Error', duration: 2});
-            nav('/user/terms');
-        }
-        if(error.error==='SHOULD_UPDATE_PROFILE') {
-            message.info({content: error.error_msg, key: 'Portal.Error', duration: 2});
-            nav('/user/profile');
-        }
-
         return (
             <div className="slim-container">
                 <Reloader message={error.error_msg} reload={()=>{
