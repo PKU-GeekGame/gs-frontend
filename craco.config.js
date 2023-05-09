@@ -1,6 +1,7 @@
 const CracoLessPlugin=require('craco-less');
+const CracoModuleFederation=require('craco-mf');
 
-module.exports = {
+module.exports={
     plugins: [
         {
             plugin: CracoLessPlugin,
@@ -26,6 +27,10 @@ module.exports = {
                     },
                 },
             },
+        },
+        {
+            plugin: CracoModuleFederation,
+            //options: {useNamedChunkIds: true}
         },
     ],
 };

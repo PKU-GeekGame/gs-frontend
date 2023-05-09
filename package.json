@@ -18,7 +18,8 @@
     "react-timeago": "^7.1.0"
   },
   "devDependencies": {
-    "source-map-explorer": "^2.5.2"
+    "source-map-explorer": "^2.5.2",
+    "craco-mf": "^1.0.0"
   },
   "scripts": {
     "start": "craco start",
