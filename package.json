@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^4.8.0",
-    "@ant-design/plots": "^1.0.9",
+    "@ant-design/plots": "^1.2.5",
     "@craco/craco": "^7.1.0",
     "antd": "^5.7.0",
     "copy-to-clipboard": "^3.3.3",
