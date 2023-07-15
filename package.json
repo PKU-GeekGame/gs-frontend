@@ -3,12 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@ant-design/icons": "^4.7.0",
+    "@ant-design/icons": "^4.8.0",
     "@ant-design/plots": "^1.0.9",
     "@craco/craco": "^7.1.0",
-    "antd": "^4.24.10",
+    "antd": "^5.7.0",
     "copy-to-clipboard": "^3.3.3",
-    "craco-less": "^2.1.0-alpha.0",
+    "craco-less": "^3.0.1",
     "http-proxy-middleware": "^2.0.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -18,8 +18,8 @@
     "react-timeago": "^7.1.0"
   },
   "devDependencies": {
-    "source-map-explorer": "^2.5.2",
-    "craco-mf": "^1.0.0"
+    "craco-mf": "^1.0.0",
+    "source-map-explorer": "^2.5.2"
   },
   "scripts": {
     "start": "craco start",
