@@ -10,6 +10,7 @@ import {format_ts, TimestampAgo, useReloadButton} from '../utils';
 
 import './Board.less';
 import {UserBadges} from '../widget/UserBadges';
+import {useGameInfo} from '../logic/GameInfo';
 
 const TopStarPlot = lazy(()=>import('../widget/TopStarPlot'));
 
@@ -54,6 +55,8 @@ function UserName({name}) {
 }
 
 function ScoreBoardContent({data}) {
+    let info = useGameInfo();
+
     return (
         <div>
             <Alert.ErrorBoundary>
@@ -69,6 +72,12 @@ function ScoreBoardContent({data}) {
                 rowKey="rank"
                 scroll={{
                     x: 'max-content',
+                }}
+                onRow={(record)=>{
+                    if(record.uid===info.user.id)
+                        return {style: {backgroundColor: '#f0f3ff'}};
+                    else
+                        return {};
                 }}
             >
                 <Table.Column title="#" dataIndex="rank" />
@@ -102,6 +111,8 @@ function ScoreBoardContent({data}) {
 }
 
 function FirstBloodBoardContent({data}) {
+    let info = useGameInfo();
+
     let disp_data = data.list.flatMap((ch)=>(
         ch.flags.map((f, idx)=>({
             ...f,
@@ -122,6 +133,12 @@ function FirstBloodBoardContent({data}) {
             rowKey="key"
             scroll={{
                 x: 'max-content',
+            }}
+            onRow={(record)=>{
+                if(record.uid===info.user.id)
+                    return {style: {backgroundColor: '#f0f3ff'}};
+                else
+                    return {};
             }}
         >
             <Table.Column title="题目" dataIndex="challenge_title" render={(text)=><b>{text}</b>} onCell={(record)=>({
