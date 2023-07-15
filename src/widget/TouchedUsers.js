@@ -54,21 +54,18 @@ export function TouchedUsersLink({ch, children}) {
 
     let [modal_open, set_modal_open] = useState(false);
 
-    return (
-        <>
-            <a onClick={()=>set_modal_open(true)}>{children}</a>
-
-            <Modal
-                visible={modal_open}
-                title={`${ch.title} 的通过情况`}
-                footer={null}
-                destroyOnClose={true}
-                onCancel={()=>set_modal_open(false)}
-                width={600}
-                className="touched-users-modal"
-            >
-                <TouchedUsersModal ch={ch} />
-            </Modal>
-        </>
-    );
+    return (<>
+        <a onClick={()=>set_modal_open(true)}>{children}</a>
+        <Modal
+            open={modal_open}
+            title={`${ch.title} 的通过情况`}
+            footer={null}
+            destroyOnClose={true}
+            onCancel={()=>set_modal_open(false)}
+            width={600}
+            className="touched-users-modal"
+        >
+            <TouchedUsersModal ch={ch} />
+        </Modal>
+    </>);
 }

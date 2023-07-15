@@ -4,6 +4,7 @@
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
 const API_URL = 'http://localhost:8010';
+//const API_URL = 'https://geekgame.pku.edu.cn';
 
 module.exports = function(app) {
     app.use(
