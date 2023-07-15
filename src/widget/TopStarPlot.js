@@ -67,6 +67,7 @@ export default function TopStarPlot({data}) {
     });
 
     let top_colors = data.topstars.map((topstar) => {
+        // eslint-disable-next-line no-unused-vars
         let [h0, h1, h2, _h3] = hash(topstar.uid);
         return `hsl(${h0%360}, ${70 + h1%30}%, ${30 + h2%40}%)`;
     });
