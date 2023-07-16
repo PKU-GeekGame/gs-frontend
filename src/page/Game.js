@@ -116,7 +116,7 @@ function TouchedUsersTable({ch}) {
                     key="tot_score"
                     dataIndex="tot_score"
                     render={(score, record) => (
-                        <LookingGlassLink uid={record.uid}>{score}</LookingGlassLink>
+                        <LookingGlassLink uid={record.uid} nickname={record.nickname}>{score}</LookingGlassLink>
                     )}
                 />
                 {ch.flags.map((flag, idx)=>(

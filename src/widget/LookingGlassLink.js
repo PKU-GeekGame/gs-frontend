@@ -5,7 +5,7 @@ import {EyeOutlined} from '@ant-design/icons';
 
 import './LookingGlassLink.less';
 
-export function LookingGlassLink({children, uid}) {
+export function LookingGlassLink({children, nickname, uid}) {
     /* eslint-disable jsx-a11y/anchor-is-valid */
 
     let [state, set_state] = useState(0);
@@ -22,7 +22,7 @@ export function LookingGlassLink({children, uid}) {
     return (<>
         {linked_children}
         <Modal
-            title={`用户 #${uid} 的得分历史记录`}
+            title={`${nickname}（#${uid}）的得分历史记录`}
             open={state===1} onCancel={()=>set_state(2)}
             footer={null}
             destroyOnClose={true}

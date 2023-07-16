@@ -111,7 +111,7 @@ function ScoreBoardContent({data}) {
                     </LazyLoad>
                 )} />
                 <Table.Column title="总分" dataIndex="score" className="board-col-bold" render={(text, record)=>(
-                    <LookingGlassLink uid={record.uid}>{text}</LookingGlassLink>
+                    <LookingGlassLink uid={record.uid} nickname={record.nickname}>{text}</LookingGlassLink>
                 )} />
                 <Table.Column title="最后提交时间" dataIndex="last_succ_submission_ts" render={(text)=>(
                     format_ts(text)
