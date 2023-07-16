@@ -70,7 +70,7 @@ function ChallengeTooltip({ch, record}) {
             {state===0 ? icon : <Tooltip
                 title={<ChallengeStatus ch={ch} record={record}/>}
                 placement="topRight" align={{offset: [9, -1]}}
-                open={state===1}
+                open={state===1} trigger={[]}
                 overlayClassName="board-challenge-status-tooltip" autoAdjustOverflow={false}
             >
                 {icon}

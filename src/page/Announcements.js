@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import {Empty, Skeleton, Card, Tag, Pagination} from 'antd';
 import {NotificationOutlined} from '@ant-design/icons';
 
@@ -31,6 +31,10 @@ export function Announcement({announcement, extra}) {
 export function Announcements() {
     let [error, data, load_data] = useWishData('announcements');
     let [page, set_page] = useState(1);
+
+    useEffect(()=>{
+        window.scroll(0, 0);
+    }, [page]);
 
     if(error)
         return <Reloader message={error.error_msg} reload={load_data} />;
