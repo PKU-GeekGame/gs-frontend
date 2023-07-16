@@ -9,6 +9,7 @@ import {useWishData} from '../wish';
 import {format_ts, TimestampAgo, useReloadButton} from '../utils';
 import {UserBadges, UserName, UserGroupTag} from '../widget/UserBadges';
 import {useGameInfo} from '../logic/GameInfo';
+import {LookingGlassLink} from '../widget/LookingGlassLink';
 
 import './Board.less';
 
@@ -109,7 +110,9 @@ function ScoreBoardContent({data}) {
                         <UserBadges badges={record.badges} />
                     </LazyLoad>
                 )} />
-                <Table.Column title="总分" dataIndex="score" className="board-col-bold" />
+                <Table.Column title="总分" dataIndex="score" className="board-col-bold" render={(text, record)=>(
+                    <LookingGlassLink uid={record.uid}>{text}</LookingGlassLink>
+                )} />
                 <Table.Column title="最后提交时间" dataIndex="last_succ_submission_ts" render={(text)=>(
                     format_ts(text)
                 )} />

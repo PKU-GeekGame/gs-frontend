@@ -91,7 +91,7 @@ function UserProfileForm() {
                             </Radio.Group>
                         </Form.Item>
                     }
-                    <Form.Item label="用户组" extra={`UID: ${info.user.id}`}>
+                    <Form.Item label="用户组" extra={`UID: #${info.user.id}`}>
                         <UserGroupTag>{info.user.group_disp}</UserGroupTag>
                         <UserBadges badges={info.user.badges} />
                     </Form.Item>

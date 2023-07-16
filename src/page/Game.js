@@ -25,7 +25,8 @@ import {useGameInfo} from '../logic/GameInfo';
 import {TemplateFile, TemplateStr} from '../widget/Template';
 import {ChallengeIcon, FlagIcon} from '../widget/ChallengeIcon';
 import {TokenWidget} from '../widget/TokenWidget';
-import {UserName, UserGroupTag} from '../widget/UserBadges';
+import {UserName, UserGroupTag, UserBadges} from '../widget/UserBadges';
+import {LookingGlassLink} from '../widget/LookingGlassLink';
 import {useWishData, wish} from '../wish';
 import {TimestampAgo, NotFound, useReloadButton, to_auth, format_ts} from '../utils';
 import {WEB_TERMINAL_ADDR, ATTACHMENT_ROOT} from '../branding';
@@ -81,6 +82,7 @@ function TouchedUsersTable({ch}) {
             <Table
                 dataSource={data.list}
                 size="small"
+                rowKey="idx"
                 onRow={(record)=>{
                     if(record.uid===cur_uid)
                         return {className: 'active-bg-row'};
@@ -95,6 +97,7 @@ function TouchedUsersTable({ch}) {
                     <>
                         <UserName name={record.nickname} />{' '}
                         <UserGroupTag>{record.group_disp}</UserGroupTag>
+                        <UserBadges badges={record.badges} />
                     </>
                     )}
                     filters={[
@@ -112,6 +115,9 @@ function TouchedUsersTable({ch}) {
                     title="总分"
                     key="tot_score"
                     dataIndex="tot_score"
+                    render={(score, record) => (
+                        <LookingGlassLink uid={record.uid}>{score}</LookingGlassLink>
+                    )}
                 />
                 {ch.flags.map((flag, idx)=>(
                     <Table.Column key={idx} title={flag.name || '通过本题时间'} dataIndex={['flags', idx]} render={(text)=>(
