@@ -25,7 +25,7 @@ let component = (
             components: {
                 App: {
                     fontSize: 16,
-                }
+                },
             }
         }}
     >

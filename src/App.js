@@ -30,13 +30,27 @@ function InfoRouter() {
 
     return (
         <div className="slim-container">
-            <Menu className="router-menu" selectedKeys={[page]} onSelect={(e)=>{nav(`/info/${e.key}`);}} mode="horizontal">
-                <Menu.Item key="announcements"><NotificationOutlined /> 比赛公告</Menu.Item>
-                <Menu.Item key="triggers"><CarryOutOutlined /> 赛程安排</Menu.Item>
-                {info.feature.templates.map(([name, title])=>(
-                    <Menu.Item key={name}><FileTextOutlined /> {title}</Menu.Item>
-                ))}
-            </Menu>
+            <Menu
+                className="router-menu" mode="horizontal"
+                selectedKeys={[page]} onSelect={(e)=>{nav(`/info/${e.key}`);}}
+                items={[
+                    {
+                        key: 'announcements',
+                        icon: <NotificationOutlined />,
+                        label: '比赛公告',
+                    },
+                    {
+                        key: 'triggers',
+                        icon: <CarryOutOutlined />,
+                        label: '赛程安排',
+                    },
+                    ...info.feature.templates.map(([name, title])=>({
+                        key: name,
+                        icon: <FileTextOutlined />,
+                        label: title,
+                    })),
+                ]}
+            />
             <br />
             {
                 page==='announcements' ?
@@ -55,12 +69,32 @@ function BoardRouter() {
 
     return (
         <div>
-            <Menu className="router-menu" selectedKeys={[name]} onSelect={(e)=>{nav(`/board/${e.key}`);}} mode="horizontal">
-                <Menu.Item key="score_pku"><FundOutlined /> 北京大学排名</Menu.Item>
-                <Menu.Item key="first_pku"><AimOutlined /> 北京大学一血榜</Menu.Item>
-                <Menu.Item key="score_all"><FundOutlined /> 总排名</Menu.Item>
-                <Menu.Item key="first_all"><AimOutlined /> 总一血榜</Menu.Item>
-            </Menu>
+            <Menu
+                className="router-menu" mode="horizontal"
+                selectedKeys={[name]} onSelect={(e)=>{nav(`/board/${e.key}`);}}
+                items={[
+                    {
+                        key: 'score_pku',
+                        icon: <FundOutlined />,
+                        label: '北京大学排名',
+                    },
+                    {
+                        key: 'first_pku',
+                        icon: <AimOutlined />,
+                        label: '北京大学一血榜',
+                    },
+                    {
+                        key: 'score_all',
+                        icon: <FundOutlined />,
+                        label: '总排名',
+                    },
+                    {
+                        key: 'first_all',
+                        icon: <AimOutlined />,
+                        label: '总一血榜',
+                    },
+                ]}
+            />
             <Board key={name} name={name} />
         </div>
     );

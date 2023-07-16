@@ -38,39 +38,87 @@ export function Header() {
                     <Menu
                         mode="horizontal" theme="dark"
                         selectedKeys={[cur_key]} onSelect={(e)=>{if(e.key.charAt(0)!=='_') nav(e.key)}}
-                    >
-                        {!!game_info.feature.game &&
-                            <Menu.Item key="/game"><UnorderedListOutlined /> 比赛主页</Menu.Item>
-                        }
-                        <Menu.Item key="/board"><CrownOutlined /> 排行榜</Menu.Item>
-                        <Menu.Item key="/info"><NotificationOutlined /> 信息</Menu.Item>
-                        {game_info.user ?
-                            <Menu.SubMenu
-                                key="_/user" popupOffset={[-6, 2]}
-                                title={<>
-                                    <span><UserOutlined /></span> <Cap text={game_info.user.profile.nickname||'账户'} width={110} />
+                        items={[
+                            ...(game_info.feature.game ? [{
+                            key: '/game',
+                            icon: <UnorderedListOutlined />,
+                            label: '比赛主页',
+                            }] : []),
+
+                            {
+                                key: '/board',
+                                icon: <CrownOutlined />,
+                                label: '排行榜',
+                            },
+                            {
+                                key: '/info',
+                                icon: <NotificationOutlined />,
+                                label: '信息',
+                            },
+
+                            ...(game_info.user ? [{
+                                key: '_/user',
+                                icon: <UserOutlined />,
+                                label: (<>
+                                    <Cap text={game_info.user.profile.nickname||'账户'} width={110} />
                                     <span className="header-nav-caret"><CaretDownOutlined /></span>
-                                </>}
-                                popupClassName="header-nav-popup"
-                            >
-                                <Menu.Item key="/user/profile"><EditOutlined /> 个人资料</Menu.Item>
-                                <Menu.Item key="/user/submissions"><HistoryOutlined /> 提交历史记录</Menu.Item>
-                                <Menu.Item key="/user/terms"><FileProtectOutlined /> 参赛须知</Menu.Item>
-                                <Menu.Item key="_/user/logout" danger onClick={()=>to_auth('logout')}><DisconnectOutlined /> 注销</Menu.Item>
-                            </Menu.SubMenu> :
-                            <Menu.SubMenu
-                                key="_/login" popupOffset={[-6, 2]}
-                                title={<>
-                                    <LoginOutlined /> 参赛
+                                </>),
+
+                                popupClassName: 'header-nav-popup',
+                                popupOffset: [-6, 2],
+
+                                children: [
+                                    {
+                                        key: '/user/profile',
+                                        icon: <EditOutlined />,
+                                        label: '个人资料',
+                                    },
+                                    {
+                                        key: '/user/submissions',
+                                        icon: <HistoryOutlined />,
+                                        label: '提交历史记录',
+                                    },
+                                    {
+                                        key: '/user/terms',
+                                        icon: <FileProtectOutlined />,
+                                        label: '参赛须知',
+                                    },
+                                    {
+                                        key: '_/user/logout',
+                                        icon: <DisconnectOutlined />,
+                                        label: '注销',
+                                        danger: true,
+                                        onClick: ()=>to_auth('/logout'),
+                                    },
+                                ],
+                            }] : [{
+                                key: '_/login',
+                                icon: <LoginOutlined />,
+                                label: (<>
+                                    参赛
                                     <span className="header-nav-caret"><CaretDownOutlined /></span>
-                                </>}
-                                className="header-nav-login" popupClassName="header-nav-popup"
-                            >
-                                <Menu.Item key="_/login/pku" onClick={()=>to_auth('pku/redirect')}><HomeOutlined /> 北京大学登录</Menu.Item>
-                                <Menu.Item key="/login/other"><GlobalOutlined /> 校外选手</Menu.Item>
-                            </Menu.SubMenu>
-                        }
-                    </Menu>
+                                </>),
+
+                                className: 'header-nav-login',
+                                popupClassName: 'header-nav-popup',
+                                popupOffset: [-6, 2],
+
+                                children: [
+                                    {
+                                        key: '_/login/pku',
+                                        icon: <HomeOutlined />,
+                                        label: '北京大学登录',
+                                        onClick: ()=>to_auth('pku/redirect'),
+                                    },
+                                    {
+                                        key: '/login/other',
+                                        icon: <GlobalOutlined />,
+                                        label: '校外选手',
+                                    },
+                                ],
+                            }]),
+                        ]}
+                    />
                 </div>
             </div>
         </div>
