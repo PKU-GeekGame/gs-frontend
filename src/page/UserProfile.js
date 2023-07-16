@@ -4,8 +4,7 @@ import {CheckCircleOutlined} from '@ant-design/icons';
 import {useNavigate} from 'react-router-dom';
 
 import {GameInfoCtx} from '../logic/GameInfo';
-import {UserGroupTag} from '../widget/UserGroupTag';
-import {UserBadges} from '../widget/UserBadges';
+import {UserBadges, UserGroupTag} from '../widget/UserBadges';
 import {wish} from '../wish';
 
 import './UserProfile.less';

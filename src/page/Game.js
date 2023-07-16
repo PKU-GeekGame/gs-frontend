@@ -25,7 +25,7 @@ import {useGameInfo} from '../logic/GameInfo';
 import {TemplateFile, TemplateStr} from '../widget/Template';
 import {ChallengeIcon, FlagIcon} from '../widget/ChallengeIcon';
 import {TokenWidget} from '../widget/TokenWidget';
-import {UserGroupTag} from '../widget/UserGroupTag';
+import {UserName, UserGroupTag} from '../widget/UserBadges';
 import {useWishData, wish} from '../wish';
 import {TimestampAgo, NotFound, useReloadButton, to_auth, format_ts} from '../utils';
 import {WEB_TERMINAL_ADDR, ATTACHMENT_ROOT} from '../branding';
@@ -93,7 +93,7 @@ function TouchedUsersTable({ch}) {
                     key="user"
                     render={(_text, record)=>(
                     <>
-                        {record.nickname}{' '}
+                        <UserName name={record.nickname} />{' '}
                         <UserGroupTag>{record.group_disp}</UserGroupTag>
                     </>
                     )}

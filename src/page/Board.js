@@ -1,18 +1,16 @@
 import {lazy, Suspense, useState, useEffect} from 'react';
 import {Alert, Skeleton, Table, Tooltip, Button, message, Tag} from 'antd';
 import {HistoryOutlined, SyncOutlined, LoadingOutlined, FireOutlined} from '@ant-design/icons';
-import LazyLoad from 'react-lazyload';
-import { forceCheck } from 'react-lazyload';
+import LazyLoad, {forceCheck} from 'react-lazyload';
 
 import {Reloader} from './GameLoading';
-import {UserGroupTag} from '../widget/UserGroupTag';
 import {ChallengeIcon, FlagIcon} from '../widget/ChallengeIcon';
 import {useWishData} from '../wish';
 import {format_ts, TimestampAgo, useReloadButton} from '../utils';
+import {UserBadges, UserName, UserGroupTag} from '../widget/UserBadges';
+import {useGameInfo} from '../logic/GameInfo';
 
 import './Board.less';
-import {UserBadges} from '../widget/UserBadges';
-import {useGameInfo} from '../logic/GameInfo';
 
 const TopStarPlot = lazy(()=>import('../widget/TopStarPlot'));
 
@@ -40,20 +38,6 @@ function TopStarPlotLoading() {
             <p><LoadingOutlined /> 加载图表组件</p>
         </div>
     )
-}
-
-function UserName({name}) {
-    let idx = name.indexOf(' #');
-    if(idx<=0)
-        return <span className="name-base-part">{name}</span>;
-    else {
-        let basename = name.substring(0, idx);
-        let tag = name.substring(idx);
-        return (<>
-            <span className="name-base-part">{basename}</span>
-            <span className="name-tag-part">{tag}</span>
-        </>);
-    }
 }
 
 function ChallengeTooltip({ch, record}) {
