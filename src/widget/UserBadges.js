@@ -44,6 +44,6 @@ export function UserName({name}) {
 
 export function UserGroupTag({children}) {
     return (
-        <Tag color="blue">{children}</Tag>
+        <Tag color="blue" className="user-group-tag">{children}</Tag>
     );
 }
