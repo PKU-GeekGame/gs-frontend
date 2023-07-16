@@ -124,7 +124,7 @@ function ScoreBoardContent({data}) {
                 )} />
                 <Table.Column title="答题进度" key="challenges" render={(_text, record)=>(
                     <LazyLoad
-                        once={true} offset={200} throttle={50}
+                        once={true} offset={150} throttle={50}
                         placeholder={challenges_placeholder}
                     >
                         {data.challenges.map((ch)=>(
