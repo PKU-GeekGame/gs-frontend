@@ -83,7 +83,7 @@ function TouchedUsersTable({ch}) {
                 size="small"
                 onRow={(record)=>{
                     if(record.uid===cur_uid)
-                        return {style: {backgroundColor: '#f0f3ff'}};
+                        return {className: 'active-bg-row'};
                     else
                         return {};
                 }}

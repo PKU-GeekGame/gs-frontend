@@ -38,6 +38,16 @@
     vertical-align: -.6em;
 }
 
+.active-bg-color {
+    background-color: #f0f3ff !important;
+}
+
+tr.active-bg-row {
+    &, &>td {
+        .active-bg-color();
+    }
+}
+
 // fix ... menu hard to click
 .ant-menu-overflow-item-rest {
     padding: 0 !important;

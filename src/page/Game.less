@@ -1,4 +1,5 @@
 @import '../vars.less';
+@import '../App.less';
 
 @single-row-breakpoint: 765px;
 @small-multi-row-breakpoint: 1020px;
@@ -119,7 +120,7 @@
 
             &.portal-chall-row-active {
                 cursor: unset;
-                background-color: #f0f3ff;
+                .active-bg-color();
             }
         }
 
