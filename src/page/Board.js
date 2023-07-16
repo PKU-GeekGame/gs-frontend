@@ -1,6 +1,7 @@
-import {lazy, Suspense} from 'react';
+import {lazy, Suspense, useState} from 'react';
 import {Alert, Skeleton, Table, Tooltip, Button, message, Tag} from 'antd';
 import {HistoryOutlined, SyncOutlined, LoadingOutlined, FireOutlined} from '@ant-design/icons';
+import LazyLoad from 'react-lazyload';
 
 import {Reloader} from './GameLoading';
 import {UserGroupTag} from '../widget/UserGroupTag';
@@ -54,12 +55,42 @@ function UserName({name}) {
     }
 }
 
+function ChallengeTooltip({ch, record}) {
+    let [state, set_state] = useState(0);
+
+    let icon = (
+        <span style={{pointerEvents: 'none'}}> {/* fix mouseleave not firing */}
+            <ChallengeIcon status={record.challenge_status[ch.key]} />
+        </span>
+    );
+
+    return (
+        <div
+            className="board-challenge-status-icon"
+            onMouseEnter={()=>set_state(1)} onMouseLeave={()=>set_state(2)}
+        >
+            {state===0 ? icon : <Tooltip
+                title={<ChallengeStatus ch={ch} record={record}/>}
+                placement="topRight" align={{offset: [10, -4]}}
+                open={state===1}
+                overlayClassName="board-challenge-status-tooltip" autoAdjustOverflow={false}
+            >
+                {icon}
+            </Tooltip>}
+        </div>
+    );
+}
+
 function ScoreBoardContent({data}) {
     let info = useGameInfo();
     let cur_uid = info.user!==null ? info.user.id : null;
 
+    let challenges_placeholder = (
+        <div style={{height: '1.5em', width: `${1.65*data.challenges.length}em`, backgroundColor: '#eee'}} />
+    );
+
     return (
-        <div>
+        <div className="scoreboard">
             <Alert.ErrorBoundary>
                 <Suspense fallback={<TopStarPlotLoading />}>
                     <TopStarPlot data={data} />
@@ -92,19 +123,14 @@ function ScoreBoardContent({data}) {
                     format_ts(text)
                 )} />
                 <Table.Column title="答题进度" key="challenges" render={(_text, record)=>(
-                    data.challenges.map((ch)=>(
-                        <Tooltip
-                            key={ch.key} trigger="hover" destroyTooltipOnHide={true}
-                            title={<ChallengeStatus ch={ch} record={record} />}
-                            placement="topRight" align={{offset: [10, 8]}}
-                            mouseEnterDelay={0} mouseLeaveDelay={0}
-                            overlayClassName="board-challenge-status-tooltip" autoAdjustOverflow={false}
-                        >
-                            <div className="board-challenge-status-icon">
-                                <ChallengeIcon status={record.challenge_status[ch.key]} />
-                            </div>
-                        </Tooltip>
-                    ))
+                    <LazyLoad
+                        once={true} offset={200} throttle={50}
+                        placeholder={challenges_placeholder}
+                    >
+                        {data.challenges.map((ch)=>(
+                            <ChallengeTooltip key={ch.key} ch={ch} record={record} />
+                        ))}
+                    </LazyLoad>
                 )} />
             </Table>
         </div>
