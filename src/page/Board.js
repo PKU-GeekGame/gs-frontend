@@ -60,16 +60,13 @@ function ChallengeTooltip({ch, record}) {
     let [state, set_state] = useState(0);
 
     let icon = (
-        <span style={{pointerEvents: 'none'}}> {/* fix mouseleave not firing */}
+        <span className="board-challenge-status-icon">
             <ChallengeIcon status={record.challenge_status[ch.key]} />
         </span>
     );
 
     return (
-        <div
-            className="board-challenge-status-icon"
-            onMouseEnter={()=>set_state(1)} onMouseLeave={()=>set_state(2)}
-        >
+        <span onMouseEnter={()=>set_state(1)} onMouseLeave={()=>set_state(2)}>
             {state===0 ? icon : <Tooltip
                 title={<ChallengeStatus ch={ch} record={record}/>}
                 placement="topRight" align={{offset: [9, -1]}}
@@ -78,7 +75,7 @@ function ChallengeTooltip({ch, record}) {
             >
                 {icon}
             </Tooltip>}
-        </div>
+        </span>
     );
 }
 
@@ -118,18 +115,23 @@ function ScoreBoardContent({data}) {
                 }}
             >
                 <Table.Column title="#" dataIndex="rank" />
-                <Table.Column title="昵称" key="name" render={(_text, record)=>(<>
-                    <UserName name={record.nickname} />
-                    {record.group_disp===null ? null : <>&nbsp;&nbsp;<UserGroupTag>{record.group_disp}</UserGroupTag></>}
-                    <UserBadges badges={record.badges} />
-                </>)} />
-                <Table.Column title="总分" dataIndex="score" render={(text)=><b>{text}</b>} />
+                <Table.Column title="昵称" key="name" className="board-col-bold" render={(_text, record)=>(
+                    <LazyLoad
+                        once={true} offset={150}
+                        placeholder={record.nickname}
+                    >
+                        <UserName name={record.nickname} />
+                        {record.group_disp===null ? null : <>&nbsp;&nbsp;<UserGroupTag>{record.group_disp}</UserGroupTag></>}
+                        <UserBadges badges={record.badges} />
+                    </LazyLoad>
+                )} />
+                <Table.Column title="总分" dataIndex="score" className="board-col-bold" />
                 <Table.Column title="最后提交时间" dataIndex="last_succ_submission_ts" render={(text)=>(
                     format_ts(text)
                 )} />
                 <Table.Column title="答题进度" key="challenges" render={(_text, record)=>(
                     <LazyLoad
-                        once={true} offset={150} throttle={50}
+                        once={true} offset={150}
                         placeholder={challenges_placeholder}
                     >
                         {data.challenges.map((ch)=>(
@@ -174,7 +176,7 @@ function FirstBloodBoardContent({data}) {
                     return {};
             }}
         >
-            <Table.Column title="题目" dataIndex="challenge_title" render={(text)=><b>{text}</b>} onCell={(record)=>({
+            <Table.Column title="题目" dataIndex="challenge_title" className="board-col-bold" onCell={(record)=>({
                 rowSpan: record.flag_idx0===0 ? record.flags_count : 0,
             })} />
             <Table.Column title="Flag" dataIndex="flag_name" render={(text, record)=>(<>
