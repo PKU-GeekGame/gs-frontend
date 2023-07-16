@@ -174,7 +174,7 @@ function Challenge({ch, do_reload_list}) {
             <ChallengeBody ch={ch} />
             {ch.status==='passed' ?
                 <Alert type="success" showIcon message="你已经通过此题" /> :
-                <FlagInput do_reload_list={do_reload_list} ch={ch} />
+                <FlagInput key={ch.key} do_reload_list={do_reload_list} ch={ch} />
             }
             <br />
             <TokenWidget />
@@ -266,7 +266,7 @@ function PortalChallengeList({list, active_key}) {
 function Portal() {
     let [error, data, load_data] = useWishData('game');
     let nav = useNavigate();
-    let [last_reloaded, mark_reload, reload_btn] = useReloadButton(3);
+    let [last_reloaded, do_reload, reload_btn] = useReloadButton(load_data, 3, 600);
     let params = useParams();
 
     let active_challenge_key = params.challenge===undefined ? null : params.challenge;
@@ -302,8 +302,7 @@ function Portal() {
         return (
             <div className="slim-container">
                 <Reloader message={error.error_msg} reload={()=>{
-                    mark_reload();
-                    load_data();
+                    do_reload();
                 }} />
             </div>
         );
@@ -321,8 +320,7 @@ function Portal() {
                     <div>
                         <Button type="link" ref={reload_btn} onClick={()=>{
                             message.success({content: '已刷新题目数据', key: 'Portal.ManualLoadData', duration: 2});
-                            mark_reload();
-                            load_data();
+                            do_reload();
                         }}>
                             <SyncOutlined /> 刷新题目
                         </Button>
@@ -376,7 +374,7 @@ function Portal() {
                     />
                 }
                 {active_challenge!==null ?
-                    <Challenge ch={active_challenge} do_reload_list={load_data} />:
+                    <Challenge ch={active_challenge} do_reload_list={()=>load_data(false)} />:
                 (active_challenge_key!==null && data!==null) ?
                     <NotFound /> :
                     <TemplateFile name="game" />

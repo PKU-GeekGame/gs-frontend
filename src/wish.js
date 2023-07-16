@@ -44,14 +44,18 @@ export function useWishData(endpoint, args) {
     let [error, set_error] = useState(null);
     let [data, set_data] = useState(null);
 
-    let load_data = useCallback(()=>{
-        set_data(null);
-        set_error(null);
+    let load_data = useCallback((clear_data=true)=>{
+        if(clear_data) {
+            set_data(null);
+            set_error(null);
+        }
 
         wish(endpoint, args)
             .then((res)=>{
-                if(res.error)
+                if(res.error) {
                     set_error(res);
+                    set_data(null);
+                }
                 else {
                     set_error(null);
                     set_data(res);

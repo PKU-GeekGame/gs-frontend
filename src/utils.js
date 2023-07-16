@@ -93,7 +93,7 @@ export function ExtLink({href, children}) {
     );
 }
 
-export function useReloadButton(interval_s) {
+export function useReloadButton(reload_fn, disable_s, expire_s) {
     // xxx: will not trigger re-render if only last_reloaded_ms is changed, because it is a ref
     // this is generally safe because usually other states are changed after reloading
 
@@ -104,18 +104,32 @@ export function useReloadButton(interval_s) {
         last_reloaded_ms.current = +new Date();
     }, []);
 
-    function mark_reload() {
+    useEffect(()=>{
+        function on_focus() {
+            if((+new Date())-last_reloaded_ms.current > expire_s*1000)
+                do_reload();
+        }
+
+        window.addEventListener('focus', on_focus);
+        return ()=>{
+            window.removeEventListener('focus', on_focus);
+        };
+    });
+
+    function do_reload() {
         if(reload_btn.current)
             reload_btn.current.disabled = true;
 
         last_reloaded_ms.current = +new Date();
 
         setTimeout(()=>{
-            if((+new Date())-last_reloaded_ms.current >= interval_s*1000-200)
+            if((+new Date())-last_reloaded_ms.current >= disable_s*1000-200)
                 if(reload_btn.current)
                     reload_btn.current.disabled = false;
-        }, interval_s*1000);
+        }, disable_s*1000);
+
+        reload_fn(false);
     }
 
-    return [last_reloaded_ms.current/1000, mark_reload, reload_btn];
+    return [last_reloaded_ms.current/1000, do_reload, reload_btn];
 }

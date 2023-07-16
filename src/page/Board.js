@@ -1,7 +1,8 @@
-import {lazy, Suspense, useState} from 'react';
+import {lazy, Suspense, useState, useEffect} from 'react';
 import {Alert, Skeleton, Table, Tooltip, Button, message, Tag} from 'antd';
 import {HistoryOutlined, SyncOutlined, LoadingOutlined, FireOutlined} from '@ant-design/icons';
 import LazyLoad from 'react-lazyload';
+import { forceCheck } from 'react-lazyload';
 
 import {Reloader} from './GameLoading';
 import {UserGroupTag} from '../widget/UserGroupTag';
@@ -88,6 +89,10 @@ function ScoreBoardContent({data}) {
     let challenges_placeholder = (
         <div style={{height: '1.5em', width: `${1.65*data.challenges.length}em`, backgroundColor: '#eee'}} />
     );
+
+    useEffect(()=>{
+        forceCheck();
+    }, [data]);
 
     return (
         <div className="scoreboard">
@@ -210,13 +215,12 @@ function BoardContent({data}) {
 
 export function Board({name}) {
     let [error, data, load_data] = useWishData('board/'+name);
-    let [last_reloaded, mark_reload, reload_btn] = useReloadButton(3);
+    let [last_reloaded, do_reload, reload_btn] = useReloadButton(load_data, 3, 300);
 
     if(error)
         return (
             <Reloader message={error.error_msg} reload={()=>{
-                mark_reload();
-                load_data();
+                do_reload();
             }} />
         );
 
@@ -231,8 +235,7 @@ export function Board({name}) {
                 <div>
                     <Button type="link" ref={reload_btn} onClick={()=>{
                         message.success({content: '已刷新排行榜', key: 'Board.ManualLoadData', duration: 2});
-                        mark_reload();
-                        load_data();
+                        do_reload();
                     }}>
                         <SyncOutlined /> 刷新排行榜
                     </Button>
