@@ -1,11 +1,12 @@
 import {Fragment, useMemo, useState, useEffect} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
-import {Skeleton, message, Button, Empty, Tag, Alert, Input, Tooltip, Popover, Card} from 'antd';
+import {Skeleton, message, Button, Empty, Tag, Alert, Input, Tooltip, Popover, Card, Table} from 'antd';
 import {
     PieChartFilled,
     SyncOutlined,
     HistoryOutlined,
     RightCircleOutlined,
+    UpOutlined,
     CaretDownOutlined,
     QuestionCircleOutlined,
     FlagOutlined,
@@ -24,9 +25,9 @@ import {useGameInfo} from '../logic/GameInfo';
 import {TemplateFile, TemplateStr} from '../widget/Template';
 import {ChallengeIcon, FlagIcon} from '../widget/ChallengeIcon';
 import {TokenWidget} from '../widget/TokenWidget';
-import {TouchedUsersLink} from '../widget/TouchedUsers';
+import {UserGroupTag} from '../widget/UserGroupTag';
 import {useWishData, wish} from '../wish';
-import {TimestampAgo, NotFound, useReloadButton, to_auth} from '../utils';
+import {TimestampAgo, NotFound, useReloadButton, to_auth, format_ts} from '../utils';
 import {WEB_TERMINAL_ADDR, ATTACHMENT_ROOT} from '../branding';
 
 import './Game.less';
@@ -62,6 +63,64 @@ function ChallengeAction({action, ch}) {
         return (<>
             你可以 <a href={`${ATTACHMENT_ROOT}${ch.key}/${action.filename}`} target="_blank">下载{action.name}</a>
         </>);
+}
+
+function TouchedUsersTable({ch}) {
+    let info = useGameInfo();
+    let [error, data, load_data] = useWishData('get_touched_users/'+ch.key);
+
+    let cur_uid = info.user!==null ? info.user.id : null;
+
+    if(error)
+        return <Reloader message={error.error_msg} reload={load_data} />;
+    if(data===null)
+        return <Skeleton />;
+
+    return (
+        <div>
+            <Table
+                dataSource={data.list}
+                size="small"
+                onRow={(record)=>{
+                    if(record.uid===cur_uid)
+                        return {style: {backgroundColor: '#f0f3ff'}};
+                    else
+                        return {};
+                }}
+            >
+                <Table.Column
+                    title="用户"
+                    key="user"
+                    render={(_text, record)=>(
+                    <>
+                        {record.nickname}{' '}
+                        <UserGroupTag>{record.group_disp}</UserGroupTag>
+                    </>
+                    )}
+                    filters={[
+                        {text: '北京大学选手', value: 'pku'},
+                        {text: '其他选手', value: 'other'},
+                    ]}
+                    onFilter={(value, record)=>(
+                        value==='pku'? record.group_disp==='北京大学' :
+                        value==='other'? record.group_disp!=='北京大学' :
+                                true
+                    )}
+                    filterMultiple={false}
+                />
+                <Table.Column
+                    title="总分"
+                    key="tot_score"
+                    dataIndex="tot_score"
+                />
+                {ch.flags.map((flag, idx)=>(
+                    <Table.Column key={idx} title={flag.name || '通过本题时间'} dataIndex={['flags', idx]} render={(text)=>(
+                        text ? format_ts(text) : ''
+                    )} />
+                ))}
+            </Table>
+        </div>
+    );
 }
 
 function FlagInput({do_reload_list, ch}) {
@@ -141,6 +200,8 @@ function ScoreDeduction({base, cur}) {
 }
 
 function Challenge({ch, do_reload_list}) {
+    let [display_touched_users, set_display_touched_users] = useState(false);
+
     return (
         <div className="challenge-body">
             <h1>{ch.title}</h1>
@@ -148,15 +209,16 @@ function Challenge({ch, do_reload_list}) {
                 <Tag color="default">
                     基础分值 {ch.tot_base_score}
                 </Tag>
-                <Tag color="default">
-                    <TouchedUsersLink ch={ch}>
-                        <RightCircleOutlined />{' '}
+                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                <a onClick={()=>set_display_touched_users(x => !x)}>
+                    <Tag color="default">
+                        {display_touched_users ? <UpOutlined /> : <CaretDownOutlined />}{' '}
                         共 {ch.passed_users_count} 人通过
                         {ch.touched_users_count>ch.passed_users_count && <>
                             （{ch.touched_users_count} 人部分通过）
                         </>}
-                    </TouchedUsersLink>
-                </Tag>
+                    </Tag>
+                </a>
                 {!!ch.metadata.author &&
                     <Tag color="default">
                         命题人：{ch.metadata.author}
@@ -171,6 +233,10 @@ function Challenge({ch, do_reload_list}) {
                 }
             </p>
             <br />
+            {!!display_touched_users && <>
+                <TouchedUsersTable ch={ch} />
+                <br />
+            </>}
             <ChallengeBody ch={ch} />
             {ch.status==='passed' ?
                 <Alert type="success" showIcon message="你已经通过此题" /> :
