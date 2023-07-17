@@ -88,7 +88,7 @@ export function Header() {
                                         icon: <DisconnectOutlined />,
                                         label: '注销',
                                         danger: true,
-                                        onClick: ()=>to_auth('/logout'),
+                                        onClick: ()=>to_auth('logout'),
                                     },
                                 ],
                             }] : [{
