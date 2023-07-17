@@ -91,7 +91,7 @@ function TouchedUsersTable({ch}) {
                 }}
             >
                 <Table.Column
-                    title="用户"
+                    title="昵称"
                     key="user"
                     render={(_text, record)=>(
                     <>
