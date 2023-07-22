@@ -3,7 +3,7 @@ import {useState, useCallback, useEffect} from 'react';
 import {WISH_ROOT} from './branding';
 import {random_str} from './utils';
 
-export const WISH_VER = 'wish.2023.v1';
+export const WISH_VER = 'wish.2023.v2';
 
 export const TABID = random_str(4);
 window._TABID = TABID;
