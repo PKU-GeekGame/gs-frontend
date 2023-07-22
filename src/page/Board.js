@@ -64,7 +64,7 @@ function ChallengeTooltip({ch, record}) {
     );
 }
 
-function ScoreBoardContent({data}) {
+function ScoreBoardContent({data, last_reloaded}) {
     let info = useGameInfo();
     let cur_uid = info.user!==null ? info.user.id : null;
 
@@ -80,7 +80,7 @@ function ScoreBoardContent({data}) {
         <div className="scoreboard">
             <Alert.ErrorBoundary>
                 <Suspense fallback={<TopStarPlotLoading />}>
-                    <TopStarPlot data={data} />
+                    <TopStarPlot key={last_reloaded} data={data} />
                 </Suspense>
             </Alert.ErrorBoundary>
             <br />
@@ -193,11 +193,11 @@ function FirstBloodBoardContent({data}) {
     );
 }
 
-function BoardContent({data}) {
+function BoardContent({data, last_reloaded}) {
     if(data.type==='score')
-        return <ScoreBoardContent data={data} />;
+        return <ScoreBoardContent data={data} last_reloaded={last_reloaded} />;
     else if(data.type==='firstblood')
-        return <FirstBloodBoardContent data={data} />;
+        return <FirstBloodBoardContent data={data} last_reloaded={last_reloaded} />;
     else
         return <Alert type="error" message={`未知排行榜类型 ${data.type}`} showIcon />;
 }
@@ -237,7 +237,7 @@ export function Board({name}) {
                         <Alert type="info" message={data.desc} showIcon />
                         <br />
                     </>}
-                    <BoardContent data={data} />
+                    <BoardContent data={data} last_reloaded={last_reloaded} />
                 </div>
             }
         </div>
