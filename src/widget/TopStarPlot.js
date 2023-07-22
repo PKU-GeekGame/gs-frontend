@@ -56,7 +56,7 @@ export default function TopStarPlot({data}) {
 
     data.topstars.forEach((topstar) => {
         topstar.history.forEach((p) => {
-            timepoints[p[0]]=true;
+            timepoints[p[0]] = true;
         });
     });
     timepoints = [
@@ -77,8 +77,8 @@ export default function TopStarPlot({data}) {
                     score: last_score,
                     idx0: ''+idx,
                 });
-                last_score = p[1];
             }
+            last_score = p[1];
         });
         for(; time_idx<timepoints.length-1; time_idx++) {
             points.push({
