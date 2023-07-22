@@ -11,6 +11,9 @@ function minmax(x, lo, hi) {
 }
 
 function assign_color_palette(uids) {
+    if(uids.length===0) // make antd happy
+        return ['#000000'];
+
     // https://stackoverflow.com/questions/521295/seeding-the-random-number-generator-in-javascript
     function hash(str) {
         let h1 = 1779033703, h2 = 3144134277,
