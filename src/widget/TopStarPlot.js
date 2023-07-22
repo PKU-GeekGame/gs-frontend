@@ -55,7 +55,7 @@ export default function TopStarPlot({data}) {
     let time_range_disp = [data.time_range[0]*1000, minmax(+new Date()+1000, data.time_range[0]*1000+1000, data.time_range[1]*1000)];
 
     data.topstars.forEach((topstar) => {
-        topstar.submissions.forEach((sub) => {
+        topstar.history.forEach((sub) => {
             timepoints[sub.timestamp_ms]=true;
         });
     });
@@ -64,26 +64,26 @@ export default function TopStarPlot({data}) {
         time_range_disp[0],
         time_range_disp[1],
         Infinity,
-    ].sort();
+    ].sort((a, b) => a-b);
 
     data.topstars.forEach((topstar, idx) => {
-        let tot_score = 0;
         let time_idx = 0;
+        let last_score = 0;
 
-        topstar.submissions.forEach((sub) => {
-            for(; timepoints[time_idx]<sub.timestamp_ms; time_idx++) {
+        topstar.history.forEach((p) => {
+            for(; timepoints[time_idx]<p.timestamp_ms; time_idx++) {
                 points.push({
                     timestamp_ms: timepoints[time_idx],
-                    score: tot_score,
+                    score: p.score,
                     idx0: ''+idx,
                 });
+                last_score = p.score;
             }
-            tot_score += sub.gained_score;
         });
         for(; time_idx<timepoints.length-1; time_idx++) {
             points.push({
                 timestamp_ms: timepoints[time_idx],
-                score: tot_score,
+                score: last_score,
                 idx0: ''+idx,
             });
         }
