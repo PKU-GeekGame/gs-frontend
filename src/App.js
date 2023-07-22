@@ -100,10 +100,13 @@ function BoardRouter() {
     );
 }
 
-function PageStateReporter() {
+function AnticheatReporter() {
     let info = useGameInfo();
 
     useEffect(()=>{
+        if(!(info.user && info.user.terms_agreed))
+            return;
+
         function on_focus() {
             fetch(`${SYBIL_ROOT}event?name=focus&tabid=${TABID}`, {
                 method: 'POST',
@@ -116,15 +119,30 @@ function PageStateReporter() {
                 credentials: 'include',
             });
         }
-
-        if(info.user && info.user.terms_agreed) {
-            window.addEventListener('focus', on_focus);
-            window.addEventListener('blur', on_blur);
-            return ()=>{
-                window.removeEventListener('focus', on_focus);
-                window.removeEventListener('blur', on_blur);
-            };
+        function on_paste(e) {
+            let upload = {};
+            e.clipboardData.types.forEach((t)=>{
+                let data = e.clipboardData.getData(t);
+                upload[t] = data.slice(0, 2048);
+            });
+            fetch(`${SYBIL_ROOT}event?name=paste&tabid=${TABID}`, {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(upload),
+            });
         }
+
+        window.addEventListener('focus', on_focus);
+        window.addEventListener('blur', on_blur);
+        document.addEventListener('paste', on_paste);
+        return ()=>{
+            window.removeEventListener('focus', on_focus);
+            window.removeEventListener('blur', on_blur);
+            document.removeEventListener('paste', on_paste);
+        };
     }, [info.user]);
 
     return null;
@@ -133,7 +151,7 @@ function PageStateReporter() {
 export function App() {
     return (
         <div>
-            <PageStateReporter />
+            <AnticheatReporter />
             <Header />
             <div className="main-container">
                 <Alert.ErrorBoundary>
