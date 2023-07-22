@@ -56,7 +56,7 @@ export default function TopStarPlot({data}) {
 
     data.topstars.forEach((topstar) => {
         topstar.history.forEach((p) => {
-            timepoints[sub[0]]=true;
+            timepoints[p[0]]=true;
         });
     });
     timepoints = [
