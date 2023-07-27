@@ -154,7 +154,7 @@ function Transition({children}) {
     let [phase, set_phase] = useState('in');
     const location = useLocation();
     const [display_location, set_display_location] = useState(location);
-    let last_transision = useRef(()=>+new Date());
+    let last_transision = useRef(0);
 
     useEffect(()=>{
         if(location === display_location)

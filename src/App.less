@@ -20,7 +20,7 @@
 }
 
 .main-container-out {
-    animation: 64ms main-fadeout ease-in forwards;
+    animation: 64ms main-fadeout ease-out forwards;
 }
 .main-container-in {
     animation: 48ms main-fadein ease-out none;
@@ -28,10 +28,10 @@
 
 @keyframes main-fadeout {
     0% { opacity: 1; transform: translateY(0); }
-    100% { opacity: .3; transform: translateY(8px); }
+    100% { opacity: .3; transform: translateY(6px); }
 }
 @keyframes main-fadein {
-    0% { opacity: .3; transform: translateY(-4px); }
+    0% { opacity: .5; transform: translateY(-3px); }
     100% { opacity: 1; transform: translateY(0); }
 }
 
