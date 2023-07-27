@@ -1,4 +1,4 @@
-import {lazy, Suspense, useState, useEffect} from 'react';
+import {lazy, Suspense, useState, useEffect, memo} from 'react';
 import {Alert, Skeleton, Table, Tooltip, Button, message, Tag} from 'antd';
 import {HistoryOutlined, SyncOutlined, LoadingOutlined, FireOutlined} from '@ant-design/icons';
 import LazyLoad, {forceCheck} from 'react-lazyload';
@@ -202,7 +202,7 @@ function BoardContent({data, last_reloaded}) {
         return <Alert type="error" message={`未知排行榜类型 ${data.type}`} showIcon />;
 }
 
-export function Board({name}) {
+export const Board = memo(function Board({name}) {
     let [error, data, load_data] = useWishData('board/'+name);
     let [last_reloaded, do_reload, reload_btn] = useReloadButton(load_data, 3, 300);
 
@@ -242,4 +242,4 @@ export function Board({name}) {
             }
         </div>
     );
-}
+});

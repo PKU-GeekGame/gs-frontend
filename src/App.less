@@ -19,6 +19,22 @@
     padding-right: @body-padding;
 }
 
+.main-container-out {
+    animation: 64ms main-fadeout ease-in forwards;
+}
+.main-container-in {
+    animation: 48ms main-fadein ease-out none;
+}
+
+@keyframes main-fadeout {
+    0% { opacity: 1; transform: translateY(0); }
+    100% { opacity: .3; transform: translateY(8px); }
+}
+@keyframes main-fadein {
+    0% { opacity: .3; transform: translateY(-4px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
 .slim-container {
     max-width: 850px;
     margin: 0 auto;

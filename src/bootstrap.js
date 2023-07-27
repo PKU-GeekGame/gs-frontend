@@ -29,7 +29,7 @@ let component = (
             }
         }}
     >
-        <HashRouter>
+        <HashRouter future={{v7_startTransition: true}}>
             <Alert.ErrorBoundary>
                 <GameInfoProvider>
                     <AntdApp>

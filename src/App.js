@@ -1,5 +1,5 @@
-import {useEffect} from 'react';
-import {Route, Routes, useNavigate, Navigate, useParams} from 'react-router-dom';
+import {useEffect, useState, useRef, useMemo} from 'react';
+import {Route, Routes, useNavigate, Navigate, useParams, useLocation} from 'react-router-dom';
 import {Menu, Alert} from 'antd';
 import {NotificationOutlined, FileTextOutlined, CarryOutOutlined, FundOutlined, AimOutlined} from '@ant-design/icons';
 
@@ -148,14 +148,56 @@ function AnticheatReporter() {
     return null;
 }
 
+const TRANSITION_THROTTLE_MS = 400;
+
+function Transition({children}) {
+    let [phase, set_phase] = useState('in');
+    const location = useLocation();
+    const [display_location, set_display_location] = useState(location);
+    let last_transision = useRef(()=>+new Date());
+
+    useEffect(()=>{
+        if(location === display_location)
+            return;
+
+        let cur = +new Date();
+        if(cur - last_transision.current > TRANSITION_THROTTLE_MS) {
+            set_phase('out');
+        }
+        else {
+            set_phase('in');
+            set_display_location(location);
+        }
+        last_transision.current = cur;
+    }, [location, display_location]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const child = useMemo(()=>children(display_location), [display_location]);
+
+    return (
+        <div
+            className={`main-container main-container-${phase}`}
+            onAnimationEnd={()=>{
+                if(phase==='out') {
+                    set_phase('in');
+                    set_display_location(location);
+                }
+            }}
+        >
+            {child}
+        </div>
+    );
+}
+
 export function App() {
     return (
         <div>
             <AnticheatReporter />
             <Header />
-            <div className="main-container">
+
+            <Transition>{(location)=>(
                 <Alert.ErrorBoundary>
-                    <Routes>
+                    <Routes location={location}>
                         <Route exact path="/" element={<Navigate to="/game" replace />} />
                         <Route exact path="/game" element={<Game />} />
                         <Route exact path="/game/:challenge" element={<Game />} />
@@ -178,7 +220,7 @@ export function App() {
                         <Route path="*" element={<NotFound />} />
                     </Routes>
                 </Alert.ErrorBoundary>
-            </div>
+            )}</Transition>
             <Footer />
         </div>
     );
