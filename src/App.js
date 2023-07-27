@@ -1,7 +1,6 @@
-import {useEffect, useState, useRef, useMemo} from 'react';
+import {useEffect} from 'react';
 import {Route, Routes, useNavigate, Navigate, useParams, useLocation} from 'react-router-dom';
 import {Menu, Alert} from 'antd';
-import {CSSTransition, SwitchTransition} from 'react-transition-group';
 import {NotificationOutlined, FileTextOutlined, CarryOutOutlined, FundOutlined, AimOutlined} from '@ant-design/icons';
 
 import {License} from './page/License';
@@ -16,6 +15,7 @@ import {Terms} from './page/Terms';
 import {LoginOther} from './page/LoginOther';
 import {Header} from './widget/Header';
 import {Footer} from './widget/Footer';
+import {Transition} from './widget/Transition';
 import {TemplateFile} from './widget/Template';
 import {useGameInfo} from './logic/GameInfo';
 import {NotFound} from './utils'
@@ -149,81 +149,33 @@ function AnticheatReporter() {
     return null;
 }
 
-const TRANSITION_THROTTLE_MS = 400;
-
-function Transition({children}) {
-    let [phase, set_phase] = useState('in');
-    const location = useLocation();
-    const [display_location, set_display_location] = useState(location);
-    let last_transision = useRef(0);
-
-    useEffect(()=>{
-        if(location === display_location)
-            return;
-
-        let cur = +new Date();
-        if(cur - last_transision.current > TRANSITION_THROTTLE_MS) {
-            set_phase('out');
-        }
-        else {
-            set_phase('in');
-            set_display_location(location);
-        }
-        last_transision.current = cur;
-    }, [location, display_location]);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    const child = useMemo(()=>children(display_location), [display_location]);
-
-    return (
-        <div
-            className={`main-container main-container-${phase}`}
-            onAnimationEnd={()=>{
-                if(phase==='out') {
-                    set_phase('in');
-                    set_display_location(location);
-                }
-            }}
-        >
-            {child}
-        </div>
-    );
-}
-
 function AppMain() {
     let location = useLocation();
 
     return (
-        <SwitchTransition>
-            <CSSTransition
-                key={location.pathname}
-                classNames="app-transition"
-                timeout={80}
-                unmountOnExit
-            >
-                <Routes location={location}>
-                    <Route exact path="/" element={<Navigate to="/game" replace />} />
-                    <Route exact path="/game" element={<Game />} />
+        <Transition cur={location.pathname}>
+            <Routes location={location}>
+                <Route exact path="/" element={<Navigate to="/game" replace />} />
+                <Route exact path="/game" element={<Game />} />
 
-                    <Route exact path="/board" element={<Navigate to="/board/score_pku" replace />} />
-                    <Route exact path="/board/:name" element={<BoardRouter />} />
+                <Route exact path="/board" element={<Navigate to="/board/score_pku" replace />} />
+                <Route exact path="/board/:name" element={<BoardRouter />} />
 
-                    <Route exact path="/info" element={<Navigate to="/info/announcements" replace />} />
-                    <Route exact path="/info/:page" element={<InfoRouter />} />
+                <Route exact path="/info" element={<Navigate to="/info/announcements" replace />} />
+                <Route exact path="/info/:page" element={<InfoRouter />} />
 
-                    <Route exact path="/user/profile" element={<UserProfile />} />
-                    <Route exact path="/user/submissions" element={<UserSubmissions />} />
-                    <Route exact path="/user/terms" element={<Terms />} />
+                <Route exact path="/user/profile" element={<UserProfile />} />
+                <Route exact path="/user/submissions" element={<UserSubmissions />} />
+                <Route exact path="/user/terms" element={<Terms />} />
 
-                    <Route exact path="/login/other" element={<LoginOther />} />
+                <Route exact path="/login/other" element={<LoginOther />} />
 
-                    <Route exact path="/writeup" element={<Writeup />} />
-                    <Route exact path="/license" element={<License />} />
+                <Route exact path="/writeup" element={<Writeup />} />
+                <Route exact path="/license" element={<License />} />
 
-                    <Route path="*" element={<NotFound />} />
-                </Routes>
-            </CSSTransition>
-        </SwitchTransition>
+                <Route path="*" element={<NotFound />} />
+            </Routes>
+        </Transition>
     );
 }
 

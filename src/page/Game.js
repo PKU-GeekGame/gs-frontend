@@ -1,6 +1,5 @@
 import {Fragment, useMemo, useState, useEffect} from 'react';
 import {useNavigate, useSearchParams} from 'react-router-dom';
-import {SwitchTransition, CSSTransition} from 'react-transition-group';
 import {Skeleton, message, Button, Empty, Tag, Alert, Input, Tooltip, Popover, Card, Table} from 'antd';
 import {
     PieChartFilled,
@@ -25,6 +24,7 @@ import {Announcement} from './Announcements';
 import {useGameInfo} from '../logic/GameInfo';
 import {TemplateFile, TemplateStr} from '../widget/Template';
 import {ChallengeIcon, FlagIcon} from '../widget/ChallengeIcon';
+import {Transition} from '../widget/Transition';
 import {TokenWidget} from '../widget/TokenWidget';
 import {UserName, UserGroupTag, UserBadges} from '../widget/UserBadges';
 import {LookingGlassLink} from '../widget/LookingGlassLink';
@@ -444,21 +444,14 @@ function Portal() {
                         }
                     />
                 }
-                <SwitchTransition>
-                    <CSSTransition
-                        key={active_challenge_key}
-                        classNames="app-transition"
-                        timeout={80}
-                        unmountOnExit
-                    >
-                        {active_challenge!==null ?
-                            <Challenge ch={active_challenge} do_reload_list={()=>load_data(false)} />:
-                        (active_challenge_key!==null && data!==null) ?
-                            <NotFound /> :
-                            <TemplateFile name="game" />
-                        }
-                    </CSSTransition>
-                </SwitchTransition>
+                <Transition cur={active_challenge_key}>
+                    {active_challenge!==null ?
+                        <Challenge ch={active_challenge} do_reload_list={()=>load_data(false)} />:
+                    (active_challenge_key!==null && data!==null) ?
+                        <NotFound /> :
+                        <TemplateFile name="game" />
+                    }
+                </Transition>
             </div>
         </div>
     );
