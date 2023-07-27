@@ -19,20 +19,24 @@
     padding-right: @body-padding;
 }
 
-.main-container-out {
-    animation: 64ms main-fadeout ease-out forwards;
+.app-transition-enter {
+    opacity: .3;
+    transform: translateY(-4px);
 }
-.main-container-in {
-    animation: 48ms main-fadein ease-out none;
+.app-transition-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 64ms ease-out, transform 64ms ease-out;
 }
 
-@keyframes main-fadeout {
-    0% { opacity: 1; transform: translateY(0); }
-    100% { opacity: .3; transform: translateY(6px); }
+.app-transition-exit {
+    opacity: 1;
+    transform: translateY(0);
 }
-@keyframes main-fadein {
-    0% { opacity: .5; transform: translateY(-3px); }
-    100% { opacity: 1; transform: translateY(0); }
+.app-transition-exit-active {
+    opacity: .2;
+    transform: translateY(8px);
+    transition: opacity 80ms ease-out, transform 80ms ease-out;
 }
 
 .slim-container {

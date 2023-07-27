@@ -1,5 +1,6 @@
 import {Fragment, useMemo, useState, useEffect} from 'react';
-import {useNavigate, useParams} from 'react-router-dom';
+import {useNavigate, useSearchParams} from 'react-router-dom';
+import {SwitchTransition, CSSTransition} from 'react-transition-group';
 import {Skeleton, message, Button, Empty, Tag, Alert, Input, Tooltip, Popover, Card, Table} from 'antd';
 import {
     PieChartFilled,
@@ -277,9 +278,7 @@ function PortalUserInfo({info}) {
     );
 }
 
-function PortalChallengeList({list, active_key}) {
-    let nav = useNavigate();
-
+function PortalChallengeList({list, active_key, set_active_key}) {
     return (
         <div className="portal-chall-list">
             {list===null ?
@@ -297,7 +296,7 @@ function PortalChallengeList({list, active_key}) {
                         <Fragment key={ch.key}>
                             <div
                                 className={`portal-chall-row${active_key===ch.key ? ' portal-chall-row-active' : ''}`}
-                                onClick={()=>nav('/game/'+ch.key)}
+                                onClick={()=>set_active_key(ch.key)}
                             >
                                 <div className="portal-chall-col-title">
                                     <span className="portal-chall-category-badge">
@@ -339,9 +338,9 @@ function Portal() {
     let [error, data, load_data] = useWishData('game');
     let nav = useNavigate();
     let [last_reloaded, do_reload, reload_btn] = useReloadButton(load_data, 3, 600);
-    let params = useParams();
+    let [params, set_params] = useSearchParams();
 
-    let active_challenge_key = params.challenge===undefined ? null : params.challenge;
+    let active_challenge_key = params.get('challenge');
 
     let active_challenge = useMemo(()=>{
         if(data!==null && data.challenge_list!==null)
@@ -413,7 +412,7 @@ function Portal() {
                             }
                         </div>
                         <PortalUserInfo info={data.user_info} />
-                        <PortalChallengeList list={data.challenge_list} active_key={active_challenge_key} />
+                        <PortalChallengeList list={data.challenge_list} active_key={active_challenge_key} set_active_key={(k)=>set_params({challenge: k})} />
                     </>
                 }
             </div>
@@ -445,12 +444,21 @@ function Portal() {
                         }
                     />
                 }
-                {active_challenge!==null ?
-                    <Challenge ch={active_challenge} do_reload_list={()=>load_data(false)} />:
-                (active_challenge_key!==null && data!==null) ?
-                    <NotFound /> :
-                    <TemplateFile name="game" />
-                }
+                <SwitchTransition>
+                    <CSSTransition
+                        key={active_challenge_key}
+                        classNames="app-transition"
+                        timeout={80}
+                        unmountOnExit
+                    >
+                        {active_challenge!==null ?
+                            <Challenge ch={active_challenge} do_reload_list={()=>load_data(false)} />:
+                        (active_challenge_key!==null && data!==null) ?
+                            <NotFound /> :
+                            <TemplateFile name="game" />
+                        }
+                    </CSSTransition>
+                </SwitchTransition>
             </div>
         </div>
     );

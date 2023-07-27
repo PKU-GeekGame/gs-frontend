@@ -1,6 +1,7 @@
 import {useEffect, useState, useRef, useMemo} from 'react';
 import {Route, Routes, useNavigate, Navigate, useParams, useLocation} from 'react-router-dom';
 import {Menu, Alert} from 'antd';
+import {CSSTransition, SwitchTransition} from 'react-transition-group';
 import {NotificationOutlined, FileTextOutlined, CarryOutOutlined, FundOutlined, AimOutlined} from '@ant-design/icons';
 
 import {License} from './page/License';
@@ -189,38 +190,54 @@ function Transition({children}) {
     );
 }
 
+function AppMain() {
+    let location = useLocation();
+
+    return (
+        <SwitchTransition>
+            <CSSTransition
+                key={location.pathname}
+                classNames="app-transition"
+                timeout={80}
+                unmountOnExit
+            >
+                <Routes location={location}>
+                    <Route exact path="/" element={<Navigate to="/game" replace />} />
+                    <Route exact path="/game" element={<Game />} />
+
+                    <Route exact path="/board" element={<Navigate to="/board/score_pku" replace />} />
+                    <Route exact path="/board/:name" element={<BoardRouter />} />
+
+                    <Route exact path="/info" element={<Navigate to="/info/announcements" replace />} />
+                    <Route exact path="/info/:page" element={<InfoRouter />} />
+
+                    <Route exact path="/user/profile" element={<UserProfile />} />
+                    <Route exact path="/user/submissions" element={<UserSubmissions />} />
+                    <Route exact path="/user/terms" element={<Terms />} />
+
+                    <Route exact path="/login/other" element={<LoginOther />} />
+
+                    <Route exact path="/writeup" element={<Writeup />} />
+                    <Route exact path="/license" element={<License />} />
+
+                    <Route path="*" element={<NotFound />} />
+                </Routes>
+            </CSSTransition>
+        </SwitchTransition>
+    );
+}
+
 export function App() {
     return (
         <div>
             <AnticheatReporter />
             <Header />
 
-            <Transition>{(location)=>(
+            <div className="main-container">
                 <Alert.ErrorBoundary>
-                    <Routes location={location}>
-                        <Route exact path="/" element={<Navigate to="/game" replace />} />
-                        <Route exact path="/game" element={<Game />} />
-                        <Route exact path="/game/:challenge" element={<Game />} />
-
-                        <Route exact path="/board" element={<Navigate to="/board/score_pku" replace />} />
-                        <Route exact path="/board/:name" element={<BoardRouter />} />
-
-                        <Route exact path="/info" element={<Navigate to="/info/announcements" replace />} />
-                        <Route exact path="/info/:page" element={<InfoRouter />} />
-
-                        <Route exact path="/user/profile" element={<UserProfile />} />
-                        <Route exact path="/user/submissions" element={<UserSubmissions />} />
-                        <Route exact path="/user/terms" element={<Terms />} />
-
-                        <Route exact path="/login/other" element={<LoginOther />} />
-
-                        <Route exact path="/writeup" element={<Writeup />} />
-                        <Route exact path="/license" element={<License />} />
-
-                        <Route path="*" element={<NotFound />} />
-                    </Routes>
+                    <AppMain />
                 </Alert.ErrorBoundary>
-            )}</Transition>
+            </div>
             <Footer />
         </div>
     );
