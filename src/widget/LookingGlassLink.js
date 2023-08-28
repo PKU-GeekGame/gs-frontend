@@ -22,7 +22,7 @@ export function LookingGlassLink({children, nickname, uid}) {
     return (<>
         {linked_children}
         <Modal
-            title={`${nickname}（#${uid}）的得分历史记录`}
+            title={`${nickname}（#${uid}）的得分记录`}
             open={state===1} onCancel={()=>set_state(2)}
             footer={null}
             destroyOnClose={true}

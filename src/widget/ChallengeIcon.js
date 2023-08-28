@@ -1,4 +1,5 @@
 import {MinusSquareTwoTone, CheckSquareTwoTone, FlagTwoTone, BorderOutlined} from '@ant-design/icons';
+import {Tag} from 'antd';
 
 import './ChallengeIcon.less';
 
@@ -20,4 +21,15 @@ export function FlagIcon({status}) {
         return <FlagTwoTone className="flag-icon-passed" twoToneColor="#1ab500" />;
     else
         return '??';
+}
+
+export function CategoryBadge({color, children}) {
+    if(children===null)
+        return null;
+
+    return (
+        <span className="category-badge">
+            <Tag color={color}>{children}</Tag>
+        </span>
+    );
 }

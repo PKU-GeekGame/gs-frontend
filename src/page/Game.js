@@ -23,7 +23,7 @@ import {Reloader} from './GameLoading';
 import {Announcement} from './Announcements';
 import {useGameInfo} from '../logic/GameInfo';
 import {TemplateFile, TemplateStr} from '../widget/Template';
-import {ChallengeIcon, FlagIcon} from '../widget/ChallengeIcon';
+import {ChallengeIcon, FlagIcon, CategoryBadge} from '../widget/ChallengeIcon';
 import {Transition} from '../widget/Transition';
 import {TokenWidget} from '../widget/TokenWidget';
 import {UserName, UserGroupTag, UserBadges} from '../widget/UserBadges';
@@ -299,9 +299,7 @@ function PortalChallengeList({list, active_key, set_active_key}) {
                                 onClick={()=>set_active_key(ch.key)}
                             >
                                 <div className="portal-chall-col-title">
-                                    <span className="portal-chall-category-badge">
-                                        <Tag color={ch.category_color}>{ch.category}</Tag>
-                                    </span>
+                                    <CategoryBadge color={ch.category_color}>{ch.category}</CategoryBadge>
                                     <ChallengeIcon status={ch.status} /> {ch.title}
                                     {ch.flags.length>1 && <span className="portal-chall-caret"><CaretDownOutlined /></span>}
                                 </div>

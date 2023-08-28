@@ -1,7 +1,7 @@
 import {Skeleton, Table, Tag} from 'antd';
 
 import {Reloader} from './GameLoading';
-import {FlagIcon} from '../widget/ChallengeIcon';
+import {FlagIcon, CategoryBadge} from '../widget/ChallengeIcon';
 import {useWishData} from '../wish';
 import {format_ts} from '../utils';
 
@@ -23,11 +23,14 @@ export function SubmissionsTable({others_uid}) {
             }}
         >
             <Table.Column title="提交时间" dataIndex="timestamp_s" render={(text)=>format_ts(text)} />
-            <Table.Column title="题目" dataIndex="challenge_title" />
+            <Table.Column title="题目" key="challenge_title" render={(_text, record)=>(<>
+                <CategoryBadge color={record.category_color}>{record.category}</CategoryBadge>
+                {record.challenge_title}
+            </>)} />
             <Table.Column title="Flag" dataIndex="matched_flag" render={(text)=>
                 text===null ?
-                    <><FlagIcon status="untouched" /> 未匹配</> :
-                    <><FlagIcon status="passed" /> 成功匹配 {text}</>
+                    <><FlagIcon status="untouched" /> 不正确</> :
+                    <><FlagIcon status="passed" /> {text || 'Flag'}</>
             } />
             {others_uid===null &&
                 <Table.Column title="备注" dataIndex="overrides" render={(overrides)=>
@@ -36,7 +39,7 @@ export function SubmissionsTable({others_uid}) {
                     ))
                 } />
             }
-            <Table.Column title="获得分数" dataIndex="gained_score" />
+            <Table.Column title="得分" dataIndex="gained_score" />
         </Table>
     );
 }
