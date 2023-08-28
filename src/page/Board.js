@@ -25,7 +25,7 @@ function ChallengeStatus({ch, record}) {
                     <p key={idx}>
                         <FlagIcon status={flg===null ? 'untouched' : 'passed'} />{' '}
                         {name}：
-                        {flg===null ? '尚未通过' : `(+${flg.gained_score}) ${format_ts(flg.timestamp_s)}`}
+                        {flg===null ? '尚未通过' : `(+${flg[1]}) ${format_ts(flg[0])}`}
                     </p>
                 );
             })}
@@ -46,7 +46,7 @@ function ChallengeTooltip({ch, record}) {
 
     let icon = (
         <span className="board-challenge-status-icon">
-            <ChallengeIcon status={record.challenge_status[ch.key]} />
+            <ChallengeIcon status={record.challenge_status[ch.key] || 'untouched'} />
         </span>
     );
 
