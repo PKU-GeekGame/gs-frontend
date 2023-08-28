@@ -1,5 +1,5 @@
 import {Tooltip, Tag} from 'antd';
-import {HeartTwoTone, StarTwoTone, InfoCircleTwoTone} from '@ant-design/icons';
+import {HeartTwoTone, StarTwoTone, InfoCircleTwoTone, LikeTwoTone} from '@ant-design/icons';
 
 import './UserBadges.less';
 
@@ -10,10 +10,11 @@ export function UserBadges({badges}) {
     let icons = [];
     for(let badge of badges) {
         if(badge==='girl')
-            icons.push(<Tooltip key={badge} title="具有女生特别奖资格"><HeartTwoTone
-                twoToneColor="#eb2f96" /></Tooltip>);
+            icons.push(<Tooltip key={badge} title="具有女生特别奖资格"><HeartTwoTone twoToneColor="#eb2f96" /></Tooltip>);
         else if(badge==='rookie')
             icons.push(<Tooltip key={badge} title="具有新生特别奖资格"><StarTwoTone /></Tooltip>);
+        else if(badge==='thanks')
+            icons.push(<Tooltip key={badge} title="崇高道德的赞许"><LikeTwoTone twoToneColor="#ff0000" /></Tooltip>);
         else if(badge.startsWith('remark:'))
             icons.push(<Tooltip key={badge} title={badge.substring(7)}><InfoCircleTwoTone twoToneColor="#ff6600" /></Tooltip>);
         else
