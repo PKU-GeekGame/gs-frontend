@@ -3,13 +3,13 @@
 }
 
 .app-transition-enter {
-    opacity: .3;
-    transform: translateY(-4px);
+    opacity: 0;
+    transform: translateY(-3px);
 }
 .app-transition-enter-active {
     opacity: 1;
     transform: translateY(0);
-    transition: opacity 67ms ease-out, transform 67ms ease-out;
+    transition: opacity 83ms ease-out, transform 83ms ease-out;
 }
 
 .app-transition-exit {
@@ -17,7 +17,7 @@
     transform: translateY(0) scaleX(1);
 }
 .app-transition-exit-active {
-    opacity: .2;
+    opacity: 0;
     transform: translateY(8px) scaleX(.98);
     transition: opacity 83ms ease-out, transform 83ms ease-out;
 }
