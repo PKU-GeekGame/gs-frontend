@@ -83,7 +83,7 @@ function UserProfileForm() {
                         </Form.Item>
                     }
                     {info.user.profile.gender!==undefined &&
-                        <Form.Item name="gender" label="性别" extra="用于确认女生特别奖资格，请如实选择，选择后无法修改">
+                        <Form.Item name="gender" label="性别">
                             <Radio.Group buttonStyle="solid">
                                 <Radio.Button value="male">男</Radio.Button>
                                 <Radio.Button value="female">女</Radio.Button>
