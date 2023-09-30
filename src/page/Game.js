@@ -132,8 +132,9 @@ function TouchedUsersTable({ch}) {
 
 function FlagInput({do_reload_list, ch}) {
     let [loading, set_loading] = useState(false);
+    let [flag, set_flag] = useState('');
 
-    function do_submit(flag) {
+    function do_submit() {
         if(!flag)
             return;
 
@@ -146,6 +147,7 @@ function FlagInput({do_reload_list, ch}) {
         })
             .then((res)=>{
                 set_loading(false);
+                set_flag('');
                 if(res.error)
                     message.error({content: res.error_msg, key: 'FlagInput', duration: 3});
                 else {
@@ -158,6 +160,8 @@ function FlagInput({do_reload_list, ch}) {
     return (
         <div>
             <Input.Search
+                value={flag}
+                onChange={(e)=>set_flag(e.target.value)}
                 size="large"
                 addonBefore={
                     ch.flags.length>1 ?
