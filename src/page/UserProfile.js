@@ -126,7 +126,7 @@ function UserProfileForm() {
                 </Form>
                 {info.user.group==='pku' && <>
                     <br />
-                    <Alert type="info" showIcon message="请正确填写以便赛后联系和颁奖，同时请加入选手 QQ 群 TODO" />
+                    <Alert type="info" showIcon message="请正确填写以便赛后联系和颁奖，同时请加入第三届选手 QQ 群 895754285" />
                 </>}
             </Card>
             <br />
