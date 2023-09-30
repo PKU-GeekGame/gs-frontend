@@ -11,6 +11,23 @@ import {Cap, to_auth} from '../utils';
 
 import "./Header.less";
 
+function Logo({cur_url}) {
+    if(cur_url==="/license") {
+        let date = new Date();
+        let is_online = (
+            date.getHours()<16 ||
+            (date.getHours()===16 && date.getMinutes()<3) ||
+            (date.getHours()===16 && date.getMinutes()===3 && date.getSeconds()<5)
+        );
+        if(is_online)
+            return <img src="sakiko-sticker.jpg" alt="" title="客服S为您服务" className="game-logo" />;
+        else
+            return <img src="sakiko-sticker.jpg" alt="" title="（人工客服离线）" className="game-logo" style={{filter: 'grayscale()'}} />;
+    } else {
+        return GAME_LOGO;
+    }
+}
+
 export function Header() {
     let game_info = useGameInfo();
     let loc = useLocation();
@@ -27,10 +44,7 @@ export function Header() {
             <div className="header">
                 <div className="header-logo">
                     <span className="clickable" onClick={()=>nav('/')}>
-                        {cur_key==="/license" ?
-                            <img src="you-sticker.png" alt="" title="ヒトリダケナンテエラベイナイヨ" className="game-logo" style={{backgroundColor: "#bdb"}} /> :
-                            GAME_LOGO
-                        }
+                        <Logo cur_url={cur_key} />
                         {GAME_TITLE}
                     </span>
                 </div>
