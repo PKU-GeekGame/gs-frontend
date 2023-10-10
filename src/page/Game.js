@@ -215,7 +215,7 @@ function Challenge({ch, do_reload_list}) {
 
     return (
         <div className="challenge-body">
-            <h1>{ch.title}</h1>
+            <h1>{ch.title}<small>#{ch.key}</small></h1>
             <p className="challenge-stat">
                 <Tag color="default">
                     基础分值 {ch.tot_base_score}
