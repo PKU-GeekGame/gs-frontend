@@ -12,11 +12,9 @@ import {
     FlagOutlined,
     SolutionOutlined,
     CodepenOutlined,
-    HomeOutlined,
-    GlobalOutlined,
     CarryOutOutlined,
     FileTextOutlined,
-    FireOutlined
+    LoginOutlined
 } from '@ant-design/icons';
 
 import {Reloader} from './GameLoading';
@@ -29,7 +27,7 @@ import {TokenWidget} from '../widget/TokenWidget';
 import {UserName, UserGroupTag, UserBadges} from '../widget/UserBadges';
 import {LookingGlassLink} from '../widget/LookingGlassLink';
 import {useWishData, wish} from '../wish';
-import {TimestampAgo, NotFound, useReloadButton, to_auth, format_ts} from '../utils';
+import {TimestampAgo, NotFound, useReloadButton, format_ts} from '../utils';
 import {WEB_TERMINAL_ADDR, ATTACHMENT_ROOT} from '../branding';
 
 import './Game.less';
@@ -101,14 +99,11 @@ function TouchedUsersTable({ch}) {
                         <UserBadges badges={record.badges} />
                     </>
                     )}
-                    filters={[
-                        {text: '北京大学选手', value: 'pku'},
-                        {text: '其他选手', value: 'other'},
-                    ]}
+                    filters={info.feature.tot_board_groups.map(([g, name])=>(
+                        {text: name, value: g}
+                    ))}
                     onFilter={(value, record)=>(
-                        value==='pku'? record.group_disp==='北京大学' :
-                        value==='other'? record.group_disp!=='北京大学' :
-                                true
+                        value ? record.group===value : true
                     )}
                     filterMultiple={false}
                 />
@@ -233,13 +228,6 @@ function Challenge({ch, do_reload_list}) {
                 {!!ch.metadata.author &&
                     <Tag color="default">
                         命题人：{ch.metadata.author}
-                    </Tag>
-                }
-                {!!ch.metadata.first_blood_award_eligible &&
-                    <Tag color="default">
-                        <a href="#/board/first_pku">
-                            <b><FireOutlined /> 解题先锋奖</b>
-                        </a>
                     </Tag>
                 }
             </p>
@@ -470,9 +458,7 @@ export function Game() {
                 <div className="landing-login-form">
                     <Card type="inner" size="small" bordered={false}>
                         <b>报名参赛：</b>
-                        <Button type="primary" onClick={()=>to_auth('pku/redirect')}><HomeOutlined /> 北京大学登录</Button>
-                        {' '}
-                        <Button onClick={()=>window.location.href='#/login/other'}><GlobalOutlined /> 校外选手</Button>
+                        <Button type="primary" onClick={()=>window.location.href='#/login/form'}><LoginOutlined /> 校外选手</Button>
                     </Card>
                 </div>
             </div>

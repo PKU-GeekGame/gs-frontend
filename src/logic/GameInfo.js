@@ -23,6 +23,7 @@ export let GameInfoCtx = createContext({
             game: false,
             push: false,
             templates: [],
+            tot_board_groups: [],
         },
     },
     reload_info: ()=>{},

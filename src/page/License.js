@@ -9,7 +9,7 @@ export function License() {
             <Card>
                 <p><b>关于本平台的使用许可：</b></p>
                 <p>
-                    Guiding Star 是为了 PKU GeekGame 而开发的 CTF 比赛平台，<ExtLink href="https://github.com/PKU-GeekGame/guiding-star">在 GitHub 开放源代码</ExtLink>。
+                    Guiding Star 是为了 PKU GeekGame 等比赛开发的 CTF 比赛平台，<ExtLink href="https://github.com/PKU-GeekGame/guiding-star">在 GitHub 开放源代码</ExtLink>。
                 </p>
                 <p>
                     允许任何人在 MIT 协议（如下）的要求下部署或二次开发本平台。

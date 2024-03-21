@@ -2,7 +2,7 @@ import {useNavigate, useLocation} from 'react-router-dom';
 import {Menu} from 'antd';
 import {
     UnorderedListOutlined, CrownOutlined, NotificationOutlined, UserOutlined, LoginOutlined, CaretDownOutlined,
-    EditOutlined, FileProtectOutlined, DisconnectOutlined, HomeOutlined, GlobalOutlined, HistoryOutlined
+    EditOutlined, FileProtectOutlined, DisconnectOutlined, HistoryOutlined
 } from '@ant-design/icons';
 
 import {useGameInfo} from '../logic/GameInfo';
@@ -12,20 +12,7 @@ import {Cap, to_auth} from '../utils';
 import "./Header.less";
 
 function Logo({cur_url}) {
-    if(cur_url==="/license") {
-        let date = new Date();
-        let is_online = (
-            date.getHours()<16 ||
-            (date.getHours()===16 && date.getMinutes()<3) ||
-            (date.getHours()===16 && date.getMinutes()===3 && date.getSeconds()<5)
-        );
-        if(is_online)
-            return <img src="sakiko-sticker.jpg" alt="" title="客服S为您服务" className="game-logo" />;
-        else
-            return <img src="sakiko-sticker.jpg" alt="" title="（人工客服离线）" className="game-logo" style={{filter: 'grayscale()'}} />;
-    } else {
-        return GAME_LOGO;
-    }
+    return GAME_LOGO;
 }
 
 export function Header() {
@@ -106,30 +93,9 @@ export function Header() {
                                     },
                                 ],
                             }] : [{
-                                key: '_/login',
+                                key: '/login/form',
                                 icon: <LoginOutlined />,
-                                label: (<>
-                                    参赛
-                                    <span className="header-nav-caret"><CaretDownOutlined /></span>
-                                </>),
-
-                                className: 'header-nav-login',
-                                popupClassName: 'header-nav-popup',
-                                popupOffset: [-6, 2],
-
-                                children: [
-                                    {
-                                        key: '_/login/pku',
-                                        icon: <HomeOutlined />,
-                                        label: '北京大学登录',
-                                        onClick: ()=>to_auth('pku/redirect'),
-                                    },
-                                    {
-                                        key: '/login/other',
-                                        icon: <GlobalOutlined />,
-                                        label: '校外选手',
-                                    },
-                                ],
+                                label: '参赛',
                             }]),
                         ]}
                     />

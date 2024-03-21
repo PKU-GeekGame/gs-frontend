@@ -1,6 +1,6 @@
 import {lazy, Suspense, useState, useEffect, memo} from 'react';
-import {Alert, Skeleton, Table, Tooltip, Button, message, Tag} from 'antd';
-import {HistoryOutlined, SyncOutlined, LoadingOutlined, FireOutlined} from '@ant-design/icons';
+import {Alert, Skeleton, Table, Tooltip, Button, message} from 'antd';
+import {HistoryOutlined, SyncOutlined, LoadingOutlined} from '@ant-design/icons';
 import LazyLoad, {forceCheck} from 'react-lazyload';
 
 import {Reloader} from './GameLoading';
@@ -170,13 +170,6 @@ function FirstBloodBoardContent({data}) {
                 {text===null ? (
                     record.flags_count>1 ? '解出所有 Flag' : '解出 Flag'
                 ) : text}
-                {!!(text===null && record.challenge_metadata.first_blood_award_eligible) &&
-                    <Tooltip title="首个完全解出的校内选手可获得此题的解题先锋奖">
-                        {' '}<Tag color="#a00">
-                            <FireOutlined twoToneColor="red" /> 解题先锋奖
-                        </Tag>
-                    </Tooltip>
-                }
             </>)} />
             <Table.Column title="一血获得者" key="user" render={(_text, record)=>(
                 record.nickname!==null &&

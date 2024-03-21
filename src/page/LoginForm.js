@@ -3,9 +3,9 @@ import {GithubOutlined, WindowsOutlined, HomeOutlined} from '@ant-design/icons';
 
 import {to_auth} from '../utils';
 
-import './LoginOther.less';
+import './LoginForm.less';
 
-export function LoginOther() {
+export function LoginForm() {
     return (
         <div className="slim-container">
             <Alert showIcon message={<b>校外选手注意事项</b>} description={<>

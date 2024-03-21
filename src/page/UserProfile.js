@@ -78,7 +78,7 @@ function UserProfileForm() {
             <Card title="公开资料" {...card_style}>
                 <Form name="public" {...form_style}>
                     {info.user.profile.nickname!==undefined &&
-                        <Form.Item name="nickname" label="昵称" extra="如包含不适宜内容可能会被强制修改、封禁账号或追究责任">
+                        <Form.Item name="nickname" label="昵称" extra="如包含不适宜内容可能会被强制修改或追究责任">
                             <Input maxLength={20} showCount placeholder="（将显示在排行榜上）" {...input_style} />
                         </Form.Item>
                     }
@@ -100,10 +100,6 @@ function UserProfileForm() {
                     <br />
                     <Alert type="error" showIcon message="由于违反规则，你的参赛资格已被取消。如有疑问请联系工作人员。" />
                 </>}
-                {info.user.group==='other' && <>
-                    <br />
-                    <Alert type="info" showIcon message="你的身份不是北京大学在校学生，将不参与评奖。如有疑问请联系工作人员。" />
-                </>}
             </Card>
             <br />
             <Card title="联系方式" {...card_style}>
@@ -124,21 +120,19 @@ function UserProfileForm() {
                         </Form.Item>
                     }
                 </Form>
-                {info.user.group==='pku' && <>
-                    <br />
-                    <Alert type="info" showIcon message="请正确填写以便赛后联系和颁奖，同时请加入第三届选手 QQ 群 895754285" />
-                </>}
+                <br/>
+                <Alert type="info" showIcon message="请加入选手 QQ 群 TODO，便于联系工作人员"/>
             </Card>
-            <br />
-            <Card title="其他信息" {...card_style}>
-                <Form name="other" {...form_style}>
-                    {info.user.profile.comment!==undefined &&
+            <br/>
+            {info.user.profile.comment!==undefined &&
+                <Card title="其他信息" {...card_style}>
+                    <Form name="other" {...form_style}>
                         <Form.Item name="comment" label="了解比赛的渠道">
                             <Input maxLength={100} placeholder="（可不填）" {...input_style} />
                         </Form.Item>
-                    }
-                </Form>
-            </Card>
+                    </Form>
+                </Card>
+            }
             <br />
             <Form name="submit">
                 <Button type="primary" size="large" block htmlType="submit" disabled={!changed} ref={submit_btn}>

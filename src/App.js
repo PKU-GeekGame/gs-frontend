@@ -12,7 +12,7 @@ import {Announcements} from './page/Announcements';
 import {Triggers} from './page/Triggers';
 import {UserProfile} from './page/UserProfile';
 import {Terms} from './page/Terms';
-import {LoginOther} from './page/LoginOther';
+import {LoginForm} from './page/LoginForm';
 import {Header} from './widget/Header';
 import {Footer} from './widget/Footer';
 import {Transition} from './widget/Transition';
@@ -66,6 +66,7 @@ function InfoRouter() {
 
 function BoardRouter() {
     let {name} = useParams();
+    let info = useGameInfo();
     let nav = useNavigate();
 
     return (
@@ -75,16 +76,6 @@ function BoardRouter() {
                 selectedKeys={[name]} onSelect={(e)=>{nav(`/board/${e.key}`);}}
                 items={[
                     {
-                        key: 'score_pku',
-                        icon: <FundOutlined />,
-                        label: '北京大学排名',
-                    },
-                    {
-                        key: 'first_pku',
-                        icon: <AimOutlined />,
-                        label: '北京大学一血榜',
-                    },
-                    {
                         key: 'score_all',
                         icon: <FundOutlined />,
                         label: '总排名',
@@ -93,6 +84,24 @@ function BoardRouter() {
                         key: 'first_all',
                         icon: <AimOutlined />,
                         label: '总一血榜',
+                    },
+                    {
+                        key: 'score_category',
+                        icon: <FundOutlined />,
+                        label: '赛区排名',
+                        children: info.feature.tot_board_groups.map(([g, name])=>({
+                            label: `score_${g}`,
+                            key: name,
+                        })),
+                    },
+                    {
+                        key: 'first_category',
+                        icon: <AimOutlined />,
+                        label: '赛区一血榜',
+                        children: info.feature.tot_board_groups.map(([g, name])=>({
+                            label: `first_${g}`,
+                            key: name,
+                        })),
                     },
                 ]}
             />
@@ -158,7 +167,7 @@ function AppMain() {
                 <Route exact path="/" element={<Navigate to="/game" replace />} />
                 <Route exact path="/game" element={<Game />} />
 
-                <Route exact path="/board" element={<Navigate to="/board/score_pku" replace />} />
+                <Route exact path="/board" element={<Navigate to="/board/score_all" replace />} />
                 <Route exact path="/board/:name" element={<BoardRouter />} />
 
                 <Route exact path="/info" element={<Navigate to="/info/announcements" replace />} />
@@ -168,7 +177,7 @@ function AppMain() {
                 <Route exact path="/user/submissions" element={<UserSubmissions />} />
                 <Route exact path="/user/terms" element={<Terms />} />
 
-                <Route exact path="/login/other" element={<LoginOther />} />
+                <Route exact path="/login/form" element={<LoginForm />} />
 
                 <Route exact path="/writeup" element={<Writeup />} />
                 <Route exact path="/license" element={<License />} />
