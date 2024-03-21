@@ -13,6 +13,9 @@ export function LoginForm() {
             <div className="login-instruction">
                 <p><b>报名须知</b></p>
                 <p>
+                    TODO: 报名须知
+                </p>
+                <p>
                     <Button size="large" onClick={()=>to_auth('microsoft/login')}>
                         <RightCircleOutlined /> 报名
                     </Button>
