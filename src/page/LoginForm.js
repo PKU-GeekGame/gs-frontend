@@ -1,8 +1,6 @@
 import {Button, Input} from 'antd';
 import {RightCircleOutlined} from '@ant-design/icons';
 
-import {to_auth} from '../utils';
-
 import './LoginForm.less';
 
 export function LoginForm() {
@@ -12,12 +10,10 @@ export function LoginForm() {
 
             <div className="login-instruction">
                 <p><b>报名须知</b></p>
+                <pre style={{textAlign: 'left'}}>TODO: 报名须知。报名须知。报名须知。报名须知。报名须知。报名须知。报名须知。报名须知。报名须知。报名须知。报名须知。报名须知。报名须知。报名须知。报名须知。</pre>
                 <p>
-                    TODO: 报名须知
-                </p>
-                <p>
-                    <Button size="large" onClick={()=>to_auth('microsoft/login')}>
-                        <RightCircleOutlined /> 报名
+                    <Button type="primary" size="large" onClick={()=>window.open('https://example.com/TODO')}>
+                        <RightCircleOutlined /> 报名比赛
                     </Button>
                 </p>
 
@@ -28,7 +24,7 @@ export function LoginForm() {
                 <p><b>登录</b></p>
                 <form action="/service/auth/token" method="get">
                     <p>
-                        <Input addonBefore="密码" style={{width: '320px'}} placeholder="（报名后将通过邮件发送给您）" size="large" />
+                        <Input name="token" addonBefore="密码" style={{width: '350px'}} placeholder="报名通过后将通过邮件发送给您" size="large" />
                     </p>
                     <p>
                         <Button size="large" htmlType="submit">

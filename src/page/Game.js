@@ -455,12 +455,7 @@ export function Game() {
             <div className="slim-container">
                 <TemplateFile name="game" />
                 <br />
-                <div className="landing-login-form">
-                    <Card type="inner" size="small" bordered={false}>
-                        <b>报名参赛：</b>
-                        <Button type="primary" onClick={()=>window.location.href='#/login/form'}><LoginOutlined /> 校外选手</Button>
-                    </Card>
-                </div>
+                <Button type="primary" size="large" onClick={()=>window.location.href='#/login/form'}><LoginOutlined /> 报名参赛</Button>
             </div>
         );
     else
