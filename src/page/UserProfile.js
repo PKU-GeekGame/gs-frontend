@@ -19,7 +19,7 @@ function UserProfileForm() {
         return (
             <Alert
                 type="error" showIcon
-                message="未登录" description="请登录后修改个人资料"
+                message="未登录" description="请登录后修改队伍资料"
             />
         );
 
@@ -146,7 +146,7 @@ function UserProfileForm() {
 export function UserProfile() {
     return (
         <div className="slim-container user-profile-container">
-            <h1>个人资料</h1>
+            <h1>队伍资料</h1>
             <UserProfileForm />
         </div>
     );

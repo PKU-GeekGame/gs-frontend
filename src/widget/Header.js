@@ -72,7 +72,7 @@ export function Header() {
                                     {
                                         key: '/user/profile',
                                         icon: <EditOutlined />,
-                                        label: '个人资料',
+                                        label: '队伍资料',
                                     },
                                     {
                                         key: '/user/submissions',
