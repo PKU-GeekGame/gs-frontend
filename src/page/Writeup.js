@@ -14,8 +14,6 @@ function WriteupForm() {
 
     let [uploading, set_uploading] = useState(false);
     let [file, set_file] = useState(null);
-    let [publish, set_publish] = useState('Maybe');
-    let [rights, set_rights] = useState('CC-BY-NC');
 
     if(error)
         return <Reloader message={error.error_msg} reload={load_data} />;
@@ -30,8 +28,6 @@ function WriteupForm() {
 
         let form = new FormData();
         form.append('file', file);
-        form.append('publish', publish);
-        form.append('rights', rights);
 
         set_uploading(true);
 
@@ -121,50 +117,11 @@ function WriteupForm() {
                                 {file ? <>
                                     {(file.size/1024/1024).toFixed(2)}MB
                                 </> : <>
-                                    文件格式：建议使用 .md, .pdf, .pptx, .7z, .zip 之一<br />
+                                    文件格式：建议使用 .md, .pdf, .docx, .7z, .zip 之一<br />
                                     文件大小：上限 {data.max_size_mb}MB，但一个正常的 Writeup 应当 <b>远小于</b> 此大小
                                 </>}
                             </p>
                         </Upload.Dragger>
-                    </Form.Item>
-
-                    <Form.Item label="是否公开" help={
-                        publish==='Always-Yes' ?
-                            <><b>此 Writeup 的内容将在赛后公开</b>，用于学习交流</> :
-                        publish==='Maybe' ?
-                            <>赛后将公开一些高质量或者含有特殊解法的选手 Writeup 用于学习交流，<b>你将允许我们酌情公开或者不公开此 Writeup 的内容</b></> :
-                        publish==='Always-No' ?
-                            <><b>此 Writeup 的内容将不会被公开给其他选手</b>，但命题人依然会出于反作弊目的检查此 Writeup</> :
-                            <>({publish})</>
-                    }>
-                        <Radio.Group buttonStyle="solid" value={publish} onChange={(e)=>set_publish(e.target.value)} disabled={uploading}>
-                            <Radio.Button value="Always-Yes">始终公开</Radio.Button>
-                            <Radio.Button value="Maybe">可以公开（默认）</Radio.Button>
-                            <Radio.Button value="Always-No">不公开</Radio.Button>
-                        </Radio.Group>
-                    </Form.Item>
-
-                    <Form.Item label="权利" help={
-                        rights==='All-Rights-Reserved' ?
-                            <>除非你明确允许，读者 <b>不得转载或改编</b> 此 Writeup 的内容</> :
-                        rights==='CC-BY-NC' ?
-                            <>
-                                此 Writeup 将按照 <ExtLink href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</ExtLink>
-                                {' '}协议允许读者 <b>在注明出处的情况下非商业使用</b> 其中的内容
-                            </> :
-                        rights==='CC0' ?
-                            <>
-                                <b>你将放弃对此 Writeup 的所有权利</b>，
-                                按照 <ExtLink href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 1.0</ExtLink>
-                                {' '}协议允许读者任意使用其中的内容
-                            </> :
-                            <>({rights})</>
-                    }>
-                        <Radio.Group buttonStyle="solid" value={rights} onChange={(e)=>set_rights(e.target.value)} disabled={uploading}>
-                            <Radio.Button value="All-Rights-Reserved">保留所有权利</Radio.Button>
-                            <Radio.Button value="CC-BY-NC">允许非商业使用</Radio.Button>
-                            <Radio.Button value="CC0">允许任意使用</Radio.Button>
-                        </Radio.Group>
                     </Form.Item>
 
                     <Button block type="primary" size="large" htmlType="submit" disabled={uploading || file===null}>
