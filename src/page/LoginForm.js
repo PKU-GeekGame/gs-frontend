@@ -11,7 +11,7 @@ export function LoginForm() {
             <br />
 
             <div className="login-instruction">
-                <p><b>报名须知</b></p>
+                <p><b>- 报名须知 -</b></p>
                 <div style={{textAlign: 'left'}}>
                     <TemplateFile name="registration" />
                 </div>
@@ -27,10 +27,10 @@ export function LoginForm() {
                 <br />
                 <br />
 
-                <p><b>登录</b></p>
+                <p><b>- 登录 -</b></p>
                 <form action="/service/auth/token" method="get">
                     <p>
-                        <Input name="token" addonBefore="密码" placeholder="报名通过后将通过邮件发送给您" size="large" />
+                        <Input name="token" addonBefore="密码" required placeholder="报名通过后将通过邮件发送给您" size="large" />
                     </p>
                     <Button size="large" block htmlType="submit">
                         <RightCircleOutlined/> 进入比赛
