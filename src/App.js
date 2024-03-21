@@ -1,7 +1,7 @@
 import {useEffect} from 'react';
 import {Route, Routes, useNavigate, Navigate, useParams, useLocation} from 'react-router-dom';
 import {Menu, Alert} from 'antd';
-import {NotificationOutlined, FileTextOutlined, CarryOutOutlined, FundOutlined, AimOutlined} from '@ant-design/icons';
+import {NotificationOutlined, FileTextOutlined, CarryOutOutlined, FundOutlined, AimOutlined, CaretDownFilled} from '@ant-design/icons';
 
 import {License} from './page/License';
 import {Board} from './page/Board';
@@ -88,19 +88,19 @@ function BoardRouter() {
                     {
                         key: 'score_category',
                         icon: <FundOutlined />,
-                        label: '赛区排名',
+                        label: <>赛区排名 <CaretDownFilled /></>,
                         children: info.feature.tot_board_groups.map(([g, name])=>({
-                            label: `score_${g}`,
-                            key: name,
+                            key: `score_${g}`,
+                            label: name,
                         })),
                     },
                     {
                         key: 'first_category',
                         icon: <AimOutlined />,
-                        label: '赛区一血榜',
+                        label: <>赛区一血榜 <CaretDownFilled /></>,
                         children: info.feature.tot_board_groups.map(([g, name])=>({
-                            label: `first_${g}`,
-                            key: name,
+                            key: `first_${g}`,
+                            label: name,
                         })),
                     },
                 ]}
