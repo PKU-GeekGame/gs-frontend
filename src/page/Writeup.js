@@ -1,10 +1,9 @@
 import {useState} from 'react';
-import {Skeleton, Alert, Form, Radio, Upload, message, Button, Card} from 'antd';
+import {Skeleton, Alert, Form, Upload, message, Button, Card} from 'antd';
 import {FileAddOutlined, FileDoneOutlined, UploadOutlined} from '@ant-design/icons';
 
 import {Reloader} from './GameLoading';
 import {useWishData, WISH_VER} from '../wish';
-import {ExtLink} from '../utils';
 import {WISH_ROOT, WRITEUP_INSTRUCTION} from '../branding';
 
 import './Writeup.less';

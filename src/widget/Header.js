@@ -96,6 +96,7 @@ export function Header() {
                                 key: '/login/form',
                                 icon: <LoginOutlined />,
                                 label: '参赛',
+                                className: 'header-nav-login',
                             }]),
                         ]}
                     />
