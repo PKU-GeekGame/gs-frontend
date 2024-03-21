@@ -455,7 +455,7 @@ export function Game() {
             <div className="slim-container">
                 <TemplateFile name="game" />
                 <br />
-                <Button type="primary" size="large" onClick={()=>window.location.href='#/login/form'}><LoginOutlined /> 报名参赛</Button>
+                <Button type="primary" size="large" block onClick={()=>window.location.href='#/login/form'}><LoginOutlined /> 报名参赛</Button>
             </div>
         );
     else
