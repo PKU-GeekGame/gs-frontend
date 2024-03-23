@@ -219,9 +219,9 @@ function Challenge({ch, do_reload_list}) {
                 <a onClick={()=>set_display_touched_users(x => !x)}>
                     <Tag color="default">
                         {display_touched_users ? <UpOutlined /> : <CaretDownOutlined />}{' '}
-                        共 {ch.passed_users_count} 人通过
+                        共 {ch.passed_users_count} 支队伍通过
                         {ch.touched_users_count>ch.passed_users_count && <>
-                            （{ch.touched_users_count} 人部分通过）
+                            （{ch.touched_users_count} 支队伍部分通过）
                         </>}
                     </Tag>
                 </a>
