@@ -12,4 +12,4 @@ export function Footer() {
             </p>
         </div>
     );
-}``
+}
