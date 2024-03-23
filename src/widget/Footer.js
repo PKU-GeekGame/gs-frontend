@@ -1,16 +1,15 @@
 import {GithubOutlined} from '@ant-design/icons';
 
 import './Footer.less';
+import {ExtLink} from '../utils';
 
 export function Footer() {
     return (
         <div className="footer">
             <p>
-                Project <b>Guiding Star</b> by PKUGGG Team
+                Powered by Project <b><ExtLink href="https://github.com/PKU-GeekGame/guiding-star">Guiding Star</ExtLink></b>
                 {process.env.REACT_APP_BUILD_INFO ? ' ('+process.env.REACT_APP_BUILD_INFO+')' : null}
-                <br />
-                <a href="#/license"><GithubOutlined /> 开放源代码</a>
             </p>
         </div>
     );
-}
+}``

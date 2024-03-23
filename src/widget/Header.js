@@ -6,14 +6,10 @@ import {
 } from '@ant-design/icons';
 
 import {useGameInfo} from '../logic/GameInfo';
-import {GAME_TITLE, GAME_LOGO} from '../branding';
+import {GAME_TITLE} from '../branding';
 import {Cap, to_auth} from '../utils';
 
 import "./Header.less";
-
-function Logo({cur_url}) {
-    return GAME_LOGO;
-}
 
 export function Header() {
     let game_info = useGameInfo();
@@ -31,7 +27,6 @@ export function Header() {
             <div className="header">
                 <div className="header-logo">
                     <span className="clickable" onClick={()=>nav('/')}>
-                        <Logo cur_url={cur_key} />
                         {GAME_TITLE}
                     </span>
                 </div>

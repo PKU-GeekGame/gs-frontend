@@ -3,7 +3,6 @@ import {Route, Routes, useNavigate, Navigate, useParams, useLocation} from 'reac
 import {Menu, Alert} from 'antd';
 import {NotificationOutlined, FileTextOutlined, CarryOutOutlined, FundOutlined, AimOutlined, CaretDownFilled} from '@ant-design/icons';
 
-import {License} from './page/License';
 import {Board} from './page/Board';
 import {UserSubmissions} from './page/UserSubmissions';
 import {Writeup} from './page/Writeup';
@@ -180,7 +179,6 @@ function AppMain() {
                 <Route exact path="/login/form" element={<LoginForm />} />
 
                 <Route exact path="/writeup" element={<Writeup />} />
-                <Route exact path="/license" element={<License />} />
 
                 <Route path="*" element={<NotFound />} />
             </Routes>
