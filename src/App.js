@@ -80,11 +80,6 @@ function BoardRouter() {
                         label: '总排名',
                     },
                     {
-                        key: 'first_all',
-                        icon: <AimOutlined />,
-                        label: '总一血榜',
-                    },
-                    {
                         key: 'score_category',
                         icon: <FundOutlined />,
                         label: <>赛区排名 <CaretDownFilled /></>,
@@ -92,6 +87,11 @@ function BoardRouter() {
                             key: `score_${g}`,
                             label: name,
                         })),
+                    },
+                    {
+                        key: 'first_all',
+                        icon: <AimOutlined />,
+                        label: '一血榜',
                     },
                     /*{
                         key: 'first_category',

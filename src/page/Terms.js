@@ -36,10 +36,10 @@ export function Terms() {
             {info.user!==null && (
                 info.user.terms_agreed ?
                     <Button type="primary" size="large" block disabled>
-                        <CheckCircleOutlined /> 已同意参赛须知
+                        <CheckCircleOutlined /> 本队伍已同意参赛须知
                     </Button> :
                     <Button type="primary" size="large" block onClick={agree_term}>
-                        <CheckCircleOutlined /> 我理解并同意参赛须知
+                        <CheckCircleOutlined /> 本队伍已理解并同意参赛须知
                     </Button>
             )}
         </div>
