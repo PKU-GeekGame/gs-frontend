@@ -1,5 +1,3 @@
-import {GithubOutlined} from '@ant-design/icons';
-
 import './Footer.less';
 import {ExtLink} from '../utils';
 

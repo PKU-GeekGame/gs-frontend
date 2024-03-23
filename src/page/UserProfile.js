@@ -77,23 +77,15 @@ function UserProfileForm() {
         >
             <Card title="公开资料" {...card_style}>
                 <Form name="public" {...form_style}>
-                    {info.user.profile.nickname!==undefined &&
-                        <Form.Item name="nickname" label="队伍名称">
-                            <Input maxLength={30} showCount placeholder="（将显示在排行榜上）" {...input_style} />
-                        </Form.Item>
-                    }
-                    {info.user.profile.gender!==undefined &&
-                        <Form.Item name="gender" label="性别">
-                            <Radio.Group buttonStyle="solid">
-                                <Radio.Button value="male">男</Radio.Button>
-                                <Radio.Button value="female">女</Radio.Button>
-                                <Radio.Button value="other">其他</Radio.Button>
-                            </Radio.Group>
-                        </Form.Item>
-                    }
-                    <Form.Item label="赛区" extra={`UID: #${info.user.id}`}>
+                    <Form.Item label="队伍名称">
+                        <b>{info.user.profile.nickname}</b>
+                    </Form.Item>
+                    <Form.Item label="组别">
                         <UserGroupTag>{info.user.group_disp}</UserGroupTag>
                         <UserBadges badges={info.user.badges} />
+                    </Form.Item>
+                    <Form.Item label="UID">
+                        #{info.user.id}
                     </Form.Item>
                 </Form>
                 {info.user.group==='banned' && <>
