@@ -19,7 +19,7 @@ function UserProfileForm() {
         return (
             <Alert
                 type="error" showIcon
-                message="未登录" description="请登录后修改队伍资料"
+                message="未登录" description="请登录后查看队伍资料"
             />
         );
 
@@ -78,8 +78,8 @@ function UserProfileForm() {
             <Card title="公开资料" {...card_style}>
                 <Form name="public" {...form_style}>
                     {info.user.profile.nickname!==undefined &&
-                        <Form.Item name="nickname" label="昵称" extra="如包含不适宜内容可能会被强制修改或追究责任">
-                            <Input maxLength={20} showCount placeholder="（将显示在排行榜上）" {...input_style} />
+                        <Form.Item name="nickname" label="队伍名称">
+                            <Input maxLength={30} showCount placeholder="（将显示在排行榜上）" {...input_style} />
                         </Form.Item>
                     }
                     {info.user.profile.gender!==undefined &&
@@ -91,18 +91,18 @@ function UserProfileForm() {
                             </Radio.Group>
                         </Form.Item>
                     }
-                    <Form.Item label="用户组" extra={`UID: #${info.user.id}`}>
+                    <Form.Item label="赛区" extra={`UID: #${info.user.id}`}>
                         <UserGroupTag>{info.user.group_disp}</UserGroupTag>
                         <UserBadges badges={info.user.badges} />
                     </Form.Item>
                 </Form>
                 {info.user.group==='banned' && <>
                     <br />
-                    <Alert type="error" showIcon message="由于违反规则，你的参赛资格已被取消。如有疑问请联系工作人员。" />
+                    <Alert type="error" showIcon message="由于违反规则，此队伍的参赛资格已被取消。如有疑问请联系工作人员。" />
                 </>}
             </Card>
             <br />
-            <Card title="联系方式" {...card_style}>
+            {/* <Card title="联系方式" {...card_style}>
                 <Form name="contact" {...form_style}>
                     {info.user.profile.tel!==undefined &&
                         <Form.Item name="tel" label="电话号码">
@@ -121,7 +121,7 @@ function UserProfileForm() {
                     }
                 </Form>
                 <br/>
-                <Alert type="info" showIcon message="请加入选手 QQ 群 TODO，便于联系工作人员"/>
+                <Alert type="info" showIcon message="请加入选手 QQ 群，便于联系工作人员"/>
             </Card>
             <br/>
             {info.user.profile.comment!==undefined &&
@@ -139,6 +139,7 @@ function UserProfileForm() {
                     <CheckCircleOutlined /> 保存
                 </Button>
             </Form>
+            */}
         </Form.Provider>
     );
 }
