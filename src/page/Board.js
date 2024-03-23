@@ -100,7 +100,7 @@ function ScoreBoardContent({data, last_reloaded}) {
                 }}
             >
                 <Table.Column title="#" dataIndex="rank" />
-                <Table.Column title="昵称" key="name" className="board-col-bold" render={(_text, record)=>(
+                <Table.Column title="队伍" key="name" className="board-col-bold" render={(_text, record)=>(
                     <LazyLoad
                         once={true} offset={150}
                         placeholder={record.nickname}
@@ -171,7 +171,7 @@ function FirstBloodBoardContent({data}) {
                     record.flags_count>1 ? '解出所有 Flag' : '解出 Flag'
                 ) : text}
             </>)} />
-            <Table.Column title="一血获得者" key="user" render={(_text, record)=>(
+            <Table.Column title="一血队伍" key="user" render={(_text, record)=>(
                 record.nickname!==null &&
                     <>
                         <UserName name={record.nickname} />
