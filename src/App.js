@@ -93,7 +93,7 @@ function BoardRouter() {
                             label: name,
                         })),
                     },
-                    {
+                    /*{
                         key: 'first_category',
                         icon: <AimOutlined />,
                         label: <>赛区一血榜 <CaretDownFilled /></>,
@@ -101,7 +101,7 @@ function BoardRouter() {
                             key: `first_${g}`,
                             label: name,
                         })),
-                    },
+                    },*/
                 ]}
             />
             <Board key={name} name={name} />
