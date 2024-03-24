@@ -5,6 +5,8 @@ import {TemplateFile} from '../widget/Template';
 
 import './LoginForm.less';
 
+const LOGIN_URL = 'https://wj.sjtu.edu.cn/q/eaTKoZWg';
+
 export function LoginForm() {
     return (
         <div className="slim-container">
@@ -18,7 +20,7 @@ export function LoginForm() {
                 <br />
 
                 <div>
-                    <Button type="primary" size="large" block onClick={()=>window.open('https://example.com/TODO')}>
+                    <Button type="primary" size="large" block onClick={()=>{window.location.href=LOGIN_URL;}}>
                         <RightCircleOutlined /> 报名参赛
                     </Button>
                 </div>
