@@ -49,7 +49,6 @@ export function Announcements() {
 
     return (
         <div className="announcement-list">
-            <Pagination current={page} onChange={(x)=>set_page(x)} total={data.list.length} pageSize={PAGE_SIZE} />
             {cur_data.map((ann)=>(
                 <Announcement key={ann.id} announcement={ann} />
             ))}
