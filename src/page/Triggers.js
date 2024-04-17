@@ -43,7 +43,7 @@ export function Triggers() {
                     dot: {'pst': null, 'prs': <ClockCircleOutlined />, 'ftr': null}[trigger.status],
                     label: (
                         <WithStatus status={trigger.status}>
-                            {trigger.timestamp_s===0 ? '--' : format_ts(trigger.timestamp_s)}
+                            {trigger.timestamp_s===0 ? '--' : format_ts(trigger.timestamp_s, false)}
                         </WithStatus>
                     ),
                     children: (
