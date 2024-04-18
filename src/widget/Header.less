@@ -106,3 +106,14 @@
 .header-buttons {
     margin-left: 1em;
 }
+
+@media (max-width: @header-breakpoint) {
+    // hide icon for antd menu to save space on mobile
+
+    .ant-menu-item-icon {
+        display: none !important;
+    }
+    .ant-menu-item-icon+.ant-menu-title-content {
+        margin-inline-start: 0 !important;
+    }
+}
