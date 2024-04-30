@@ -104,7 +104,7 @@ function ScoreBoardContent({data, last_reloaded}) {
                 pagination={{
                     position: ['bottomCenter'],
                     pageSize: 20,
-                    defaultCurrent: Math.floor(showing_idx / 20),
+                    defaultCurrent: 1 + Math.floor(showing_idx / 20),
                     pageSizeOptions: [10, 20, 50],
                     showSizeChanger: true,
                     hideOnSinglePage: false,
