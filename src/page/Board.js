@@ -1,7 +1,6 @@
 import {lazy, Suspense, useState, useEffect, memo} from 'react';
 import {Alert, Skeleton, Table, Tooltip, Button, message} from 'antd';
 import {HistoryOutlined, SyncOutlined, LoadingOutlined} from '@ant-design/icons';
-import LazyLoad, {forceCheck} from 'react-lazyload';
 
 import {Reloader} from './GameLoading';
 import {ChallengeIcon, FlagIcon} from '../widget/ChallengeIcon';
@@ -68,9 +67,9 @@ function ScoreBoardContent({data, last_reloaded}) {
     let info = useGameInfo();
     let cur_uid = info.user!==null ? info.user.id : null;
 
-    let challenges_placeholder = (
+    /* let challenges_placeholder = (
         <div style={{height: '1.5em', width: `${1.65*data.challenges.length}em`, backgroundColor: '#eee'}} />
-    );
+    ); */
 
     useEffect(()=>{
         forceCheck();
@@ -87,7 +86,14 @@ function ScoreBoardContent({data, last_reloaded}) {
             <Table
                 size="small"
                 dataSource={data.list}
-                pagination={false}
+                pagination={{
+                    position: ['bottomCenter'],
+                    pageSize: 20,
+                    pageSizeOptions: [10, 20, 50],
+                    showSizeChanger: true,
+                    hideOnSinglePage: true,
+                    showTotal: (total, range) => `${range[0]}~${range[1]}`,
+                }}
                 rowKey="rank"
                 scroll={{
                     x: 'max-content',
@@ -100,32 +106,23 @@ function ScoreBoardContent({data, last_reloaded}) {
                 }}
             >
                 <Table.Column title="#" dataIndex="rank" />
-                <Table.Column title="队伍" key="name" className="board-col-bold" render={(_text, record)=>(
-                    <LazyLoad
-                        once={true} offset={150}
-                        placeholder={record.nickname}
-                    >
-                        <UserName name={record.nickname} />
-                        {record.group_disp===null ? null : <>&nbsp;&nbsp;<UserGroupTag>{record.group_disp}</UserGroupTag></>}
-                        <UserBadges badges={record.badges} />
-                    </LazyLoad>
-                )} />
-                <Table.Column title="总分" dataIndex="score" className="board-col-bold" render={(text, record)=>(
+                <Table.Column title="队伍" key="name" className="board-col-bold" render={(_text, record)=>(<>
+                    <UserName name={record.nickname} />
+                    {record.group_disp===null ? null : <>&nbsp;&nbsp;<UserGroupTag>{record.group_disp}</UserGroupTag></>}
+                    <UserBadges badges={record.badges} />
+                </>)} />
+                <Table.Column title="实践赛总分" dataIndex="score" className="board-col-bold" render={(text, record)=>(
                     <LookingGlassLink uid={record.uid} nickname={record.nickname}>{text}</LookingGlassLink>
                 )} />
                 <Table.Column title="最后提交时间" dataIndex="last_succ_submission_ts" render={(text)=>(
-                    format_ts(text)
+                    text ? format_ts(text) : '--'
                 )} />
                 <Table.Column title="答题进度" key="challenges" render={(_text, record)=>(
-                    <LazyLoad
-                        once={true} offset={150}
-                        placeholder={challenges_placeholder}
-                    >
-                        {data.challenges.map((ch)=>(
-                            <ChallengeTooltip key={ch.key} ch={ch} record={record} />
-                        ))}
-                    </LazyLoad>
+                    data.challenges.map((ch)=>(
+                        <ChallengeTooltip key={ch.key} ch={ch} record={record} />
+                    ))
                 )} />
+                <Table.Column title="理论赛总分" dataIndex="score_offset" className="board-col-bold" />
             </Table>
         </div>
     );
