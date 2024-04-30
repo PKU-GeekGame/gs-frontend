@@ -79,6 +79,17 @@ function ScoreBoardContent({data, last_reloaded}) {
 
     */
 
+    let showing_idx = 0;
+    if(cur_uid) {
+        for(let idx in data.list) {
+            idx = parseInt(idx, 10);
+            if(data.list[idx].uid === cur_uid) {
+                showing_idx = idx;
+                break;
+            }
+        }
+    }
+
     return (
         <div className="scoreboard">
             <Alert.ErrorBoundary>
@@ -93,9 +104,10 @@ function ScoreBoardContent({data, last_reloaded}) {
                 pagination={{
                     position: ['bottomCenter'],
                     pageSize: 20,
+                    defaultCurrent: Math.floor(showing_idx / 20),
                     pageSizeOptions: [10, 20, 50],
                     showSizeChanger: true,
-                    hideOnSinglePage: true,
+                    hideOnSinglePage: false,
                     showTotal: (total, range) => `${range[0]}~${range[1]}`,
                 }}
                 rowKey="rank"
@@ -118,15 +130,15 @@ function ScoreBoardContent({data, last_reloaded}) {
                 <Table.Column title="实践赛总分" dataIndex="score" className="board-col-bold" render={(text, record)=>(
                     <LookingGlassLink uid={record.uid} nickname={record.nickname}>{text}</LookingGlassLink>
                 )} />
-                <Table.Column title="最后提交时间" dataIndex="last_succ_submission_ts" render={(text)=>(
-                    text ? format_ts(text) : '--'
-                )} />
+                <Table.Column title="理论赛总分" dataIndex="score_offset" className="board-col-bold" />
                 <Table.Column title="答题进度" key="challenges" render={(_text, record)=>(
                     data.challenges.map((ch)=>(
                         <ChallengeTooltip key={ch.key} ch={ch} record={record} />
                     ))
                 )} />
-                <Table.Column title="理论赛总分" dataIndex="score_offset" className="board-col-bold" />
+                <Table.Column title="最后提交时间" dataIndex="last_succ_submission_ts" render={(text)=>(
+                    text ? format_ts(text) : '--'
+                )} />
             </Table>
         </div>
     );
