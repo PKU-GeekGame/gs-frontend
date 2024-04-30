@@ -67,13 +67,17 @@ function ScoreBoardContent({data, last_reloaded}) {
     let info = useGameInfo();
     let cur_uid = info.user!==null ? info.user.id : null;
 
-    /* let challenges_placeholder = (
+    /*
+
+    let challenges_placeholder = (
         <div style={{height: '1.5em', width: `${1.65*data.challenges.length}em`, backgroundColor: '#eee'}} />
-    ); */
+    );
 
     useEffect(()=>{
         forceCheck();
     }, [data]);
+
+    */
 
     return (
         <div className="scoreboard">
