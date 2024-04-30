@@ -225,11 +225,11 @@ function Challenge({ch, do_reload_list}) {
                         </>}
                     </Tag>
                 </a>
-                {!!ch.metadata.author &&
+                {/*!!ch.metadata.author &&
                     <Tag color="default">
                         命题人：{ch.metadata.author}
                     </Tag>
-                }
+                */}
             </p>
             <br />
             {!!display_touched_users && <>
