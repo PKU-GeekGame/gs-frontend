@@ -108,7 +108,8 @@ function ScoreBoardContent({data, last_reloaded}) {
                     pageSizeOptions: [10, 20, 50],
                     showSizeChanger: true,
                     hideOnSinglePage: false,
-                    showTotal: (total, range) => `${range[0]}~${range[1]}`,
+                    size: 'default',
+                    showTotal: (total, range) => `#${range[0]} ~ #${range[1]}`,
                 }}
                 rowKey="rank"
                 scroll={{
