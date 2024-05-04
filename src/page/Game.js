@@ -238,7 +238,7 @@ function Challenge({ch, do_reload_list}) {
             </>}
             <ChallengeBody ch={ch} />
             {ch.status==='passed' ?
-                <Alert type="success" showIcon message="你已经通过此题" /> :
+                <Alert type="success" showIcon message="已经通过此题" /> :
                 <FlagInput key={ch.key} do_reload_list={do_reload_list} ch={ch} />
             }
             <br />

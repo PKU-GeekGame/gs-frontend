@@ -67,10 +67,10 @@ function WriteupForm() {
         <div>
             {data.writeup_required ?
                 <Alert showIcon type="info" message={<>
-                    按照比赛规则，你 <b>需要</b> 在截止时间前提交 Writeup
+                    按照比赛规则，本队伍 <b>需要</b> 在截止时间前提交 Writeup
                 </>} /> :
                 <Alert showIcon type="info" message={<>
-                    按照比赛规则，你 <b>不需要</b> 提交 Writeup，但在截止时间前可以自愿提交
+                    按照比赛规则，本队伍 <b>不需要</b> 提交 Writeup，但在截止时间前可以自愿提交
                 </>} />
             }
             <br />
@@ -81,7 +81,7 @@ function WriteupForm() {
                             <li key={k}>{k}: {data.submitted_metadata[k]}</li>
                         ))}
                     </ul>
-                    <p>在截止时间前，你可以提交新的 Writeup 来覆盖上述内容</p>
+                    <p>在截止时间前，可以提交新的 Writeup 来覆盖上述内容</p>
                 </>} /> :
                 <Alert showIcon type="info" message="尚未提交 Writeup" />
             }
