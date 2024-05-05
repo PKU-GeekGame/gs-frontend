@@ -45,7 +45,7 @@ function ChallengeAction({action, ch}) {
             你可以 <a href={`https://${action.host}/docker-manager/start?${info.user.token}`} target="_blank">访问{action.name}</a>
             {' '}
             <Popover trigger="click" content={<div>
-                <p>本题为每名选手分配一个独立的后端环境，参见 <a href="#/info/faq">FAQ：关于 Web 题目环境</a></p>
+                <p>本题为每个队伍分配一个独立的后端环境，参见 <a href="#/info/faq">FAQ：如何使用 Web 题目环境</a></p>
                 <p>如果题目出现问题可以手动关闭环境，下次访问时将启动新的环境</p>
                 <Button block danger onClick={()=>{
                     window.open(`https://${action.host}/docker-manager/stop?${info.user.token}`);
