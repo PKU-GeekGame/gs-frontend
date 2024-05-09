@@ -128,6 +128,7 @@ function ScoreBoardContent({data, last_reloaded}) {
                     {record.group_disp===null ? null : <>&nbsp;&nbsp;<UserGroupTag>{record.group_disp}</UserGroupTag></>}
                     <UserBadges badges={record.badges} />
                 </>)} />
+                <Table.Column title="最终成绩" dataIndex="normalized_score" className="board-col-bold" />
                 <Table.Column title="实践赛总分" dataIndex="score" className="board-col-bold" render={(text, record)=>(
                     <LookingGlassLink uid={record.uid} nickname={record.nickname}>{text}</LookingGlassLink>
                 )} />
@@ -137,9 +138,9 @@ function ScoreBoardContent({data, last_reloaded}) {
                         <ChallengeTooltip key={ch.key} ch={ch} record={record} />
                     ))
                 )} />
-                <Table.Column title="最后提交时间" dataIndex="last_succ_submission_ts" render={(text)=>(
+                {/* <Table.Column title="最后提交时间" dataIndex="last_succ_submission_ts" render={(text)=>(
                     text ? format_ts(text) : '--'
-                )} />
+                )} /> */}
             </Table>
         </div>
     );
