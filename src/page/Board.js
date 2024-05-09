@@ -111,7 +111,7 @@ function ScoreBoardContent({data, last_reloaded}) {
                     size: 'default',
                     showTotal: (total, range) => `#${range[0]} ~ #${range[1]}`,
                 }}
-                rowKey="rank"
+                rowKey="idx"
                 scroll={{
                     x: 'max-content',
                 }}
