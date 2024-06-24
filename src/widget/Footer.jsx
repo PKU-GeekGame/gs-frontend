@@ -7,7 +7,7 @@ export function Footer() {
         <div className="footer">
             <p>
                 Project <b>Guiding Star</b> by PKUGGG Team
-                {process.env.REACT_APP_BUILD_INFO ? ' ('+process.env.REACT_APP_BUILD_INFO+')' : null}
+                {import.meta.env.VITE_APP_BUILD_INFO ? ' ('+import.meta.env.VITE_APP_BUILD_INFO+')' : null}
                 <br />
                 <a href="#/license"><GithubOutlined /> 开放源代码</a>
             </p>

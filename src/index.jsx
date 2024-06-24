@@ -9,7 +9,7 @@ import {App} from './App';
 
 import zhCN from 'antd/es/locale/zh_CN';
 
-import './bootstrap.less';
+import './index.less';
 
 let component = (
     <ConfigProvider
