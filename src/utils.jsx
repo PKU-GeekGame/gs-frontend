@@ -6,6 +6,7 @@ import buildFormatter from 'react-timeago/lib/formatters/buildFormatter';
 import {InboxOutlined} from '@ant-design/icons';
 
 import {AUTH_ROOT} from './branding';
+import {useGameInfo} from './logic/GameInfo.jsx';
 
 export function Cap({text, width}) {
     return (
@@ -96,6 +97,8 @@ export function useReloadButton(reload_fn, disable_s, expire_s) {
     // xxx: will not trigger re-render if only last_reloaded_ms is changed, because it is a ref
     // this is generally safe because usually other states are changed after reloading
 
+    let info = useGameInfo();
+
     let last_reloaded_ms = useRef(0);
     let reload_btn = useRef(null);
 
@@ -105,8 +108,9 @@ export function useReloadButton(reload_fn, disable_s, expire_s) {
 
     useEffect(()=>{
         function on_focus() {
-            if((+new Date())-last_reloaded_ms.current > expire_s*1000)
-                do_reload();
+            if(info.feature.submit_flag) // only auto-reload when submit_flag is enabled
+                if((+new Date())-last_reloaded_ms.current > expire_s*1000)
+                    do_reload();
         }
 
         window.addEventListener('focus', on_focus);

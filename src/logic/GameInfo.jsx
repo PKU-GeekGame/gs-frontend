@@ -20,8 +20,9 @@ export let GameInfoCtx = createContext({
             terms_agreed: false,
         },
         feature: {
-            game: false,
             push: false,
+            game: false,
+            submit_flag: false,
             templates: [],
         },
     },
