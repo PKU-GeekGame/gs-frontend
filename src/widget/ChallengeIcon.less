@@ -1,5 +1,17 @@
+@import '../vars.less';
+
 .challenge-icon-untouched {
     opacity: .3;
+}
+
+.status-icon-deducted::before {
+    content: '*';
+    position: absolute;
+    margin-left: .65rem;
+    margin-top: .5rem;
+    font-weight: bold;
+    color: darkred;
+    text-shadow: 0 0 2px #faa;
 }
 
 .category-badge {
