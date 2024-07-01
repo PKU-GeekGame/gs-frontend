@@ -25,4 +25,17 @@ export const WRITEUP_INSTRUCTION = (<>
     </p>
 </>);
 
-export async function ANTICHEAT_REPORT() {}
+let _anticheat_in_progress = false;
+export async function ANTICHEAT_REPORT() {
+    if(_anticheat_in_progress)
+        return;
+
+    _anticheat_in_progress = true;
+    try {
+        if(import.meta.VITE_APP_ANTICHEAT_ENABLED!=='false') {
+            //console.log('your anticheat logic here');
+        }
+    } finally {
+        _anticheat_in_progress = false;
+    }
+}

@@ -354,6 +354,17 @@ function Portal() {
 
     useEffect(()=>{
         void ANTICHEAT_REPORT();
+    }, [active_challenge_key]);
+
+    useEffect(()=>{
+        function on_focus() {
+            void ANTICHEAT_REPORT();
+        }
+
+        window.addEventListener('focus', on_focus);
+        return ()=>{
+            window.removeEventListener('focus', on_focus);
+        };
     }, []);
 
     useEffect(()=>{
