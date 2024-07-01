@@ -16,7 +16,7 @@ import {
     GlobalOutlined,
     CarryOutOutlined,
     FileTextOutlined,
-    FireOutlined
+    FireOutlined, UserSwitchOutlined,
 } from '@ant-design/icons';
 
 import {Reloader} from './GameLoading';
@@ -199,14 +199,45 @@ function ChallengeBody({ch}) {
     </>);
 }
 
-function ScoreDeduction({base, cur}) {
-    if(base===cur)
-        return null;
-    else {
-        let ratio = (1-cur/base)*100;
-        return (
-            <span className="item-discount" title={'基础分值：'+base}>(-{ratio.toFixed(0)}%)</span>
-        );
+function ScoreDeduction({ch, flag, show_pass_count}) {
+    let base_score, cur_score, passed_count, touched_count;
+    if(ch) {
+        base_score = ch.tot_base_score;
+        cur_score = ch.tot_cur_score;
+        passed_count = ch.passed_users_count;
+        touched_count = ch.touched_users_count;
+    } else {
+        base_score = flag.base_score;
+        cur_score = flag.cur_score;
+        passed_count = flag.passed_users_count;
+        touched_count = passed_count;
+    }
+
+    let tooltip = `基础分值 ${base_score}，通过人数 ${passed_count}` + (
+        touched_count>passed_count ? `，部分通过人数 ${touched_count}` : ''
+    );
+
+    if(show_pass_count) {
+        if(touched_count===0)
+            return null;
+        else {
+            return (
+                <span className="item-discount" title={tooltip}>
+                    ({passed_count}{touched_count>passed_count ? '+' : ''})
+                </span>
+            );
+        }
+    } else {
+        if(base_score===cur_score)
+            return null;
+        else {
+            let ratio = (1-cur_score/base_score)*100;
+            return (
+                <span className="item-discount" title={tooltip}>
+                    (-{ratio.toFixed(0)}%)
+                </span>
+            );
+        }
     }
 }
 
@@ -249,7 +280,7 @@ function Challenge({ch, do_reload_list}) {
                 <br />
             </>}
             <ChallengeBody ch={ch} />
-            {ch.status==='passed' ?
+            {ch.status.startsWith('passed') ?
                 <Alert type="success" showIcon message="你已经通过此题" /> :
                 <FlagInput key={ch.key} do_reload_list={do_reload_list} ch={ch} />
             }
@@ -283,6 +314,8 @@ function PortalUserInfo({info}) {
 }
 
 function PortalChallengeList({list, active_key, set_active_key}) {
+    let [show_pass_count, set_show_pass_count] = useState(false);
+
     return (
         <div className="portal-chall-list">
             {list===null ?
@@ -294,6 +327,11 @@ function PortalChallengeList({list, active_key, set_active_key}) {
                         </div>
                         <div className="portal-chall-col-score">
                             分值
+                            <span className="portal-chall-mode-switch-btn" onClick={()=>set_show_pass_count(!show_pass_count)}>
+                                <Tooltip title={<>当前显示：{show_pass_count ? '总通过人数' : '动态分值系数'}<br />点击切换</>}>
+                                    (<UserSwitchOutlined />)
+                                </Tooltip>
+                            </span>
                         </div>
                     </div>
                     {list.map((ch)=>(
@@ -309,7 +347,7 @@ function PortalChallengeList({list, active_key, set_active_key}) {
                                 </div>
                                 <div className="portal-chall-col-score">
                                     {ch.tot_cur_score}<span className="label-for-score">分</span>
-                                    {' '}<ScoreDeduction base={ch.tot_base_score} cur={ch.tot_cur_score} />
+                                    {' '}<ScoreDeduction ch={ch} show_pass_count={show_pass_count} />
                                 </div>
                             </div>
                             {active_key===ch.key && ch.flags.length>1 &&
@@ -320,7 +358,7 @@ function PortalChallengeList({list, active_key, set_active_key}) {
                                         </div>
                                         <div className="portal-chall-col-score">
                                             {f.cur_score}<span className="label-for-score">分</span>
-                                            {' '}<ScoreDeduction base={f.base_score} cur={f.cur_score} />
+                                            {' '}<ScoreDeduction flag={f} show_pass_count={show_pass_count} />
                                         </div>
                                     </div>
                                 ))
