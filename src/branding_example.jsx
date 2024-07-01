@@ -32,7 +32,7 @@ export async function ANTICHEAT_REPORT() {
 
     _anticheat_in_progress = true;
     try {
-        if(import.meta.VITE_APP_ANTICHEAT_ENABLED!=='false') {
+        if(import.meta.env.VITE_APP_ANTICHEAT_ENABLED!=='false') {
             //console.log('your anticheat logic here');
         }
     } finally {
