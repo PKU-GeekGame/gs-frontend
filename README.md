@@ -16,6 +16,7 @@ Install requirements on the developer's machine (or a CI worker) and copy the bu
 **Setup:**
 
 - Install Node.JS (≥12)
+- `mv src/branding_example.jsx src/branding.jsx`
 - `npm install`
 
 **Development:**

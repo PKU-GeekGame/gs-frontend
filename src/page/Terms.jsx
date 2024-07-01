@@ -5,6 +5,7 @@ import {CheckCircleOutlined} from '@ant-design/icons';
 
 import {GameInfoCtx} from '../logic/GameInfo';
 import {TemplateFile} from '../widget/Template';
+import {ANTICHEAT_REPORT} from '../branding';
 import {wish} from '../wish';
 
 export function Terms() {
@@ -13,8 +14,7 @@ export function Terms() {
 
     function agree_term() {
         message.loading({content: '正在保存…', key: 'Terms', duration: 10});
-        if(window._anticheat_report)
-            window._anticheat_report();
+        void ANTICHEAT_REPORT();
 
         wish('agree_term', {})
             .then((res)=>{

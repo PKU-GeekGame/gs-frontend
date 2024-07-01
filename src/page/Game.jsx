@@ -30,7 +30,7 @@ import {UserName, UserGroupTag, UserBadges} from '../widget/UserBadges';
 import {LookingGlassLink} from '../widget/LookingGlassLink';
 import {useWishData, wish} from '../wish';
 import {TimestampAgo, NotFound, useReloadButton, to_auth, format_ts} from '../utils';
-import {WEB_TERMINAL_ADDR, ATTACHMENT_ROOT} from '../branding';
+import {WEB_TERMINAL_ADDR, ATTACHMENT_ROOT, ANTICHEAT_REPORT} from '../branding';
 
 import './Game.less';
 
@@ -353,9 +353,7 @@ function Portal() {
     }, [data, active_challenge_key]);
 
     useEffect(()=>{
-        if(window._anticheat_report) {
-            window._anticheat_report();
-        }
+        void ANTICHEAT_REPORT();
     }, []);
 
     useEffect(()=>{
