@@ -4,6 +4,7 @@ import {Reloader} from './GameLoading';
 import {FlagIcon, CategoryBadge} from '../widget/ChallengeIcon';
 import {useWishData} from '../wish';
 import {format_ts} from '../utils';
+import {TopStarPlotLoader} from './Board';
 
 export function SubmissionsTable({others_uid}) {
     let [error, data, load_data] = useWishData(others_uid!==null ? ('submissions/'+others_uid) : 'my_submissions');
@@ -13,7 +14,9 @@ export function SubmissionsTable({others_uid}) {
     if(data===null)
         return <Skeleton />;
 
-    return (
+    return (<>
+        <TopStarPlotLoader plotkey={null} data={data} single={true} />
+        <br />
         <Table
             size="small"
             dataSource={data.list}
@@ -41,7 +44,7 @@ export function SubmissionsTable({others_uid}) {
             }
             <Table.Column title="得分" dataIndex="gained_score" />
         </Table>
-    );
+    </>);
 }
 
 export function UserSubmissions() {

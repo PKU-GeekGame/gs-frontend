@@ -38,7 +38,17 @@ function TopStarPlotLoading() {
         <div className="topstar-plot-loading">
             <p><LoadingOutlined /> 加载图表组件</p>
         </div>
-    )
+    );
+}
+
+export function TopStarPlotLoader({plotkey, data, single}) {
+    return (
+        <Alert.ErrorBoundary>
+            <Suspense fallback={<TopStarPlotLoading />}>
+                <TopStarPlot key={plotkey} data={data} single={single} />
+            </Suspense>
+        </Alert.ErrorBoundary>
+    );
 }
 
 function ChallengeTooltip({ch, record}) {
@@ -78,11 +88,7 @@ function ScoreBoardContent({data, last_reloaded}) {
 
     return (
         <div className="scoreboard">
-            <Alert.ErrorBoundary>
-                <Suspense fallback={<TopStarPlotLoading />}>
-                    <TopStarPlot key={last_reloaded} data={data} />
-                </Suspense>
-            </Alert.ErrorBoundary>
+            <TopStarPlotLoader plotkey={last_reloaded} data={data} single={false} />
             <br />
             <Table
                 size="small"

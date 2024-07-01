@@ -51,7 +51,7 @@ function assign_color_palette(uids) {
     return ret;
 }
 
-export default function TopStarPlot({data}) {
+export default function TopStarPlot({data, single}) {
     let points = [];
     let timepoints = {};
 
@@ -102,11 +102,11 @@ export default function TopStarPlot({data}) {
 
     return (
         <Line
-            height={350}
+            height={single ? 125 : 350}
             data={points}
             xField="timestamp_ms" yField="score" seriesField="idx0"
             stepType="hv"
-            legend={{
+            legend={single ? false : {
                 layout: 'horizontal',
                 position: 'top',
             }}
@@ -118,7 +118,7 @@ export default function TopStarPlot({data}) {
                     type: 'linear',
                     minLimit: time_range_disp[0],
                     maxLimit: time_range_disp[1],
-                    formatter: (x) => format_ts(x/1000),
+                    formatter: (x) => format_ts(x/1000, false),
                 }
             }}
             theme={{
