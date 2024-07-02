@@ -28,9 +28,9 @@ import {Transition} from '../widget/Transition';
 import {TokenWidget} from '../widget/TokenWidget';
 import {UserName, UserGroupTag, UserBadges} from '../widget/UserBadges';
 import {LookingGlassLink} from '../widget/LookingGlassLink';
-import {useWishData, wish} from '../wish';
+import {useWishData, wish, TABID} from '../wish';
 import {TimestampAgo, NotFound, useReloadButton, to_auth, format_ts} from '../utils';
-import {WEB_TERMINAL_ADDR, ATTACHMENT_ROOT, ANTICHEAT_REPORT} from '../branding';
+import {WEB_TERMINAL_ADDR, ATTACHMENT_ROOT, ANTICHEAT_REPORT, SYBIL_ROOT} from '../branding';
 
 import './Game.less';
 
@@ -38,13 +38,24 @@ function ChallengeAction({action, ch}) {
     /* eslint-disable react/jsx-no-target-blank */
     let info = useGameInfo();
 
+    function report_click() {
+        void fetch(`${SYBIL_ROOT}event?name=visit_action&tabid=${TABID}`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify([ch.key, action.name]),
+        });
+    }
+
     if(action.type==='webpage')
         return (<>
-            你可以 <a href={action.url.replace(/\{\{token}}/g, info.user.token)} target="_blank">访问{action.name}</a>
+            你可以 <a onPointerDown={report_click} href={action.url.replace(/\{\{token}}/g, info.user.token)} target="_blank">访问{action.name}</a>
         </>);
     else if(action.type==='webdocker')
         return (<>
-            你可以 <a href={`https://${action.host}/docker-manager/start?${info.user.token}`} target="_blank">访问{action.name}</a>
+            你可以 <a onPointerDown={report_click} href={`https://${action.host}/docker-manager/start?${info.user.token}`} target="_blank">访问{action.name}</a>
             {' '}
             <Popover trigger="click" content={<div>
                 <p>本题为每名选手分配一个独立的后端环境，参见 <a href="#/info/faq">FAQ：关于 Web 题目环境</a></p>
@@ -58,7 +69,7 @@ function ChallengeAction({action, ch}) {
         </>);
     else if(action.type==='terminal')
         return (<>
-            你可以 <a href={WEB_TERMINAL_ADDR(action, info.user.token)} target="_blank">打开网页终端</a> 或者通过命令{' '}
+            你可以 <a onPointerDown={report_click} href={WEB_TERMINAL_ADDR(action, info.user.token)} target="_blank">打开网页终端</a> 或者通过命令{' '}
             <code>nc {action.host} {action.port}</code> 连接到{action.name}
         </>);
     else if(action.type==='attachment')

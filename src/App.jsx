@@ -109,13 +109,13 @@ function AnticheatReporter() {
             return;
 
         function on_focus() {
-            fetch(`${SYBIL_ROOT}event?name=focus&tabid=${TABID}`, {
+            void fetch(`${SYBIL_ROOT}event?name=focus&tabid=${TABID}`, {
                 method: 'POST',
                 credentials: 'include',
             });
         }
         function on_blur() {
-            fetch(`${SYBIL_ROOT}event?name=blur&tabid=${TABID}`, {
+            void fetch(`${SYBIL_ROOT}event?name=blur&tabid=${TABID}`, {
                 method: 'POST',
                 credentials: 'include',
             });
@@ -126,7 +126,7 @@ function AnticheatReporter() {
                 let data = e.clipboardData.getData(t);
                 upload[t] = data.slice(0, 2048);
             });
-            fetch(`${SYBIL_ROOT}event?name=paste&tabid=${TABID}`, {
+            void fetch(`${SYBIL_ROOT}event?name=paste&tabid=${TABID}`, {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
