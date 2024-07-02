@@ -33,10 +33,10 @@ function ChallengeStatus({ch, record}) {
     );
 }
 
-function TopStarPlotLoading() {
+function TopStarPlotLoading({height}) {
     return (
-        <div className="topstar-plot-loading">
-            <p><LoadingOutlined /> 加载图表组件</p>
+        <div className="topstar-plot-loading" style={{height: height+'px', lineHeight: height+'px'}}>
+            <p><LoadingOutlined /> 图表加载中</p>
         </div>
     );
 }
@@ -44,7 +44,7 @@ function TopStarPlotLoading() {
 export function TopStarPlotLoader({plotkey, data, single}) {
     return (
         <Alert.ErrorBoundary>
-            <Suspense fallback={<TopStarPlotLoading />}>
+            <Suspense fallback={<TopStarPlotLoading height={single ? 125 : 350} />}>
                 <TopStarPlot key={plotkey} data={data} single={single} />
             </Suspense>
         </Alert.ErrorBoundary>
