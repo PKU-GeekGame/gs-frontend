@@ -19,7 +19,9 @@
     "react-router-dom": "^6.14.2",
     "react-timeago": "^7.1.0",
     "react-transition-group": "^4.4.5",
-    "vite": "^5.3.1"
+    "terser": "^5.31.1",
+    "vite": "^5.3.1",
+    "vite-plugin-compression2": "^1.1.2"
   },
   "devDependencies": {
     "source-map-explorer": "^2.5.3"
