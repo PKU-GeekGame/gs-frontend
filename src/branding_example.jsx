@@ -1,5 +1,4 @@
 export const GAME_TITLE = document.title;
-export const GAME_LOGO = <img src="logo-bw.png" alt="" className="game-logo" />;
 
 const SVC_ROOT = '/service/'
 export const WISH_ROOT = SVC_ROOT+'wish/';
@@ -38,4 +37,10 @@ export async function ANTICHEAT_REPORT() {
     } finally {
         _anticheat_in_progress = false;
     }
+}
+
+export function Logo({cur_url}) {
+    return (
+        <img src="logo-bw.png" alt="" className="game-logo"/>
+    );
 }
