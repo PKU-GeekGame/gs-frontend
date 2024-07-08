@@ -94,7 +94,7 @@ function TouchedUsersTable({ch}) {
             <Table
                 dataSource={data.list}
                 size="small"
-                rowKey="idx"
+                rowKey="uid"
                 onRow={(record)=>{
                     if(record.uid===cur_uid)
                         return {className: 'active-bg-row'};
