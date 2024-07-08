@@ -30,6 +30,8 @@ export default defineConfig(() => {
         plugins: [
             react(),
             compression({
+                include: /\.*$/,
+                exclude: /\.(png|jpg|jpeg)$/i,
                 algorithm: 'brotliCompress',
                 compressionOptions: {
                     params: {
