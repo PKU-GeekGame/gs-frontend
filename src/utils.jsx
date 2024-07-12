@@ -6,7 +6,7 @@ import buildFormatter from 'react-timeago/lib/formatters/buildFormatter';
 import {InboxOutlined} from '@ant-design/icons';
 
 import {AUTH_ROOT} from './branding';
-import {useGameInfo} from './logic/GameInfo.jsx';
+import {useGameInfo} from './logic/GameInfo';
 
 export function Cap({text, width}) {
     return (
