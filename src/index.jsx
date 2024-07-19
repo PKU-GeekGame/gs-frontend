@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-//import ReactDOMServer from 'react-dom/server';
 import {ConfigProvider, Alert, App as AntdApp} from 'antd';
 import {createHashRouter, RouterProvider} from 'react-router-dom';
 import { StyleProvider } from '@ant-design/cssinjs';
+import {CloseCircleOutlined} from '@ant-design/icons';
 
 import {GameInfoProvider} from './logic/GameInfo';
 import {routes} from './App';
@@ -42,7 +42,20 @@ let component = (
             <StyleProvider hashPriority="high">
                 <Alert.ErrorBoundary>
                     <GameInfoProvider>
-                        <AntdApp>
+                        <AntdApp
+                            notification={{
+                                duration: 7,
+                                placement: 'topRight',
+                                maxCount: 4,
+                                top: 70,
+                                closeIcon: (
+                                    <CloseCircleOutlined />
+                                ),
+                            }}
+                            message={{
+                                top: 1,
+                            }}
+                        >
                             <RouterProvider router={router} />
                         </AntdApp>
                     </GameInfoProvider>
@@ -52,5 +65,4 @@ let component = (
     </React.StrictMode>
 );
 
-//console.log(ReactDOMServer.renderToString(component));
 ReactDOM.createRoot(document.getElementById('root')).render(component);

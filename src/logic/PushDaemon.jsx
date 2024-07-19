@@ -1,6 +1,6 @@
 import {useEffect} from 'react';
-import {message, notification} from 'antd';
-import {NotificationOutlined, CarryOutOutlined, RocketOutlined, CloseCircleOutlined} from '@ant-design/icons';
+import {App} from 'antd';
+import {NotificationOutlined, CarryOutOutlined, RocketOutlined} from '@ant-design/icons';
 
 import {WS_ROOT} from '../branding';
 
@@ -13,7 +13,8 @@ const PUSH_STABLE_MS = 25000;
 const PUSH_RECONNECT_MAX = 8;
 
 class PushClient {
-    constructor(reload_info) {
+    constructor(reload_info, app) {
+        this.app = app;
         this.ws = null;
         this.stopped = false;
         this.count_reconnect = 0;
@@ -24,18 +25,6 @@ class PushClient {
         }, PUSH_STARTUP_DELAY_MS);
     }
 
-    static init() {
-        notification.config({
-            duration: 7,
-            placement: 'topRight',
-            maxCount: 4,
-            top: 70,
-            closeIcon: (
-                <CloseCircleOutlined />
-            ),
-        });
-    }
-
     handle_message(data) {
         let key = `notification-${+new Date()}`;
         let notif_conf = {
@@ -44,7 +33,7 @@ class PushClient {
         };
 
         if(data.type==='new_announcement') {
-            notification.info({
+            this.app.notification.info({
                 ...notif_conf,
                 icon: <NotificationOutlined />,
                 message: '比赛公告',
@@ -52,7 +41,7 @@ class PushClient {
             });
         } else if(data.type==='tick_update') {
             setTimeout(()=>{
-                notification.info({
+                this.app.notification.info({
                     ...notif_conf,
                     icon: <CarryOutOutlined />,
                     message: '赛程提醒',
@@ -61,14 +50,14 @@ class PushClient {
                 this.reload_info();
             }, 200+Math.random()*1300); // add a random delay to flatten the backend load
         } else if(data.type==='flag_first_blood') {
-            notification.success({
+            this.app.notification.success({
                 ...notif_conf,
                 icon: <RocketOutlined />,
                 message: 'Flag 一血提醒',
                 description: `恭喜【${data.nickname}】在【${data.board_name}】中拿到了题目【${data.challenge}】的【${data.flag}】的一血`,
             });
         } else if(data.type==='challenge_first_blood') {
-            notification.success({
+            this.app.notification.success({
                 ...notif_conf,
                 icon: <RocketOutlined />,
                 message: '题目一血提醒',
@@ -107,7 +96,7 @@ class PushClient {
                     this.count_reconnect++;
                     this.connect();
                 } else {
-                    message.error({content: '消息推送连接中断', key: 'PushDaemon.Error', duration: 3});
+                    this.app.message.error({content: '消息推送连接中断', key: 'PushDaemon.Error', duration: 3});
                     console.log('PushClient: stopped reconnecting');
                 }
             }, PUSH_RECONNECT_DELAY_MS);
@@ -129,13 +118,11 @@ class PushClient {
 }
 
 export function PushDaemon({info, reload_info}) {
-    useEffect(()=>{
-        PushClient.init();
-    }, []);
+    let app = App.useApp();
 
     useEffect(()=>{
         if(info!==null && info.feature.push) {
-            let client = new PushClient(reload_info);
+            let client = new PushClient(reload_info, app);
             return ()=>{
                 client.stop();
             };

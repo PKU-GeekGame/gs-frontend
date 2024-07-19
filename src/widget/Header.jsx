@@ -1,5 +1,5 @@
 import {useNavigate, useLocation} from 'react-router-dom';
-import {Menu} from 'antd';
+import {Menu, App} from 'antd';
 import {
     UnorderedListOutlined,
     CrownOutlined,
@@ -25,6 +25,7 @@ export function Header() {
     let game_info = useGameInfo();
     let loc = useLocation();
     let nav = useNavigate();
+    let {message} = App.useApp();
 
     let cur_key = (
         loc.pathname.startsWith('/user/') ?
@@ -97,7 +98,7 @@ export function Header() {
                                         icon: <DisconnectOutlined />,
                                         label: '注销',
                                         danger: true,
-                                        onClick: ()=>to_auth('logout'),
+                                        onClick: ()=>to_auth('logout', message),
                                     },
                                 ],
                             }] : [{
@@ -117,7 +118,7 @@ export function Header() {
                                         key: '_/login/pku',
                                         icon: <HomeOutlined />,
                                         label: '北京大学登录',
-                                        onClick: ()=>to_auth('pku/redirect'),
+                                        onClick: ()=>to_auth('pku/redirect', message),
                                     },
                                     {
                                         key: '/login/other',

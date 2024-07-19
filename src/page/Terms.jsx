@@ -1,5 +1,5 @@
 import {useContext} from 'react';
-import {Button, message} from 'antd';
+import {Button, App} from 'antd';
 import {useNavigate} from 'react-router-dom';
 import {CheckCircleOutlined} from '@ant-design/icons';
 
@@ -11,6 +11,7 @@ import {wish} from '../wish';
 export function Terms() {
     let {info, reload_info} = useContext(GameInfoCtx);
     let nav = useNavigate();
+    let {message} = App.useApp();
 
     function agree_term() {
         message.loading({content: '正在保存…', key: 'Terms', duration: 10});

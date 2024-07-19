@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {Skeleton, Alert, Form, Radio, Upload, message, Button, Card} from 'antd';
+import {Skeleton, Alert, Form, Radio, Upload, Button, Card, App} from 'antd';
 import {FileAddOutlined, FileDoneOutlined, UploadOutlined} from '@ant-design/icons';
 
 import {Reloader} from './GameLoading';
@@ -11,6 +11,7 @@ import './Writeup.less';
 
 function WriteupForm() {
     let [error, data, load_data] = useWishData('writeup');
+    let {message} = App.useApp();
 
     let [uploading, set_uploading] = useState(false);
     let [file, set_file] = useState(null);

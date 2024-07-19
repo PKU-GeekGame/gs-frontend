@@ -1,4 +1,4 @@
-import {Alert, Button} from 'antd';
+import {Alert, Button, App} from 'antd';
 import {GithubOutlined, WindowsOutlined, HomeOutlined} from '@ant-design/icons';
 
 import {to_auth} from '../utils';
@@ -6,6 +6,7 @@ import {to_auth} from '../utils';
 import './LoginOther.less';
 
 export function LoginOther() {
+    let {message} = App.useApp();
     return (
         <div className="slim-container">
             <Alert showIcon message={<b>校外选手注意事项</b>} description={<>
@@ -31,11 +32,11 @@ export function LoginOther() {
             <div className="login-instruction">
                 <p><b>选择登录方式</b></p>
                 <p>
-                    <Button size="large" onClick={()=>to_auth('github/login')}>
+                    <Button size="large" onClick={()=>to_auth('github/login', message)}>
                         <GithubOutlined /> GitHub
                     </Button>
                     &emsp;
-                    <Button size="large" onClick={()=>to_auth('microsoft/login')}>
+                    <Button size="large" onClick={()=>to_auth('microsoft/login', message)}>
                         <WindowsOutlined /> Microsoft
                     </Button>
                 </p>
@@ -49,7 +50,7 @@ export function LoginOther() {
                     本竞赛不允许选手注册多个账号，校内选手务必全程通过北京大学统一身份认证（IAAA）系统登录，否则视为放弃评奖资格。
                 </p>
                 <p>
-                    <Button size="large" onClick={()=>to_auth('pku/redirect')}>
+                    <Button size="large" onClick={()=>to_auth('pku/redirect', message)}>
                         <HomeOutlined /> 北京大学登录
                     </Button>
                 </p>

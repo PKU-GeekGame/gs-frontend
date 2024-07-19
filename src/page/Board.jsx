@@ -1,5 +1,5 @@
 import {lazy, Suspense, useState, useEffect, memo} from 'react';
-import {Alert, Skeleton, Table, Tooltip, Button, message, Tag} from 'antd';
+import {Alert, Skeleton, Table, Tooltip, Button, Tag, App} from 'antd';
 import {HistoryOutlined, SyncOutlined, LoadingOutlined, FireOutlined} from '@ant-design/icons';
 import LazyLoad, {forceCheck} from 'react-lazyload';
 
@@ -211,6 +211,7 @@ function BoardContent({data, last_reloaded}) {
 export const Board = memo(function Board({name}) {
     let [error, data, load_data] = useWishData('board/'+name);
     let [last_reloaded, do_reload, reload_btn] = useReloadButton(load_data, 3, 300);
+    let {message} = App.useApp();
 
     if(error)
         return (

@@ -1,5 +1,5 @@
 import {useGameInfo} from '../logic/GameInfo';
-import {Button, message} from 'antd';
+import {Button, App} from 'antd';
 import {CopyOutlined} from '@ant-design/icons';
 
 import copy from 'copy-to-clipboard';
@@ -8,6 +8,7 @@ import './TokenWidget.less';
 
 export function TokenWidget() {
     let info = useGameInfo();
+    let {message} = App.useApp();
 
     function do_copy_token() {
         if(copy(info.user.token))

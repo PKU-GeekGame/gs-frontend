@@ -1,6 +1,7 @@
 import {Fragment, useMemo, useState, useEffect} from 'react';
 import {useNavigate, useSearchParams} from 'react-router-dom';
 import {Skeleton, message, Button, Empty, Tag, Alert, Input, Tooltip, Popover, Card, Table} from 'antd';
+import {Skeleton, Button, Empty, Tag, Alert, Input, Tooltip, Popover, Card, Table, App} from 'antd';
 import {
     PieChartFilled,
     SyncOutlined,
@@ -144,6 +145,7 @@ function TouchedUsersTable({ch}) {
 function FlagInput({do_reload_list, ch}) {
     let [loading, set_loading] = useState(false);
     let [flag, set_flag] = useState('');
+    let {message} = App.useApp();
 
     function do_submit() {
         if(!flag)
@@ -390,6 +392,7 @@ function Portal() {
     let nav = useNavigate();
     let [last_reloaded, do_reload, reload_btn] = useReloadButton(load_data, 3, 600);
     let [params, set_params] = useSearchParams();
+    let {message} = App.useApp();
 
     let active_challenge_key = params.get('challenge');
 
@@ -519,6 +522,7 @@ function Portal() {
 
 export function Game() {
     let info = useGameInfo();
+    let {message} = App.useApp();
 
     if(!info.feature.game)
         return (
@@ -528,7 +532,7 @@ export function Game() {
                 <div className="landing-login-form">
                     <Card type="inner" size="small" bordered={false}>
                         <b>报名参赛：</b>
-                        <Button type="primary" onClick={()=>to_auth('pku/redirect')}><HomeOutlined /> 北京大学登录</Button>
+                        <Button type="primary" onClick={()=>to_auth('pku/redirect', message)}><HomeOutlined /> 北京大学登录</Button>
                         {' '}
                         <Button onClick={()=>window.location.href='#/login/other'}><GlobalOutlined /> 校外选手</Button>
                     </Card>

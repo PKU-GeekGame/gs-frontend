@@ -1,5 +1,5 @@
 import {useContext, useState, useRef} from 'react';
-import {Card, Form, Input, Alert, Radio, Button, message} from 'antd';
+import {Card, Form, Input, Alert, Radio, Button, App} from 'antd';
 import {CheckCircleOutlined} from '@ant-design/icons';
 import {useNavigate} from 'react-router-dom';
 
@@ -15,6 +15,7 @@ function UserProfileForm() {
     let [changed, set_changed] = useState(false);
     let submit_btn = useRef(null);
     let nav = useNavigate();
+    let {message} = App.useApp();
 
     if(!info.user)
         return (

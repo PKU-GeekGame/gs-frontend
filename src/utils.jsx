@@ -1,6 +1,6 @@
 import {useRef, useEffect} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
-import {Result, Button, message} from 'antd';
+import {Result, Button} from 'antd';
 import TimeAgo from 'react-timeago';
 import buildFormatter from 'react-timeago/lib/formatters/buildFormatter';
 import {InboxOutlined} from '@ant-design/icons';
@@ -24,7 +24,7 @@ export function random_str(len) {
     return out;
 }
 
-export function to_auth(endpoint) {
+export function to_auth(endpoint, message) {
     message.loading({content: '正在前往登录页面…', key: 'Utils.ToAuth', duration: 15});
     setTimeout(()=>{
         window.location.href = AUTH_ROOT+endpoint;
