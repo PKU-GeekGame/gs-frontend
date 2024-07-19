@@ -1,7 +1,5 @@
 import logo from '../assets/logo-bw.webp';
 
-export const API_URL = 'https://geekgame.pku.edu.cn';
-
 const SVC_ROOT = '/service/'
 export const WISH_ROOT = SVC_ROOT+'wish/';
 export const AUTH_ROOT = SVC_ROOT+'auth/';

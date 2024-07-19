@@ -4,7 +4,8 @@ import {compression} from 'vite-plugin-compression2'
 import {createHtmlPlugin} from 'vite-plugin-html';
 import zlib from 'zlib';
 
-import {API_URL} from './src/branding';
+const API_ENV = process.env['MOCK_API_ENV'] || 'DEV';
+const API_URL = process.env['MOCK_API_URL_'+API_ENV] || 'https://geekgame.pku.edu.cn';
 
 export default defineConfig(() => {
     return {
