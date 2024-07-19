@@ -1,5 +1,5 @@
 import {useEffect} from 'react';
-import {Route, Routes, useNavigate, Navigate, useParams, useLocation} from 'react-router-dom';
+import {useNavigate, Navigate, useParams, useLocation, Outlet, useOutlet} from 'react-router-dom';
 import {Menu, Alert} from 'antd';
 import {NotificationOutlined, FileTextOutlined, CarryOutOutlined, FundOutlined, AimOutlined} from '@ant-design/icons';
 
@@ -24,7 +24,7 @@ import {TABID} from './wish';
 
 import './App.less';
 
-function InfoRouter() {
+function InfoShell() {
     let {page} = useParams();
     let nav = useNavigate();
     let info = useGameInfo();
@@ -53,18 +53,23 @@ function InfoRouter() {
                 ]}
             />
             <br />
-            {
-                page==='announcements' ?
-                    <Announcements /> :
-                page==='triggers' ?
-                    <Triggers /> :
-                <TemplateFile name={page} />
-            }
+            <Outlet />
         </div>
     );
 }
 
-function BoardRouter() {
+function InfoPage() {
+    let {page} = useParams();
+
+    if(page==='announcements')
+        return <Announcements />;
+    else if(page==='triggers')
+        return <Triggers />;
+    else
+        return <TemplateFile name={page} />;
+}
+
+function BoardShell() {
     let {name} = useParams();
     let nav = useNavigate();
 
@@ -96,8 +101,15 @@ function BoardRouter() {
                     },
                 ]}
             />
-            <Board key={name} name={name} />
+            <Outlet />
         </div>
+    );
+}
+
+function BoardPage() {
+    let {name} = useParams();
+    return (
+        <Board key={name} name={name} />
     );
 }
 
@@ -149,37 +161,10 @@ function AnticheatReporter() {
     return null;
 }
 
-function AppMain() {
+function AppShell() {
     let location = useLocation();
+    let outlet = useOutlet();
 
-    return (
-        <Transition cur={location.pathname}>
-            <Routes location={location}>
-                <Route exact path="/" element={<Navigate to="/game" replace />} />
-                <Route exact path="/game" element={<Game />} />
-
-                <Route exact path="/board" element={<Navigate to="/board/score_pku" replace />} />
-                <Route exact path="/board/:name" element={<BoardRouter />} />
-
-                <Route exact path="/info" element={<Navigate to="/info/announcements" replace />} />
-                <Route exact path="/info/:page" element={<InfoRouter />} />
-
-                <Route exact path="/user/profile" element={<UserProfile />} />
-                <Route exact path="/user/submissions" element={<UserSubmissions />} />
-                <Route exact path="/user/terms" element={<Terms />} />
-
-                <Route exact path="/login/other" element={<LoginOther />} />
-
-                <Route exact path="/writeup" element={<Writeup />} />
-                <Route exact path="/license" element={<License />} />
-
-                <Route path="*" element={<NotFound />} />
-            </Routes>
-        </Transition>
-    );
-}
-
-export function App() {
     return (
         <div>
             <AnticheatReporter />
@@ -187,10 +172,42 @@ export function App() {
 
             <div className="main-container">
                 <Alert.ErrorBoundary>
-                    <AppMain />
+                    <Transition cur={location.pathname}>
+                        {outlet}
+                    </Transition>
                 </Alert.ErrorBoundary>
             </div>
             <Footer />
         </div>
     );
 }
+
+export const routes = [
+    {element: <AppShell />, children: [
+        {path: '/', element: <Navigate to="/game" replace />},
+
+        {path: '/game', element: <Game />},
+
+        {path: '/board', element: <BoardShell />, children: [
+            {index: true, element: <Navigate to="/board/score_pku" replace />},
+            {path: ':name', element: <BoardPage />}
+        ]},
+
+        {path: '/info', element: <InfoShell />, children: [
+            {index: true, element: <Navigate to="/info/announcements" replace />},
+            {path: ':page', element: <InfoPage />}
+        ]},
+
+        {path: '/user', children: [
+            {path: 'profile', element: <UserProfile />},
+            {path: 'submissions', element: <UserSubmissions />},
+            {path: 'terms', element: <Terms />},
+        ]},
+
+        {path: '/login/other', element: <LoginOther />},
+        {path: '/writeup', element: <Writeup />},
+        {path: '/license', element: <License />},
+
+        {path: '*', element: <NotFound />},
+    ]},
+];

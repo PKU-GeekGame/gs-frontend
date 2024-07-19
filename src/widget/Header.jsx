@@ -44,7 +44,7 @@ export function Header() {
                 <div className="header-nav">
                     <Menu
                         mode="horizontal" theme="dark"
-                        selectedKeys={[cur_key]} onSelect={(e)=>{if(e.key.charAt(0)!=='_') nav(e.key)}}
+                        selectedKeys={[cur_key]} onSelect={(e)=>{if(e.key.charAt(0)!=='_') nav(e.key + (e.item.props.default_subview || ''))}}
                         items={[
                             ...(game_info.feature.game ? [{
                             key: '/game',
@@ -54,11 +54,13 @@ export function Header() {
 
                             {
                                 key: '/board',
+                                default_subview: '/score_pku',
                                 icon: <CrownOutlined />,
                                 label: '排行榜',
                             },
                             {
                                 key: '/info',
+                                default_subview: '/announcements',
                                 icon: <NotificationOutlined />,
                                 label: '信息',
                             },

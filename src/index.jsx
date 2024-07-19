@@ -2,15 +2,21 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 //import ReactDOMServer from 'react-dom/server';
 import {ConfigProvider, Alert, App as AntdApp} from 'antd';
-import {HashRouter} from 'react-router-dom';
+import {createHashRouter, RouterProvider} from 'react-router-dom';
 import { StyleProvider } from '@ant-design/cssinjs';
 
 import {GameInfoProvider} from './logic/GameInfo';
-import {App} from './App';
+import {routes} from './App';
 
 import zhCN from 'antd/es/locale/zh_CN';
 
 import './index.less';
+
+let router = createHashRouter(routes, {
+    future: {
+        v7_startTransition: true,
+    },
+});
 
 let component = (
     <React.StrictMode>
@@ -34,15 +40,13 @@ let component = (
             }}
         >
             <StyleProvider hashPriority="high">
-                <HashRouter future={{v7_startTransition: true}}>
-                    <Alert.ErrorBoundary>
-                        <GameInfoProvider>
-                            <AntdApp>
-                                <App />
-                            </AntdApp>
-                        </GameInfoProvider>
-                    </Alert.ErrorBoundary>
-                </HashRouter>
+                <Alert.ErrorBoundary>
+                    <GameInfoProvider>
+                        <AntdApp>
+                            <RouterProvider router={router} />
+                        </AntdApp>
+                    </GameInfoProvider>
+                </Alert.ErrorBoundary>
             </StyleProvider>
         </ConfigProvider>
     </React.StrictMode>
