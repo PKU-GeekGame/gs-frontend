@@ -371,9 +371,12 @@ function Challenge({ch, do_reload_list}) {
                 <br />
             </>}
             <ChallengeBody ch={ch} />
-            {ch.status.startsWith('passed') ?
-                <Alert type="success" showIcon message="你已经通过此题" /> :
-                <FlagInput key={ch.key} do_reload_list={do_reload_list} ch={ch} />
+            {
+                ch.status.startsWith('passed') ?
+                    <Alert type="success" showIcon message="你已经通过此题" /> :
+                !info.feature.submit_flag ?
+                    <Alert type="info" showIcon message="现在不允许提交 Flag" /> :
+                    <FlagInput key={ch.key} do_reload_list={do_reload_list} ch={ch} />
             }
             <br />
             <TokenWidget />
