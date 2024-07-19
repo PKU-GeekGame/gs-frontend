@@ -1,6 +1,6 @@
-import {Fragment, useMemo, useState, useEffect} from 'react';
-import {useNavigate, useSearchParams} from 'react-router-dom';
-import {Skeleton, Button, Empty, Tag, Alert, Input, Tooltip, Popover, Card, Table, App} from 'antd';
+import {Fragment, useMemo, useState, useEffect, useReducer} from 'react';
+import {useNavigate, useSearchParams, unstable_usePrompt} from 'react-router-dom';
+import {Skeleton, Button, Empty, Tag, Alert, Input, Tooltip, Popover, Card, Table, App, Popconfirm} from 'antd';
 import {
     PieChartFilled,
     SyncOutlined,
@@ -16,7 +16,7 @@ import {
     GlobalOutlined,
     CarryOutOutlined,
     FileTextOutlined,
-    FireOutlined, UserSwitchOutlined,
+    FireOutlined, UserSwitchOutlined, FormOutlined,
 } from '@ant-design/icons';
 
 import {Reloader} from './GameLoading';
@@ -211,6 +211,72 @@ function ChallengeBody({ch}) {
     </>);
 }
 
+function Feedback({ch}) {
+    let [state, set_state] = useState('notice');
+    let [content, set_content] = useState('');
+    let {message} = App.useApp();
+
+    function submit_feedback() {
+        set_state('submitting');
+        wish('submit_feedback', {
+            challenge_key: ch.key,
+            feedback: content,
+        })
+            .then((res)=>{
+                if(res.error) {
+                    message.error({content: res.error_msg, key: 'Feedback', duration: 3});
+                    set_state('draft');
+                }
+                else {
+                    message.success({content: '反馈提交成功', key: 'Feedback', duration: 2});
+                    set_state('done');
+                }
+            });
+    }
+
+    unstable_usePrompt({
+        message: '反馈尚未提交，确定要离开吗？',
+        when: () => state==='draft' && content,
+    });
+
+    return (
+        <div className="feedback-form">
+            {state==='notice' ? <>
+                <ul>
+                    <li>使用此功能来<b>单方面反馈题目中的问题</b>，例如存在非预期解、题目环境与附件不符、题目描述具有误导性。</li>
+                    <li>出题人<b>不会单独回复反馈</b>，但可能依据反馈内容来修复题目问题、发布补充说明或者撰写第二阶段提示。</li>
+                    <li>如果希望咨询出题人并获得回复，请<b>在选手群联系管理员</b>，而非提交反馈。</li>
+                    <li>请注意<b>每小时只能提交一次反馈</b>。</li>
+                </ul>
+                <Button block type="primary" onClick={()=>set_state('draft')}>
+                    <FormOutlined /> 反馈问题
+                </Button>
+            </> : <>
+                <div>
+                    <Input.TextArea
+                        value={content} onChange={(e)=>set_content(e.target.value)}
+                        placeholder="（反馈内容……）"
+                        disabled={state!=='draft'}
+                        maxLength={1200} showCount={true}
+                        autoSize={{minRows: 5, maxRows: 10}}
+                    />
+                </div>
+                <br />
+                <Popconfirm
+                    title={<>请注意<b>出题人不会单独回复反馈</b>，<br />而且<b>每小时只能提交一次</b>。</>}
+                    showCancel={false}
+                    okText="确认提交"
+                    onConfirm={submit_feedback}
+                >
+                    <Button block type="primary" disabled={!content || state!=='draft'}>
+                        <FormOutlined /> {state==='done' ? '已' : state==='submitting' ? '正在' : ''}提交反馈
+                    </Button>
+                </Popconfirm>
+            </>}
+        </div>
+    );
+}
+
 function ScoreDeduction({ch, flag, show_pass_count}) {
     let base_score, cur_score, passed_count, touched_count;
     if(ch) {
@@ -254,7 +320,8 @@ function ScoreDeduction({ch, flag, show_pass_count}) {
 }
 
 function Challenge({ch, do_reload_list}) {
-    let [display_touched_users, set_display_touched_users] = useState(false);
+    let info = useGameInfo();
+    let [display_panel, toggle_panel] = useReducer(((cur, next) => cur===next ? '' : next), '');
 
     return (
         <div className="challenge-body">
@@ -264,15 +331,23 @@ function Challenge({ch, do_reload_list}) {
                     基础分值 {ch.tot_base_score}
                 </Tag>
                 {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                <a onClick={()=>set_display_touched_users(x => !x)}>
+                <a onClick={()=>toggle_panel('touched_users')}>
                     <Tag color="default">
-                        {display_touched_users ? <UpOutlined /> : <CaretDownOutlined />}{' '}
+                        {display_panel==='touched_users' ? <UpOutlined /> : <CaretDownOutlined />}{' '}
                         共 {ch.passed_users_count} 人通过
                         {ch.touched_users_count>ch.passed_users_count && <>
                             （{ch.touched_users_count} 人部分通过）
                         </>}
                     </Tag>
                 </a>
+                {!!info.feature.submit_flag &&
+                    <a onClick={() => toggle_panel('feedback')}>
+                        <Tag color="default">
+                            {display_panel==='feedback' ? <UpOutlined/> : <CaretDownOutlined/>}{' '}
+                            反馈问题
+                        </Tag>
+                    </a>
+                }
                 {!!ch.metadata.author &&
                     <Tag color="default">
                         命题人：{ch.metadata.author}
@@ -281,14 +356,18 @@ function Challenge({ch, do_reload_list}) {
                 {!!ch.metadata.first_blood_award_eligible &&
                     <Tag color="default">
                         <a href="#/board/first_pku">
-                            <b><FireOutlined /> 解题先锋奖</b>
+                            <b><FireOutlined/> 解题先锋奖</b>
                         </a>
                     </Tag>
                 }
             </p>
             <br />
-            {!!display_touched_users && <>
+            {display_panel==='touched_users' && <>
                 <TouchedUsersTable ch={ch} />
+                <br />
+            </>}
+            {display_panel==='feedback' && <>
+                <Feedback ch={ch} />
                 <br />
             </>}
             <ChallengeBody ch={ch} />
