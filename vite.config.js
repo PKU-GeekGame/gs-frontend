@@ -36,7 +36,7 @@ export default defineConfig(() => {
             }),
             compression({
                 include: /\.*$/,
-                exclude: /\.(png|jpg|jpeg)$/i,
+                exclude: /\.(png|jpg|jpeg|webp|mp3|ogg|webm)$/i,
                 algorithm: 'brotliCompress',
                 compressionOptions: {
                     params: {
