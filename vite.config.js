@@ -1,6 +1,7 @@
 import {defineConfig} from 'vite';
 import react from '@vitejs/plugin-react';
 import {compression} from 'vite-plugin-compression2'
+import {createHtmlPlugin} from 'vite-plugin-html';
 import zlib from 'zlib';
 
 //const API_URL = 'http://localhost:8010';
@@ -10,6 +11,7 @@ export default defineConfig(() => {
     return {
         build: {
             outDir: 'build',
+            assetsInlineLimit: 8192,
             sourcemap: process.env.GENERATE_SOURCEMAP!=='false',
             chunkSizeWarningLimit: 1500,
             reportCompressedSize: false,
@@ -29,6 +31,9 @@ export default defineConfig(() => {
         },
         plugins: [
             react(),
+            createHtmlPlugin({
+                minify: true,
+            }),
             compression({
                 include: /\.*$/,
                 exclude: /\.(png|jpg|jpeg)$/i,

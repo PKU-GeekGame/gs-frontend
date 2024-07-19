@@ -1,3 +1,5 @@
+import logo from '../assets/logo-bw.webp';
+
 export const GAME_TITLE = document.title;
 
 const SVC_ROOT = '/service/'
@@ -41,6 +43,6 @@ export async function ANTICHEAT_REPORT() {
 
 export function Logo({cur_url}) {
     return (
-        <img src="logo-bw.png" alt="" className="game-logo"/>
+        <img src={logo} alt="" className="game-logo" />
     );
 }

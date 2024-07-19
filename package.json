@@ -21,7 +21,8 @@
     "react-transition-group": "^4.4.5",
     "terser": "^5.31.1",
     "vite": "^5.3.1",
-    "vite-plugin-compression2": "^1.1.2"
+    "vite-plugin-compression2": "^1.1.2",
+    "vite-plugin-html": "^3.2.2"
   },
   "devDependencies": {
     "source-map-explorer": "^2.5.3"
