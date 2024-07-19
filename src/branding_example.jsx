@@ -1,6 +1,6 @@
 import logo from '../assets/logo-bw.webp';
 
-export const GAME_TITLE = document.title;
+export const API_URL = 'https://geekgame.pku.edu.cn';
 
 const SVC_ROOT = '/service/'
 export const WISH_ROOT = SVC_ROOT+'wish/';
@@ -9,6 +9,9 @@ export const TEMPLATE_ROOT = SVC_ROOT+'template/';
 export const WS_ROOT = SVC_ROOT+'ws/';
 export const SYBIL_ROOT = SVC_ROOT+'anticheat/';
 export const ATTACHMENT_ROOT = SVC_ROOT+'attachment/';
+
+export const GAME_TITLE = document.title;
+export const QQ_GROUP = '1919810';
 
 export function WEB_TERMINAL_ADDR(action, token) {
     return `https://${action.host}/?token=${token}`;

@@ -4,8 +4,7 @@ import {compression} from 'vite-plugin-compression2'
 import {createHtmlPlugin} from 'vite-plugin-html';
 import zlib from 'zlib';
 
-//const API_URL = 'http://localhost:8010';
-const API_URL = 'https://geekgame.pku.edu.cn';
+import {API_URL} from './src/branding';
 
 export default defineConfig(() => {
     return {
