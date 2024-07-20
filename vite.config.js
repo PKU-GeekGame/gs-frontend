@@ -22,7 +22,7 @@ export default defineConfig(() => {
                     generatedCode: 'es2015',
                     manualChunks: {
                         vendor: ['antd', '@ant-design/icons', 'react', 'react-dom', 'react-router-dom', 'react-transition-group', 'react-lazyload', 'react-timeago'],
-                        Table: ['antd/es/table', 'antd/es/tree', 'rc-tree', 'rc-virtual-list', './src/widget/Table'],
+                        Table: ['antd/es/table', 'antd/es/tree', 'antd/es/tree-select', 'rc-tree', './src/widget/Table'],
                     },
                 },
             },
