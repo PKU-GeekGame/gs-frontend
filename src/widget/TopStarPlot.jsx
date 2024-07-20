@@ -56,6 +56,8 @@ export default function TopStarPlot({data, single}) {
     let timepoints = {};
 
     let time_range_disp = [data.time_range[0]*1000, minmax(+new Date()+1000, data.time_range[0]*1000+1000, data.time_range[1]*1000)];
+    let nicknames = data.topstars.map((topstar) => topstar.nickname);
+    let max_score = 0;
 
     data.topstars.forEach((topstar) => {
         let cur_ts = 0;
@@ -86,6 +88,7 @@ export default function TopStarPlot({data, single}) {
                 });
             }
             cur_score += p[1];
+            max_score = Math.max(max_score, cur_score);
         });
         for(; time_idx<timepoints.length-1; time_idx++) {
             points.push({
@@ -102,28 +105,62 @@ export default function TopStarPlot({data, single}) {
 
     return (
         <Line
+            containerStyle={{lineHeight: 0}}
             height={single ? 125 : 350}
             data={points}
-            xField="timestamp_ms" yField="score" seriesField="idx0"
-            stepType="hv"
-            legend={single ? false : {
-                layout: 'horizontal',
-                position: 'top',
-            }}
-            meta={{
-                idx0: {
-                    formatter: (x) => (data.topstars[x] || {nickname: '--'}).nickname,
+            margin={6} paddingLeft={22} paddingBottom={16}
+            xField="timestamp_ms" yField="score" seriesField="idx0" colorField="idx0"
+            shapeField="hv"
+            axis={{
+                x: {
+                    labelFormatter: (x) => format_ts(x/1000, false),
+                    grid: false,
                 },
-                timestamp_ms: {
-                    type: 'linear',
-                    minLimit: time_range_disp[0],
-                    maxLimit: time_range_disp[1],
-                    formatter: (x) => format_ts(x/1000, false),
+                y: {
+                    labelFormatter: (y) => Math.round(y/1000) + 'k',
+                    gridLineDash: [0, 0],
+                    gridStrokeOpacity: .5,
                 }
             }}
-            theme={{
-                colors10: top_colors,
-                colors20: top_colors,
+            interaction={{
+                tooltip: {
+                    position: 'top-right',
+                    sort: (x) => -x.value,
+                    groupName: false,
+                },
+            }}
+            legend={single ? false : {
+                color: {
+                    labelFormatter: (x) => nicknames[x],
+                    itemMarker: 'circle',
+                    itemLabelFontSize: 10,
+                    itemSpacing: 3,
+                    itemLabelFillOpacity: 1,
+                    itemLabelFontWeight: 'bold',
+                    maxRows: 2,
+                    layout: {
+                        justifyContent: 'center',
+                    }
+                },
+            }}
+            tooltip={{
+                title: (d) => format_ts(d.timestamp_ms/1000, false),
+                items: [(d)=>({
+                    name: nicknames[d.idx0],
+                    value: d.score,
+                })],
+            }}
+            scale={{
+                y: {
+                    domain: [0, max_score],
+                    nice: true,
+                },
+                color: {
+                    range: top_colors,
+                }
+            }}
+            style={{
+                lineWidth: 2,
             }}
         />
     );
