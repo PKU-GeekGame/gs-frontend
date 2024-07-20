@@ -21,7 +21,7 @@ export function TemplateFile({name}) {
         set_html(null);
         set_error(null);
 
-        fetch(TEMPLATE_ROOT+name+'?tabid=' + TABID, {
+        fetch(TEMPLATE_ROOT+name, {
             method: 'GET',
             credentials: 'include',
         })

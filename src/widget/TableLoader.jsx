@@ -16,7 +16,7 @@ function TableLoading({height}) {
 export function TableLoader(props) {
     return (
         <Alert.ErrorBoundary>
-            <Suspense fallback={<TableLoading height={200}/>}>
+            <Suspense fallback={<TableLoading height={350}/>}>
                 <Table {...props} />
             </Suspense>
         </Alert.ErrorBoundary>
