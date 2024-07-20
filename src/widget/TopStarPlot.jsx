@@ -103,8 +103,7 @@ export default function TopStarPlot({data, single}) {
 
     return (
         <Line
-            containerStyle={{lineHeight: 0}}
-            height={single ? 125 : 350}
+            containerStyle={{lineHeight: 0, height: (single ? 125 : 350)+'px'}}
             data={points}
             margin={6} paddingLeft={30} paddingBottom={16}
             xField="timestamp_ms" yField="score" seriesField="idx0" colorField="idx0"
