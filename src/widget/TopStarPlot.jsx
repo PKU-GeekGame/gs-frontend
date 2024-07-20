@@ -108,7 +108,7 @@ export default function TopStarPlot({data, single}) {
             containerStyle={{lineHeight: 0}}
             height={single ? 125 : 350}
             data={points}
-            margin={6} paddingLeft={22} paddingBottom={16}
+            margin={6} paddingLeft={30} paddingBottom={16}
             xField="timestamp_ms" yField="score" seriesField="idx0" colorField="idx0"
             shapeField="hv"
             axis={{
@@ -117,7 +117,7 @@ export default function TopStarPlot({data, single}) {
                     grid: false,
                 },
                 y: {
-                    labelFormatter: (y) => Math.round(y/1000) + 'k',
+                    labelFormatter: (y) => y>=10000 ? (Math.round(y/1000) + 'k') : y,
                     gridLineDash: [0, 0],
                     gridStrokeOpacity: .5,
                 }
