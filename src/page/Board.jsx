@@ -1,6 +1,6 @@
-import {lazy, Suspense, useState, useEffect, memo} from 'react';
-import {Alert, Skeleton, Table, Tooltip, Button, Tag, App} from 'antd';
-import {HistoryOutlined, SyncOutlined, LoadingOutlined, FireOutlined} from '@ant-design/icons';
+import {useState, useEffect, memo} from 'react';
+import {Alert, Skeleton, Tooltip, Button, Tag, App} from 'antd';
+import {HistoryOutlined, SyncOutlined, FireOutlined} from '@ant-design/icons';
 import LazyLoad, {forceCheck} from 'react-lazyload';
 
 import {Reloader} from './GameLoading';
@@ -10,10 +10,10 @@ import {format_ts, TimestampAgo, useReloadButton} from '../utils';
 import {UserBadges, UserName, UserGroupTag} from '../widget/UserBadges';
 import {useGameInfo} from '../logic/GameInfo';
 import {LookingGlassLink} from '../widget/LookingGlassLink';
+import {TopStarPlotLoader} from '../widget/TopStarPlotLoader';
+import {TableLoader as Table} from '../widget/TableLoader';
 
 import './Board.less';
-
-const TopStarPlot = lazy(()=>import('../widget/TopStarPlot'));
 
 function ChallengeStatus({ch, record}) {
     return (
@@ -30,24 +30,6 @@ function ChallengeStatus({ch, record}) {
                 );
             })}
         </div>
-    );
-}
-
-function TopStarPlotLoading({height}) {
-    return (
-        <div className="topstar-plot-loading" style={{height: height+'px', lineHeight: height+'px'}}>
-            <p><LoadingOutlined /> 图表加载中</p>
-        </div>
-    );
-}
-
-export function TopStarPlotLoader({plotkey, data, single}) {
-    return (
-        <Alert.ErrorBoundary>
-            <Suspense fallback={<TopStarPlotLoading height={single ? 125 : 350} />}>
-                <TopStarPlot key={plotkey} data={data} single={single} />
-            </Suspense>
-        </Alert.ErrorBoundary>
     );
 }
 

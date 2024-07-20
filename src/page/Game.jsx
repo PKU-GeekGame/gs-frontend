@@ -1,6 +1,6 @@
 import {Fragment, useMemo, useState, useEffect, useReducer} from 'react';
 import {useNavigate, useSearchParams, unstable_usePrompt} from 'react-router-dom';
-import {Skeleton, Button, Empty, Tag, Alert, Input, Tooltip, Popover, Card, Table, App, Popconfirm} from 'antd';
+import {Skeleton, Button, Empty, Tag, Alert, Input, Tooltip, Popover, Card, App, Popconfirm} from 'antd';
 import {
     PieChartFilled,
     SyncOutlined,
@@ -31,6 +31,7 @@ import {LookingGlassLink} from '../widget/LookingGlassLink';
 import {useWishData, wish, TABID} from '../wish';
 import {TimestampAgo, NotFound, useReloadButton, to_auth, format_ts} from '../utils';
 import {WEB_TERMINAL_ADDR, ATTACHMENT_ROOT, ANTICHEAT_REPORT, SYBIL_ROOT} from '../branding';
+import {TableLoader as Table} from '../widget/TableLoader';
 
 import './Game.less';
 
