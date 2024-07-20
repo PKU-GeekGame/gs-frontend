@@ -57,7 +57,6 @@ export default function TopStarPlot({data, single}) {
 
     let time_range_disp = [data.time_range[0]*1000, minmax(+new Date()+1000, data.time_range[0]*1000+1000, data.time_range[1]*1000)];
     let nicknames = data.topstars.map((topstar) => topstar.nickname);
-    let max_score = 0;
 
     data.topstars.forEach((topstar) => {
         let cur_ts = 0;
@@ -88,7 +87,6 @@ export default function TopStarPlot({data, single}) {
                 });
             }
             cur_score += p[1];
-            max_score = Math.max(max_score, cur_score);
         });
         for(; time_idx<timepoints.length-1; time_idx++) {
             points.push({
@@ -152,7 +150,6 @@ export default function TopStarPlot({data, single}) {
             }}
             scale={{
                 y: {
-                    domain: [0, max_score],
                     nice: true,
                 },
                 color: {
@@ -161,6 +158,11 @@ export default function TopStarPlot({data, single}) {
             }}
             style={{
                 lineWidth: 2,
+            }}
+            animate={{
+                enter: {type: false},
+                update: {type: false},
+                exit: {type: false},
             }}
         />
     );
