@@ -28,6 +28,7 @@ function InfoShell() {
     let {page} = useParams();
     let nav = useNavigate();
     let info = useGameInfo();
+    let outlet = useOutlet();
 
     return (
         <div className="slim-container">
@@ -53,7 +54,9 @@ function InfoShell() {
                 ]}
             />
             <br />
-            <Outlet />
+            <Transition cur={page}>
+                {outlet}
+            </Transition>
         </div>
     );
 }
@@ -71,6 +74,7 @@ function InfoPage() {
 
 function BoardShell() {
     let {name} = useParams();
+    let outlet = useOutlet();
     let nav = useNavigate();
 
     return (
@@ -101,7 +105,9 @@ function BoardShell() {
                     },
                 ]}
             />
-            <Outlet />
+            <Transition cur={name}>
+                {outlet}
+            </Transition>
         </div>
     );
 }
@@ -162,8 +168,10 @@ function AnticheatReporter() {
 }
 
 function AppShell() {
-    let location = useLocation();
+    let {pathname} = useLocation();
     let outlet = useOutlet();
+
+    let key = pathname.startsWith('/user') ? pathname : pathname.split('/')[1];
 
     return (
         <div>
@@ -172,7 +180,7 @@ function AppShell() {
 
             <div className="main-container">
                 <Alert.ErrorBoundary>
-                    <Transition cur={location.pathname}>
+                    <Transition cur={key}>
                         {outlet}
                     </Transition>
                 </Alert.ErrorBoundary>
@@ -186,7 +194,7 @@ export const routes = [
     {element: <AppShell />, children: [
         {path: '/', element: <Navigate to="/game" replace />},
 
-        {path: '/game', element: <Game />},
+        {path: '/game/:challenge?', element: <Game />},
 
         {path: '/board', element: <BoardShell />, children: [
             {index: true, element: <Navigate to="/board/score_pku" replace />},

@@ -10,7 +10,7 @@ export function Transition({cur, children}) {
             <CSSTransition
                 key={cur}
                 classNames="app-transition"
-                timeout={83}
+                timeout={100}
                 nodeRef={noderef}
                 unmountOnExit
             >

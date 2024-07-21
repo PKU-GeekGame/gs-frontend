@@ -1,5 +1,5 @@
 import {Fragment, useMemo, useState, useEffect, useReducer} from 'react';
-import {useNavigate, useSearchParams, unstable_usePrompt} from 'react-router-dom';
+import {useNavigate, unstable_usePrompt, useParams} from 'react-router-dom';
 import {Skeleton, Button, Empty, Tag, Alert, Input, Tooltip, Popover, Card, App, Popconfirm} from 'antd';
 import {
     PieChartFilled,
@@ -363,14 +363,16 @@ function Challenge({ch, do_reload_list}) {
                 }
             </p>
             <br />
-            {display_panel==='touched_users' && <>
-                <TouchedUsersTable ch={ch} />
-                <br />
-            </>}
-            {display_panel==='feedback' && <>
-                <Feedback ch={ch} />
-                <br />
-            </>}
+            <Transition cur={display_panel}>
+                {display_panel==='touched_users' && <>
+                    <TouchedUsersTable ch={ch} />
+                    <br />
+                </>}
+                {display_panel==='feedback' && <>
+                    <Feedback ch={ch} />
+                    <br />
+                </>}
+            </Transition>
             <ChallengeBody ch={ch} />
             {
                 ch.status.startsWith('passed') ?
@@ -473,10 +475,13 @@ function Portal() {
     let [error, data, load_data] = useWishData('game');
     let nav = useNavigate();
     let [last_reloaded, do_reload, reload_btn] = useReloadButton(load_data, 3, 600);
-    let [params, set_params] = useSearchParams();
+    let {challenge: active_challenge_key} = useParams();
     let {message} = App.useApp();
 
-    let active_challenge_key = params.get('challenge');
+    active_challenge_key = active_challenge_key || null;
+    function goto_challenge(k) {
+        nav('/game/'+k);
+    }
 
     let active_challenge = useMemo(()=>{
         if(data!==null && data.challenge_list!==null)
@@ -557,7 +562,7 @@ function Portal() {
                             }
                         </div>
                         <PortalUserInfo info={data.user_info} />
-                        <PortalChallengeList list={data.challenge_list} active_key={active_challenge_key} set_active_key={(k)=>set_params({challenge: k})} />
+                        <PortalChallengeList list={data.challenge_list} active_key={active_challenge_key} set_active_key={(k)=>goto_challenge(k)} />
                     </>
                 }
             </div>
