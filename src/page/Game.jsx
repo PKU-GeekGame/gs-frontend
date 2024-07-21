@@ -372,7 +372,7 @@ function Challenge({ch, do_reload_list}) {
                 }
             </p>
             <br />
-            <Transition cur={display_panel}>
+            <Transition cur={display_panel} skipexit={display_panel===''}>
                 {display_panel==='touched_users' && <>
                     <TouchedUsersTable ch={ch} />
                     <br />

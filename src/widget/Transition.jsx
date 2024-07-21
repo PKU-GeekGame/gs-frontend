@@ -3,14 +3,17 @@ import {SwitchTransition, CSSTransition} from 'react-transition-group';
 
 import './Transition.less';
 
-export function Transition({cur, children}) {
+export function Transition({cur, children, skipexit=false}) {
     let noderef = useRef();
     return (
         <SwitchTransition>
             <CSSTransition
                 key={cur}
                 classNames="app-transition"
-                timeout={100}
+                timeout={{
+                    enter: 100,
+                    exit: skipexit ? 0 : 100,
+                }}
                 nodeRef={noderef}
                 unmountOnExit
             >
