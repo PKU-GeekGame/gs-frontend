@@ -1,9 +1,8 @@
 .app-transition-enter {
-    opacity: 0;
     transform: translateY(-5px);
+    will-change: transform;
 }
 .app-transition-enter-active {
-    opacity: 1;
     transform: translateY(0);
     transition: opacity 100ms ease-out, transform 100ms ease-out;
 }
@@ -11,6 +10,7 @@
 .app-transition-exit {
     opacity: 1;
     transform: translateY(0) scaleX(1);
+    will-change: opacity, transform;
 }
 .app-transition-exit-active {
     opacity: 0;

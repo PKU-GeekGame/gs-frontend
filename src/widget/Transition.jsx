@@ -14,7 +14,7 @@ export function Transition({cur, children}) {
                 nodeRef={noderef}
                 unmountOnExit
             >
-                <div ref={noderef}>
+                <div className="comment" ref={noderef}> {/* class=comment will disable safari's reader */}
                     {children}
                 </div>
             </CSSTransition>

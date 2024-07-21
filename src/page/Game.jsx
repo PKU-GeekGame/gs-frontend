@@ -87,13 +87,20 @@ function TouchedUsersTable({ch}) {
 
     if(error)
         return <Reloader message={error.error_msg} reload={load_data} />;
-    if(data===null)
-        return <Skeleton />;
+
+    let data_disp = data ? data.list : [{
+        uid: 0,
+        tot_score: 0,
+        nickname: '',
+        group_disp: '加载中',
+        badges: [],
+        flags: [],
+    }];
 
     return (
         <div>
             <Table
-                dataSource={data.list}
+                dataSource={data_disp}
                 size="small"
                 rowKey="uid"
                 onRow={(record)=>{
@@ -118,9 +125,11 @@ function TouchedUsersTable({ch}) {
                         {text: '其他选手', value: 'other'},
                     ]}
                     onFilter={(value, record)=>(
-                        value==='pku'? record.group_disp==='北京大学' :
-                        value==='other'? record.group_disp!=='北京大学' :
-                                true
+                        value.uid===0 ? true : (
+                            value==='pku'? record.group_disp==='北京大学' :
+                            value==='other'? record.group_disp!=='北京大学' :
+                                    true
+                        )
                     )}
                     filterMultiple={false}
                 />
@@ -129,7 +138,7 @@ function TouchedUsersTable({ch}) {
                     key="tot_score"
                     dataIndex="tot_score"
                     render={(score, record) => (
-                        <LookingGlassLink uid={record.uid} nickname={record.nickname}>{score}</LookingGlassLink>
+                        record.uid ? <LookingGlassLink uid={record.uid} nickname={record.nickname}>{score}</LookingGlassLink> : null
                     )}
                 />
                 {ch.flags.map((flag, idx)=>(

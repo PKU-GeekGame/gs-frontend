@@ -7,6 +7,7 @@ import zlib from 'zlib';
 
 const API_ENV = process.env['MOCK_API_ENV'] || 'DEV';
 const API_URL = process.env['MOCK_API_URL_'+API_ENV] || 'https://geekgame.pku.edu.cn';
+const API_COOKIE = process.env['MOCK_API_COOKIE_'+API_ENV] || '';
 
 export default defineConfig(() => {
     return {
@@ -62,12 +63,14 @@ export default defineConfig(() => {
         ],
         server: {
             open: true,
+            host: '0.0.0.0',
             port: 3000,
             proxy: {
                 '/service': {
                     target: API_URL,
                     changeOrigin: true,
                     ws: true,
+                    headers: API_COOKIE ? {'Cookie': API_COOKIE} : {},
                 },
             },
         },
