@@ -37,7 +37,7 @@ export function Header() {
         <div className="header-container">
             <div className="header">
                 <div className="header-logo">
-                    <span className="clickable" onClick={()=>nav('/')}>
+                    <span className="clickable" onClick={()=>nav('/game')}>
                         <Logo cur_url={cur_key} />
                         {GAME_TITLE}
                     </span>
