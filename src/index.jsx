@@ -2,13 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {ConfigProvider, Alert, App as AntdApp} from 'antd';
 import {createHashRouter, RouterProvider} from 'react-router-dom';
-import { StyleProvider } from '@ant-design/cssinjs';
+import {StyleProvider, legacyLogicalPropertiesTransformer} from '@ant-design/cssinjs';
 import {CloseCircleOutlined} from '@ant-design/icons';
+import zhCN from 'antd/es/locale/zh_CN';
 
 import {GameInfoProvider} from './logic/GameInfo';
 import {routes} from './App';
 
-import zhCN from 'antd/es/locale/zh_CN';
+import './polyfill';
 
 import './index.less';
 
@@ -39,7 +40,7 @@ let component = (
                 }
             }}
         >
-            <StyleProvider hashPriority="high">
+            <StyleProvider hashPriority="high" transformers={[legacyLogicalPropertiesTransformer]}>
                 <Alert.ErrorBoundary>
                     <GameInfoProvider>
                         <AntdApp

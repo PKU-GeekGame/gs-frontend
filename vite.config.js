@@ -12,6 +12,7 @@ const API_COOKIE = process.env['MOCK_API_COOKIE_'+API_ENV] || '';
 export default defineConfig(() => {
     return {
         build: {
+            target: ['es2020', 'firefox78', 'chrome80', 'safari14'],
             outDir: 'build',
             assetsInlineLimit: 8192,
             sourcemap: process.env.GENERATE_SOURCEMAP!=='false',

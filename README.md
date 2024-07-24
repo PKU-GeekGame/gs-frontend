@@ -3,10 +3,6 @@
 It is a part of the Guiding Star project.
 [Learn more about the overall architecture here.](https://github.com/pku-GeekGame/guiding-star)
 
-## Screenshots
-
-TODO
-
 ## Usage
 
 Since this is a frontend project, you don't need to install requirements on the deployment server.
@@ -28,6 +24,16 @@ Install requirements on the developer's machine (or a CI worker) and copy the bu
 
 - `./build.sh`
 - Find built files in `build-finished` directory
+
+## Browser Compatibility
+
+The current version targets the below browsers:
+
+- Chrome 80+
+- Firefox 78+
+- Safari 14+
+
+Future versions may only target browsers within recent 4 years.
 
 ## License
 
