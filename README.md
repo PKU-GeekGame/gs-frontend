@@ -11,9 +11,9 @@ Install requirements on the developer's machine (or a CI worker) and copy the bu
 
 **Setup:**
 
-- Install Node.JS (≥12)
+- Install a recent version of Node.JS and NPM
 - `cp src/branding_example.jsx src/branding.jsx`
-- `cp src/build_example.sh build.sh`
+- `cp build_example.sh build.sh`
 - `npm install`
 
 **Development:**
@@ -29,11 +29,11 @@ Install requirements on the developer's machine (or a CI worker) and copy the bu
 
 The current version targets the below browsers:
 
-- Chrome 80+
+- Chrome 79+
 - Firefox 78+
-- Safari 14+
+- Safari 13+
 
-Future versions may only target browsers within recent 4 years.
+Future versions may only target browsers within recent 5 years.
 
 ## License
 
