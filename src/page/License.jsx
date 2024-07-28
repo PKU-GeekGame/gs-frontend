@@ -15,7 +15,7 @@ export function License() {
                     允许任何人在 MIT 协议（如下）的要求下部署或二次开发本平台。
                 </p>
                 <p>
-                    Copyright (c) 2022-2023 @xmcp, and other members from PKUGGG Team
+                    Copyright (c) @xmcp, and other members from PKUGGG Team
                 </p>
                 <p>
                     Permission is hereby granted, free of charge, to any person obtaining a copy
