@@ -35,6 +35,22 @@ import {TableLoader as Table} from '../widget/TableLoader';
 
 import './Game.less';
 
+function LoginBanner() {
+    let {message} = App.useApp();
+
+    return (
+        <div className="landing-login-form">
+            <Card type="inner" size="small" bordered={false}>
+                <b>报名参赛：</b>
+                <Button type="primary"
+                        onClick={() => to_auth('pku/redirect', message)}><HomeOutlined/> 北京大学登录</Button>
+                {' '}
+                <Button onClick={() => window.location.href = '#/login/other'}><GlobalOutlined/> 校外选手</Button>
+            </Card>
+        </div>
+    );
+}
+
 function ChallengeAction({action, ch}) {
     /* eslint-disable react/jsx-no-target-blank */
     let info = useGameInfo();
@@ -205,9 +221,15 @@ function ChallengeBody({ch}) {
     let [error, data, load_data] = useWishData('challenge/'+ch.key);
 
     if(error)
-        return <Reloader message={error.error_msg} reload={load_data} />;
+        return (<>
+            <Reloader message={error.error_msg} reload={load_data} />
+            <br />
+        </>);
     if(data===null)
-        return <Skeleton />;
+        return (<>
+            <Skeleton />
+            <br />
+        </>);
 
     return (<>
         <TemplateStr name="challenge-desc">{data.desc}</TemplateStr>
@@ -482,27 +504,30 @@ function PortalChallengeList({list, active_key, set_active_key}) {
 
 function Portal() {
     let [error, data, load_data] = useWishData('game');
+    let info = useGameInfo();
     let nav = useNavigate();
     let [last_reloaded, do_reload, reload_btn] = useReloadButton(load_data, 3, 600);
     let {challenge: active_challenge_key} = useParams();
     let {message} = App.useApp();
 
     active_challenge_key = active_challenge_key || null;
+    let shown_challenge_key = info.user ? active_challenge_key : null;
+
     function goto_challenge(k) {
         nav('/game/'+k);
     }
 
-    let active_challenge = useMemo(()=>{
+    let shown_challenge = useMemo(()=>{
         if(data!==null && data.challenge_list!==null)
             for(let ch of data.challenge_list)
-                if(ch.key===active_challenge_key)
+                if(ch.key===shown_challenge_key)
                     return ch;
         return null;
-    }, [data, active_challenge_key]);
+    }, [data, shown_challenge_key]);
 
     useEffect(()=>{
         void ANTICHEAT_REPORT();
-    }, [active_challenge_key]);
+    }, [shown_challenge_key]);
 
     useEffect(()=>{
         function on_focus() {
@@ -565,34 +590,38 @@ function Portal() {
                                 <Button block size="large" onClick={()=>nav('/writeup')} type="primary">
                                     <SolutionOutlined /> 提交 Writeup
                                 </Button> :
+                            info.user===null ?
+                                <Alert type="info" showIcon message="比赛进行中，报名参赛后可以查看题目" /> :
                                 <Button block size="large" onClick={()=>nav('/info/faq')}>
                                     <FileTextOutlined /> 选手常见问题
                                 </Button>
                             }
                         </div>
-                        <PortalUserInfo info={data.user_info} />
+                        {data.user_info!==null &&
+                            <PortalUserInfo info={data.user_info} />
+                        }
                         <PortalChallengeList list={data.challenge_list} active_key={active_challenge_key} set_active_key={(k)=>goto_challenge(k)} />
                     </>
                 }
             </div>
             <div className="portal-main">
-                <div className="portal-headline">
-                    {data!==null &&
+                {data!==null && data.trigger!==null &&
+                    <div className="portal-headline">
                         <div>
                             <CarryOutOutlined /> {data.trigger.current_name.replace(/;/, '，')}
                             {!!data.trigger.next_name && <>
                                 （<TimestampAgo ts={data.trigger.next_timestamp_s} delta={5} />：{data.trigger.next_name.replace(/;/, '，')}）
                             </>}
                         </div>
-                    }
-                    <div>
-                        <Button type="link" onClick={()=>{
-                            window.location.href = '#/info/triggers';
-                        }}>
-                            <RightCircleOutlined /> 查看赛程安排
-                        </Button>
+                        <div>
+                            <Button type="link" onClick={()=>{
+                                window.location.href = '#/info/triggers';
+                            }}>
+                                <RightCircleOutlined /> 查看赛程安排
+                            </Button>
+                        </div>
                     </div>
-                </div>
+                }
                 {data!==null && data.last_announcement!==null &&
                     <Announcement
                         announcement={data.last_announcement}
@@ -603,12 +632,18 @@ function Portal() {
                         }
                     />
                 }
-                <Transition cur={active_challenge_key}>
-                    {active_challenge!==null ?
-                        <Challenge ch={active_challenge} do_reload_list={()=>load_data(false)} />:
-                    (active_challenge_key!==null && data!==null) ?
+                <Transition cur={shown_challenge_key}>
+                    {shown_challenge!==null ?
+                        <Challenge ch={shown_challenge} do_reload_list={()=>load_data(false)} />:
+                    (shown_challenge_key!==null && data!==null) ?
                         <NotFound /> :
-                        <TemplateFile name="game" />
+                        <>
+                            <TemplateFile name="game" />
+                            {info.user===null && <>
+                                <br />
+                                <LoginBanner />
+                            </>}
+                        </>
                     }
                 </Transition>
             </div>
@@ -618,21 +653,13 @@ function Portal() {
 
 export function Game() {
     let info = useGameInfo();
-    let {message} = App.useApp();
 
     if(!info.feature.game)
         return (
             <div className="slim-container">
                 <TemplateFile name="game" />
                 <br />
-                <div className="landing-login-form">
-                    <Card type="inner" size="small" bordered={false}>
-                        <b>报名参赛：</b>
-                        <Button type="primary" onClick={()=>to_auth('pku/redirect', message)}><HomeOutlined /> 北京大学登录</Button>
-                        {' '}
-                        <Button onClick={()=>window.location.href='#/login/other'}><GlobalOutlined /> 校外选手</Button>
-                    </Card>
-                </div>
+                <LoginBanner />
             </div>
         );
     else

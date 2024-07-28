@@ -47,7 +47,7 @@ export function Header() {
                         mode="horizontal" theme="dark"
                         selectedKeys={[cur_key]} onSelect={(e)=>{if(e.key.charAt(0)!=='_') nav(e.key + (e.item.props.default_subview || ''))}}
                         items={[
-                            ...(game_info.feature.game ? [{
+                            ...((game_info.feature.game && game_info.user) ? [{
                             key: '/game',
                             icon: <UnorderedListOutlined />,
                             label: '比赛主页',
