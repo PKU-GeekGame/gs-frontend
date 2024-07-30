@@ -8,7 +8,14 @@ export function GameLoading({set_info}) {
     let [error, data, load_data] = useWishData('game_info');
 
     useEffect(()=>{
-        set_info(data);
+        let ts = +new Date();
+        if(data)
+            set_info({
+                ...data,
+                diag_ts: ts - data.diag_ts*1000,
+            });
+        else
+            set_info(null);
     }, [set_info, data]);
 
     function force_reload() {

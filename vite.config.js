@@ -5,9 +5,9 @@ import {createHtmlPlugin} from 'vite-plugin-html';
 import {resolve} from 'path';
 import zlib from 'zlib';
 
-const API_ENV = process.env['MOCK_API_ENV'] || 'DEV';
-const API_URL = process.env['MOCK_API_URL_'+API_ENV] || 'https://geekgame.pku.edu.cn';
-const API_COOKIE = process.env['MOCK_API_COOKIE_'+API_ENV] || '';
+const API_ENV = process.env['VITE_APP_MOCK_API_ENV'] || null;
+const API_URL = API_ENV ? process.env['MOCK_API_URL_'+API_ENV] : 'https://geekgame.pku.edu.cn';
+const API_COOKIE = API_ENV ? (process.env['MOCK_API_COOKIE_'+API_ENV] || null) : null;
 
 export default defineConfig(() => {
     return {

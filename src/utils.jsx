@@ -1,7 +1,7 @@
 import {useRef, useEffect} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
 import {Result, Button} from 'antd';
-import TimeAgo from 'react-timeago';
+import RealTimeAgo from 'react-timeago';
 import buildFormatter from 'react-timeago/lib/formatters/buildFormatter';
 import {InboxOutlined} from '@ant-design/icons';
 
@@ -42,7 +42,7 @@ export function format_ts(ts, seconds=true) {
         return `${pad2(time.getMonth()+1)}-${pad2(time.getDate())} ${pad2(time.getHours())}:${pad2(time.getMinutes())}`;
 }
 
-const timeago_format=buildFormatter({
+const timeago_format = buildFormatter({
     prefixAgo: null,
     prefixFromNow: '',
     suffixAgo: (val, delta)=>{
@@ -64,6 +64,11 @@ const timeago_format=buildFormatter({
     years: '%d年',
     wordSeparator: '',
 });
+export function TimeAgo(props) {
+    return (
+        <RealTimeAgo {...props} formatter={timeago_format} />
+    );
+}
 export function TimestampAgo({ts, delta=0}) {
     return (
         <TimeAgo date={(ts+delta)*1000} formatter={timeago_format} title={format_ts(ts)} />

@@ -25,6 +25,7 @@
     "vite-plugin-html": "^3.2.2"
   },
   "devDependencies": {
+    "@types/react-timeago": "^4.1.7",
     "source-map-explorer": "^2.5.3"
   },
   "scripts": {
