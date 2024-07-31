@@ -179,11 +179,11 @@ function AppShell() {
             <Header />
 
             <div className="main-container">
-                <Alert.ErrorBoundary>
-                    <Transition cur={key}>
+                <Transition cur={key}>
+                    <Alert.ErrorBoundary>
                         {outlet}
-                    </Transition>
-                </Alert.ErrorBoundary>
+                    </Alert.ErrorBoundary>
+                </Transition>
             </div>
             <Footer />
         </div>

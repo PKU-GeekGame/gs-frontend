@@ -468,7 +468,7 @@ function PortalUserInfo({info, last_reloaded}) {
                 总分 <b>{info.tot_score}</b><TrendMark reversed={false} current={info.tot_score} reloaded={last_reloaded} />{'，'}
                 {info.board_name}排名 <b>#{info.board_rank || 'N/A'}</b><TrendMark reversed={true} current={info.board_rank} reloaded={last_reloaded} />
             </div>
-            {info.tot_score_by_cat.length>0 &&
+            {tot_score_by_cat.length>0 &&
                 <div className="portal-user-info-cat">
                     <PieChartFilled />{' '}
                     {tot_score_by_cat.map((cat, idx)=>(
