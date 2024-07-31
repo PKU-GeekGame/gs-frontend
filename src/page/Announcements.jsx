@@ -17,7 +17,7 @@ export function Announcement({announcement, extra}) {
             <Card
                 type="inner" size="small" bordered={false} extra={extra||null}
                 title={<>
-                    <Tag style={{fontSize: '1em', fontWeight: 'bold'}} color="#333">
+                    <Tag style={{fontSize: '1em', fontWeight: 'bold'}} color="#555">
                     <NotificationOutlined /> {announcement.title}</Tag>
                     {' '}<TimestampAgo ts={announcement.timestamp_s} />发布
                 </>}
