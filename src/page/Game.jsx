@@ -1,4 +1,4 @@
-import {Fragment, useMemo, useState, useEffect, useReducer} from 'react';
+import {Fragment, useMemo, useState, useEffect, useReducer, useRef} from 'react';
 import {useNavigate, unstable_usePrompt, useParams} from 'react-router-dom';
 import {Skeleton, Button, Empty, Tag, Alert, Input, Tooltip, Popover, Card, App, Popconfirm} from 'antd';
 import {
@@ -16,7 +16,7 @@ import {
     GlobalOutlined,
     CarryOutOutlined,
     FileTextOutlined,
-    FireOutlined, UserSwitchOutlined, FormOutlined,
+    FireOutlined, UserSwitchOutlined, FormOutlined, ArrowUpOutlined, ArrowDownOutlined,
 } from '@ant-design/icons';
 
 import {Reloader} from './GameLoading';
@@ -418,18 +418,60 @@ function Challenge({ch, do_reload_list}) {
     );
 }
 
-function PortalUserInfo({info}) {
+function TrendMark({current, reloaded, reversed}) {
+    let [prev, set_prev] = useState(null);
+    let [active, set_active] = useState(false);
+    let mem = useRef({reloaded: reloaded, value: current});
+
+    useEffect(()=>{
+        if(reloaded===mem.current.reloaded)
+            return;
+
+        let prev_val = mem.current.value;
+        mem.current.value = current;
+        mem.current.reloaded = reloaded;
+
+        set_prev(prev_val);
+
+        set_active(true);
+        let timer = setTimeout(()=>{
+            set_active(false);
+        }, 1500);
+
+        return ()=>{
+            clearTimeout(timer);
+        };
+    }, [current, reloaded]);
+
+    let delta = (current && prev) ? current-prev : null;
+    if(delta===null)
+        return null;
+
+    let clsname = delta===0 ? 'keep' : (reversed ? delta<0 : delta>0) ? 'up' : 'down';
+    let shown_delta = Math.abs(delta);
+    return (
+        <span className={`trend-mark${active ? ' trend-mark-active' : ''} trend-mark-${clsname}`}>{
+            clsname==='up' ? <><ArrowUpOutlined />{shown_delta}</> :
+            clsname==='down' ? <><ArrowDownOutlined />{shown_delta}</> :
+                'KEEP'
+        }</span>
+    )
+}
+
+function PortalUserInfo({info, last_reloaded}) {
     let nav = useNavigate();
+    let tot_score_by_cat = info.tot_score_by_cat ? info.tot_score_by_cat.filter((cat)=>cat[0]!=='Tutorial') : [];
 
     return (
-        <div className="portal-user-info" onClick={()=>nav('/board/'+info.active_board_key)}>
+        <div className="portal-user-info" onClick={()=>nav('/board/'+info.board_key)}>
             <div className="portal-user-info-status">
-                {info.status_line}
+                总分 <b>{info.tot_score}</b><TrendMark reversed={false} current={info.tot_score} reloaded={last_reloaded} />{'，'}
+                {info.board_name}排名 <b>#{info.board_rank || 'N/A'}</b><TrendMark reversed={true} current={info.board_rank} reloaded={last_reloaded} />
             </div>
-            {info.tot_score_by_cat!==null &&
+            {info.tot_score_by_cat.length>0 &&
                 <div className="portal-user-info-cat">
                     <PieChartFilled />{' '}
-                    {info.tot_score_by_cat.map((cat, idx)=>(
+                    {tot_score_by_cat.map((cat, idx)=>(
                         <Fragment key={cat}>
                             {idx!==0 ? ' + ' : null}
                             {cat[0]} {cat[1]}
@@ -598,7 +640,7 @@ function Portal() {
                             }
                         </div>
                         {data.user_info!==null &&
-                            <PortalUserInfo info={data.user_info} />
+                            <PortalUserInfo info={data.user_info} last_reloaded={last_reloaded} />
                         }
                         <PortalChallengeList list={data.challenge_list} active_key={active_challenge_key} set_active_key={(k)=>goto_challenge(k)} />
                     </>
@@ -634,7 +676,7 @@ function Portal() {
                 }
                 <Transition cur={shown_challenge_key}>
                     {shown_challenge!==null ?
-                        <Challenge ch={shown_challenge} do_reload_list={()=>load_data(false)} />:
+                        <Challenge ch={shown_challenge} do_reload_list={()=>{window.scroll(0, 0); do_reload();}} />:
                     (shown_challenge_key!==null && data!==null) ?
                         <NotFound /> :
                         <>

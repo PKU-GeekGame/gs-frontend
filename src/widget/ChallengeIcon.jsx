@@ -1,3 +1,4 @@
+import {memo} from 'react';
 import {MinusSquareTwoTone, CheckSquareTwoTone, FlagTwoTone, BorderOutlined} from '@ant-design/icons';
 import {Tag} from 'antd';
 
@@ -11,7 +12,7 @@ function parse_status(status) {
         return [status, false];
 }
 
-export function ChallengeIcon({status}) {
+export const ChallengeIcon = memo(function ChallengeIcon({status}) {
     let [passed, deduct] = parse_status(status);
 
     let icon;
@@ -25,9 +26,9 @@ export function ChallengeIcon({status}) {
         icon = '??';
 
     return deduct ? <span className="status-icon-deducted">{icon}</span> : icon;
-}
+});
 
-export function FlagIcon({status}) {
+export const FlagIcon = memo(function FlagIcon({status}) {
     let [passed, deduct] = parse_status(status);
 
     let icon;
@@ -39,7 +40,7 @@ export function FlagIcon({status}) {
         icon = '??';
 
     return deduct ? <span className="status-icon-deducted">{icon}</span> : icon;
-}
+});
 
 export function CategoryBadge({color, children}) {
     if(children===null)

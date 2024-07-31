@@ -124,7 +124,7 @@ export function useReloadButton(reload_fn, disable_s, expire_s) {
         };
     });
 
-    function do_reload() {
+    function do_reload(clear_data=false) {
         if(reload_btn.current)
             reload_btn.current.disabled = true;
 
@@ -136,7 +136,7 @@ export function useReloadButton(reload_fn, disable_s, expire_s) {
                     reload_btn.current.disabled = false;
         }, disable_s*1000);
 
-        reload_fn(false);
+        reload_fn(clear_data);
     }
 
     return [last_reloaded_ms.current/1000, do_reload, reload_btn];

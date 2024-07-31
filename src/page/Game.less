@@ -69,13 +69,41 @@
     }
 
     margin-bottom: 12px;
-    padding: 6px 12px;
+    padding: 6px 9px;
 
     .portal-user-info-status {
         font-size: 1.1em;
     }
     .portal-user-info-cat {
         font-size: .85em;
+    }
+}
+
+.trend-mark {
+    font-size: .8rem;
+    border-radius: 4px;
+    padding: .1em .5em .1em;
+    margin: .3em;
+    vertical-align: text-bottom;
+    color: white;
+    transition: opacity 1000ms linear;
+    opacity: .35;
+
+    &.trend-mark-active {
+        transition: opacity 100ms linear;
+        opacity: 1;
+    }
+
+    &.trend-mark-up {
+        background-color: darkgreen;
+        padding-left: .25em;
+    }
+    &.trend-mark-down {
+        background-color: darkred;
+        padding-left: .25em;
+    }
+    &.trend-mark-keep {
+        background-color: #888;
     }
 }
 
