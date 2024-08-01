@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import {Modal} from 'antd';
 import {SubmissionsTable} from '../page/UserSubmissions';
-import {EyeOutlined} from '@ant-design/icons';
+import {AuxIcon} from './CommonIcon';
 
 import './LookingGlassLink.less';
 
@@ -12,7 +12,7 @@ export function LookingGlassLink({children, nickname, uid}) {
 
     let linked_children = (
         <a className="looking-glass-link" onClick={()=>set_state(1)}>
-            {children}{' '}<EyeOutlined />
+            {children}{' '}<AuxIcon type="glass" />
         </a>
     );
 

@@ -23,7 +23,7 @@ import {Reloader} from './GameLoading';
 import {Announcement} from './Announcements';
 import {useGameInfo} from '../logic/GameInfo';
 import {TemplateFile, TemplateStr} from '../widget/Template';
-import {ChallengeIcon, FlagIcon, CategoryBadge} from '../widget/ChallengeIcon';
+import {ChallengeIcon, FlagIcon, CategoryBadge} from '../widget/CommonIcon';
 import {Transition} from '../widget/Transition';
 import {TokenWidget} from '../widget/TokenWidget';
 import {UserName, UserGroupTag, UserBadges} from '../widget/UserBadges';
