@@ -1,6 +1,5 @@
 import {Tooltip, Tag} from 'antd';
-import {StarTwoTone, LikeTwoTone} from '@ant-design/icons';
-import {AuxIcon} from './CommonIcon';
+import {StarTwoTone, InfoCircleTwoTone, LikeTwoTone} from '@ant-design/icons';
 
 import './UserBadges.less';
 
@@ -15,9 +14,9 @@ export function UserBadges({badges}) {
         else if(badge==='thanks')
             icons.push(<Tooltip key={badge} title="崇高道德的赞许"><LikeTwoTone twoToneColor="#ff0000" /></Tooltip>);
         else if(badge.startsWith('remark:'))
-            icons.push(<Tooltip key={badge} title={badge.substring(7)}><span><AuxIcon type="info" /></span></Tooltip>);
+            icons.push(<Tooltip key={badge} title={badge.substring(7)}><InfoCircleTwoTone twoToneColor="#ff6600" /></Tooltip>);
         else
-            icons.push(<span key={badge}>[{badge}]</span>);
+            icons.push(<span key={badge}>[{badge}]</span>)
     }
 
     return (

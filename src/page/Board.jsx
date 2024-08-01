@@ -4,7 +4,7 @@ import {HistoryOutlined, SyncOutlined, FireOutlined} from '@ant-design/icons';
 import LazyLoad, {forceCheck} from 'react-lazyload';
 
 import {Reloader} from './GameLoading';
-import {ChallengeIcon, FlagIcon} from '../widget/CommonIcon';
+import {ChallengeIcon, FlagIcon} from '../widget/ChallengeIcon';
 import {useWishData} from '../wish';
 import {format_ts, TimestampAgo, useReloadButton} from '../utils';
 import {UserBadges, UserName, UserGroupTag} from '../widget/UserBadges';

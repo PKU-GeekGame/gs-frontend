@@ -1,7 +1,7 @@
 import {Skeleton, Tag} from 'antd';
 
 import {Reloader} from './GameLoading';
-import {FlagIcon, CategoryBadge} from '../widget/CommonIcon';
+import {FlagIcon, CategoryBadge} from '../widget/ChallengeIcon';
 import {useWishData} from '../wish';
 import {format_ts} from '../utils';
 import {TopStarPlotLoader} from '../widget/TopStarPlotLoader';
