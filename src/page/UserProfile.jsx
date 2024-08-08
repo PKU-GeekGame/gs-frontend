@@ -6,7 +6,7 @@ import {useNavigate} from 'react-router-dom';
 import {GameInfoCtx} from '../logic/GameInfo';
 import {UserBadges, UserGroupTag} from '../widget/UserBadges';
 import {wish} from '../wish';
-import {QQ_GROUP} from '../branding';
+import {QQ_GROUP, BANNED_MSG} from '../branding';
 
 import './UserProfile.less';
 
@@ -100,7 +100,7 @@ function UserProfileForm() {
                 </Form>
                 {info.user.group==='banned' && <>
                     <br />
-                    <Alert type="error" showIcon message="由于违反规则，你的参赛资格已被取消。如有疑问请联系工作人员。" />
+                    <Alert type="error" showIcon message={BANNED_MSG} />
                 </>}
                 {info.user.group==='other' && <>
                     <br />

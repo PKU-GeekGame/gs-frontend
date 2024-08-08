@@ -30,7 +30,7 @@ import {UserName, UserGroupTag, UserBadges} from '../widget/UserBadges';
 import {LookingGlassLink} from '../widget/LookingGlassLink';
 import {useWishData, wish, TABID} from '../wish';
 import {TimestampAgo, NotFound, useReloadButton, to_auth, format_ts} from '../utils';
-import {WEB_TERMINAL_ADDR, ATTACHMENT_ROOT, ANTICHEAT_REPORT, SYBIL_ROOT} from '../branding';
+import {WEB_TERMINAL_ADDR, ATTACHMENT_ROOT, ANTICHEAT_REPORT, SYBIL_ROOT, BANNED_MSG} from '../branding';
 import {TableLoader as Table} from '../widget/TableLoader';
 
 import './Game.less';
@@ -544,6 +544,19 @@ function PortalChallengeList({list, active_key, set_active_key}) {
     );
 }
 
+function BannedToast() {
+    return (
+        <div>
+            <div className="banned-toast">
+                <h1>wasted</h1>
+                <p>{BANNED_MSG}</p>
+            </div>
+            <br />
+            <TemplateFile name="game" />
+        </div>
+    );
+}
+
 function Portal() {
     let [error, data, load_data] = useWishData('game');
     let info = useGameInfo();
@@ -594,15 +607,20 @@ function Portal() {
             }
         }
     }, [error, nav]);
-    
+
     if(error) {
-        return (
-            <div className="slim-container">
-                <Reloader message={error.error_msg} reload={()=>{
-                    do_reload();
-                }} />
-            </div>
-        );
+        if(error.error==='USER_BANNED')
+            return (
+                <BannedToast />
+            );
+        else
+            return (
+                <div className="slim-container">
+                    <Reloader message={error.error_msg} reload={()=>{
+                        do_reload();
+                    }} />
+                </div>
+            );
     }
 
     return (

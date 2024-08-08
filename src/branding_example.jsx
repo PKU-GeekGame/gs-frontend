@@ -27,6 +27,8 @@ export const WRITEUP_INSTRUCTION = (<>
     </p>
 </>);
 
+export const BANNED_MSG = '由于违反规则，此账号的参赛资格已被取消。如有疑问请联系工作人员。';
+
 let _anticheat_in_progress = false;
 export async function ANTICHEAT_REPORT() {
     if(_anticheat_in_progress)
