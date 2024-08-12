@@ -104,20 +104,13 @@ function TouchedUsersTable({ch}) {
 
     if(error)
         return <Reloader message={error.error_msg} reload={load_data} />;
-
-    let data_disp = data ? data.list : [{
-        uid: 0,
-        tot_score: 0,
-        nickname: '',
-        group_disp: '加载中',
-        badges: [],
-        flags: [],
-    }];
+    if(!data)
+        return <Loading height={350} />;
 
     return (
         <div>
             <Table
-                dataSource={data_disp}
+                dataSource={data.list}
                 size="small"
                 rowKey="uid"
                 onRow={(record)=>{

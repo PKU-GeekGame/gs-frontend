@@ -8,7 +8,7 @@ const TableColumn = lazy(async ()=>(await import('./Table')).Column);
 export function TableLoader(props) {
     return (
         <Alert.ErrorBoundary>
-            <Suspense fallback={<Loading height={350}/>}>
+            <Suspense fallback={<Loading height={350} />}>
                 <Table {...props} />
             </Suspense>
         </Alert.ErrorBoundary>
