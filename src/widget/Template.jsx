@@ -1,11 +1,10 @@
 import {useState, useEffect, useCallback} from 'react';
-import {Skeleton} from 'antd';
 
 import {TEMPLATE_ROOT} from '../branding';
 import {Reloader} from '../page/GameLoading';
-import {TABID} from '../wish';
 
 import './Template.less';
+import {Loading} from './Loading';
 
 export function TemplateStr({name, children}) {
     return (
@@ -48,7 +47,7 @@ export function TemplateFile({name}) {
     if(error)
         return <Reloader message={error} reload={load_template} />;
     if(html===null)
-        return <Skeleton />;
+        return <Loading />;
 
     return (
         <TemplateStr name={name}>{html}</TemplateStr>

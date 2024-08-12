@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {Skeleton, Alert, Form, Radio, Upload, Button, Card, App} from 'antd';
+import {Alert, Form, Radio, Upload, Button, Card, App} from 'antd';
 import {FileAddOutlined, FileDoneOutlined, UploadOutlined} from '@ant-design/icons';
 
 import {Reloader} from './GameLoading';
@@ -8,6 +8,7 @@ import {ExtLink} from '../utils';
 import {WISH_ROOT, WRITEUP_INSTRUCTION} from '../branding';
 
 import './Writeup.less';
+import {Loading} from '../widget/Loading';
 
 function WriteupForm() {
     let [error, data, load_data] = useWishData('writeup');
@@ -21,7 +22,7 @@ function WriteupForm() {
     if(error)
         return <Reloader message={error.error_msg} reload={load_data} />;
     if(data===null)
-        return <Skeleton />;
+        return <Loading />;
 
     function do_submit_writeup() {
         if(!file) {

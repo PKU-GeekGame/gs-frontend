@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react';
-import {Empty, Skeleton, Card, Tag, Pagination} from 'antd';
+import {Empty, Card, Tag, Pagination} from 'antd';
 import {NotificationOutlined} from '@ant-design/icons';
+import {Loading} from '../widget/Loading';
 
 import {Reloader} from './GameLoading';
 import {useWishData} from '../wish';
@@ -39,7 +40,7 @@ export function Announcements() {
     if(error)
         return <Reloader message={error.error_msg} reload={load_data} />;
     if(data===null)
-        return <Skeleton />;
+        return <Loading />;
     if(data.list.length===0)
         return (
             <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="暂无公告" />

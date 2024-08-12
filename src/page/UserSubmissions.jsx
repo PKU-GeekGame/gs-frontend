@@ -1,4 +1,4 @@
-import {Skeleton, Tag} from 'antd';
+import {Tag} from 'antd';
 
 import {Reloader} from './GameLoading';
 import {FlagIcon, CategoryBadge} from '../widget/ChallengeIcon';
@@ -6,6 +6,7 @@ import {useWishData} from '../wish';
 import {format_ts} from '../utils';
 import {TopStarPlotLoader} from '../widget/TopStarPlotLoader';
 import {TableLoader as Table} from '../widget/TableLoader';
+import {Loading} from '../widget/Loading';
 
 export function SubmissionsTable({others_uid}) {
     let [error, data, load_data] = useWishData(others_uid!==null ? ('submissions/'+others_uid) : 'my_submissions');
@@ -13,7 +14,7 @@ export function SubmissionsTable({others_uid}) {
     if(error)
         return <Reloader message={error.error_msg} reload={load_data} />;
     if(data===null)
-        return <Skeleton />;
+        return <Loading />;
 
     return (<>
         <TopStarPlotLoader plotkey={null} data={data} single={true} />

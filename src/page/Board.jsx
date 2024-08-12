@@ -1,5 +1,5 @@
 import {useState, useEffect, memo} from 'react';
-import {Alert, Skeleton, Tooltip, Button, Tag, App} from 'antd';
+import {Alert, Tooltip, Button, Tag, App} from 'antd';
 import {HistoryOutlined, SyncOutlined, FireOutlined} from '@ant-design/icons';
 import LazyLoad, {forceCheck} from 'react-lazyload';
 
@@ -14,6 +14,7 @@ import {TopStarPlotLoader} from '../widget/TopStarPlotLoader';
 import {TableLoader as Table} from '../widget/TableLoader';
 
 import './Board.less';
+import {Loading} from '../widget/Loading';
 
 function ChallengeStatus({ch, record}) {
     return (
@@ -225,7 +226,7 @@ export const Board = memo(function Board({name}) {
                 </div>
             </div>
             {data===null ?
-                <Skeleton /> :
+                <Loading /> :
                 <div>
                     {!!data.desc && <>
                         <Alert type="info" message={data.desc} showIcon />

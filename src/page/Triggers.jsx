@@ -1,9 +1,10 @@
-import {Skeleton, Timeline, Empty} from 'antd';
+import {Timeline, Empty} from 'antd';
 import {ClockCircleOutlined} from '@ant-design/icons';
 
 import {useWishData} from '../wish';
 import {Reloader} from './GameLoading';
 import {format_ts} from '../utils';
+import {Loading} from '../widget/Loading';
 
 import './Trigger.less';
 
@@ -31,7 +32,7 @@ export function Triggers() {
     if(error)
         return <Reloader message={error.error_msg} reload={load_data} />;
     if(data===null)
-        return <Skeleton />;
+        return <Loading />;
 
     return (
         <div>

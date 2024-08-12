@@ -42,24 +42,24 @@ let component = (
         >
             <StyleProvider hashPriority="high" transformers={[legacyLogicalPropertiesTransformer]}>
                 <Alert.ErrorBoundary>
-                    <GameInfoProvider>
-                        <AntdApp
-                            notification={{
-                                duration: 7,
-                                placement: 'topRight',
-                                maxCount: 4,
-                                top: 70,
-                                closeIcon: (
-                                    <CloseCircleOutlined />
-                                ),
-                            }}
-                            message={{
-                                top: 1,
-                            }}
-                        >
+                    <AntdApp
+                        notification={{
+                            duration: 7,
+                            placement: 'topRight',
+                            maxCount: 4,
+                            top: 70,
+                            closeIcon: (
+                                <CloseCircleOutlined />
+                            ),
+                        }}
+                        message={{
+                            top: 1,
+                        }}
+                    >
+                        <GameInfoProvider>
                             <RouterProvider router={router} />
-                        </AntdApp>
-                    </GameInfoProvider>
+                        </GameInfoProvider>
+                    </AntdApp>
                 </Alert.ErrorBoundary>
             </StyleProvider>
         </ConfigProvider>

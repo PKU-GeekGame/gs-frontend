@@ -1,6 +1,6 @@
 import {Fragment, useMemo, useState, useEffect, useReducer, useRef} from 'react';
 import {useNavigate, unstable_usePrompt, useParams} from 'react-router-dom';
-import {Skeleton, Button, Empty, Tag, Alert, Input, Tooltip, Popover, Card, App, Popconfirm} from 'antd';
+import {Button, Empty, Tag, Alert, Input, Tooltip, Popover, Card, App, Popconfirm} from 'antd';
 import {
     PieChartFilled,
     SyncOutlined,
@@ -32,6 +32,7 @@ import {useWishData, wish, TABID} from '../wish';
 import {TimestampAgo, NotFound, useReloadButton, to_auth, format_ts} from '../utils';
 import {WEB_TERMINAL_ADDR, ATTACHMENT_ROOT, ANTICHEAT_REPORT, SYBIL_ROOT, BANNED_MSG} from '../branding';
 import {TableLoader as Table} from '../widget/TableLoader';
+import {Loading} from '../widget/Loading';
 
 import './Game.less';
 
@@ -227,7 +228,7 @@ function ChallengeBody({ch}) {
         </>);
     if(data===null)
         return (<>
-            <Skeleton />
+            <Loading />
             <br />
         </>);
 
@@ -643,7 +644,7 @@ function Portal() {
                 </div>
 
                 {data===null ?
-                    <Skeleton /> :
+                    <Loading /> :
                     <>
                         <div className="portal-primary-btn">
                             {!!data.show_writeup ?
