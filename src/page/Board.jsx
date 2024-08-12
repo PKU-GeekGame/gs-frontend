@@ -33,11 +33,11 @@ function ChallengeStatus({ch, record}) {
     );
 }
 
-function ChallengeTooltip({ch, record}) {
+function ChallengeTooltip({ch, record, marginLeft}) {
     let [state, set_state] = useState(0);
 
     let icon = (
-        <span className="board-challenge-status-icon">
+        <span className={'board-challenge-status-icon' + (marginLeft ? ' board-challenge-status-marginleft' : '')}>
             <ChallengeIcon status={record.challenge_status[ch.key] || 'untouched'} />
         </span>
     );
@@ -60,8 +60,13 @@ function ScoreBoardContent({data, last_reloaded}) {
     let info = useGameInfo();
     let cur_uid = info.user!==null ? info.user.id : null;
 
+    let n_width = 1.1 * data.challenges.length;
+    for(let i=1; i<data.challenges.length; i++)
+        if(data.challenges[i].category!==data.challenges[i-1].category)
+            n_width += .55;
+
     let challenges_placeholder = (
-        <div style={{height: '1.5em', width: `${1.65*data.challenges.length}em`, backgroundColor: '#eee'}} />
+        <div style={{height: '1.5em', width: `${1.5*n_width}em`, backgroundColor: '#eee'}} />
     );
 
     useEffect(()=>{
@@ -109,8 +114,8 @@ function ScoreBoardContent({data, last_reloaded}) {
                         once={true} offset={150}
                         placeholder={challenges_placeholder}
                     >
-                        {data.challenges.map((ch)=>(
-                            <ChallengeTooltip key={ch.key} ch={ch} record={record} />
+                        {data.challenges.map((ch, idx)=>(
+                            <ChallengeTooltip key={ch.key} ch={ch} record={record} marginLeft={idx>0 && ch.category!==data.challenges[idx-1].category} />
                         ))}
                     </LazyLoad>
                 )} />
