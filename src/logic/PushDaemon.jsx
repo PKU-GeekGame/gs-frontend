@@ -88,8 +88,10 @@ class PushClient {
             if(e.code===4337) {
                 console.log('PushClient: socket closed by server, will not retry', e.reason);
                 this.stopped = true;
-                return;
             }
+            if(this.stopped)
+                return;
+
             console.log('PushClient: socket closed, will reconnect later', e);
             setTimeout(()=>{
                 if(this.count_reconnect<PUSH_RECONNECT_MAX) {
@@ -125,10 +127,12 @@ export function PushDaemon({info, reload_info}) {
             let client = new PushClient(reload_info, app);
 
             // stop websocket to make the page available for bfcache
-            window.addEventListener('pagehide', ()=>{
+            window.addEventListener('pagehide', (e)=>{
+                console.log('PushClient: pagehide', e.persisted);
                 client.stop();
             });
-            window.addEventListener('pageshow', ()=>{
+            window.addEventListener('pageshow', (e)=>{
+                console.log('PushClient: pageshow', e.persisted);
                 client.stop();
                 client = new PushClient(reload_info, app);
             });
