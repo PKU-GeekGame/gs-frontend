@@ -77,7 +77,7 @@ class PushClient {
         console.log(`PushClient: connecting to ${url.href}`);
 
         let stable_waiter = null;
-        this.ws.onopen = (e)=>{
+        this.ws.onopen = ()=>{
             console.log('PushClient: socket opened');
             stable_waiter = setTimeout(()=>{
                 this.count_reconnect = 0;
@@ -123,6 +123,16 @@ export function PushDaemon({info, reload_info}) {
     useEffect(()=>{
         if(info!==null && info.feature.push) {
             let client = new PushClient(reload_info, app);
+
+            // stop websocket to make the page available for bfcache
+            window.addEventListener('pagehide', ()=>{
+                client.stop();
+            });
+            window.addEventListener('pageshow', ()=>{
+                client.stop();
+                client = new PushClient(reload_info, app);
+            });
+
             return ()=>{
                 client.stop();
             };
