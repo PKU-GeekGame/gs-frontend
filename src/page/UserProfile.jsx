@@ -10,6 +10,15 @@ import {QQ_GROUP, BANNED_MSG} from '../branding';
 
 import './UserProfile.less';
 
+const WIDE_CHARS = new Set(['w', 'm', '@', '%', '~', '=', '<', '>', '&']);
+for(let i='A'.charCodeAt(0), max='Z'.charCodeAt(0); i<=max; i++)
+    WIDE_CHARS.add(String.fromCharCode(i));
+
+function unicode_length_counter(s) {
+    let seg = Intl.Segmenter ? Array.from(new Intl.Segmenter().segment(s)).map(g=>g.segment) : [...s];
+    return seg.map(c=>(c.length===1 && c.charCodeAt(0)<128 && !WIDE_CHARS.has(c)) ? 1 : 2).reduce((a,b)=>a+b, 0);
+}
+
 function UserProfileForm() {
     let {info, reload_info} = useContext(GameInfoCtx);
     let [changed, set_changed] = useState(false);
@@ -81,7 +90,7 @@ function UserProfileForm() {
                 <Form name="public" {...form_style}>
                     {info.user.profile.nickname!==undefined &&
                         <Form.Item name="nickname" label="昵称" extra="如包含不适宜内容可能会被强制修改、封禁账号或追究责任">
-                            <Input maxLength={20} showCount placeholder="（将显示在排行榜上）" {...input_style} />
+                            <Input count={{show: true, max: 40, strategy: unicode_length_counter}} placeholder="（将显示在排行榜上）" {...input_style} />
                         </Form.Item>
                     }
                     {info.user.profile.gender!==undefined &&
