@@ -130,12 +130,12 @@ export function PushDaemon({info, reload_info}) {
             window.addEventListener('pagehide', (e)=>{
                 console.log('PushClient: pagehide', e.persisted);
                 client.stop();
-            });
+            }, {capture: true});
             window.addEventListener('pageshow', (e)=>{
                 console.log('PushClient: pageshow', e.persisted);
                 client.stop();
                 client = new PushClient(reload_info, app);
-            });
+            }, {capture: true});
 
             return ()=>{
                 client.stop();
