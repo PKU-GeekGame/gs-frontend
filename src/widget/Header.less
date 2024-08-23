@@ -32,14 +32,16 @@
 }
 
 .highlight-menu-item-mixin(@radius) {
+    .ant-menu-item, .ant-menu-submenu {
+        border-radius: @radius !important;
+    }
+
     .ant-menu-item-active, .ant-menu-submenu-active {
         background-color: #555555 !important;
-        border-radius: @radius !important;
     }
 
     .ant-menu-item-selected, .ant-menu-submenu-selected {
         background-color: #eeeeee !important;
-        border-radius: @radius !important;
 
         * {
             color: black !important;

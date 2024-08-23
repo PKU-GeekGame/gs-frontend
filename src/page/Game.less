@@ -4,9 +4,9 @@
 @single-row-breakpoint: 765px;
 @small-multi-row-breakpoint: 1020px;
 
-.sticky-mixin() {
+.sticky-mixin(@top) {
     position: sticky;
-    top: @header-height;
+    top: @header-height + @top;
     z-index: 2;
 }
 
@@ -113,10 +113,24 @@
         padding: 8px 0;
         transition: background-color 200ms;
 
+        .item-discount-full {
+            display: none;
+        }
+        .item-discount-selected {
+            display: initial;
+        }
+
         @media (min-width: @single-row-breakpoint+1) and (max-width: @small-multi-row-breakpoint) {
             display: block;
 
             &.portal-chall-header .portal-chall-col-score {
+                display: none;
+            }
+
+            .item-discount-full {
+                display: initial;
+            }
+            .item-discount-selected {
                 display: none;
             }
         }
@@ -140,6 +154,7 @@
 
             &:hover {
                 background-color: #f9f9f9;
+                transition: none;
             }
 
             &.portal-chall-row-active {
@@ -165,8 +180,8 @@
     .portal-chall-header {
         background-color: #f0f0f0;
         font-weight: bold;
-        box-shadow: 0 -@border-radius-base 0 white; // to hide elements in border radius when sticky
-        .sticky-mixin();
+        box-shadow: 0 -(6px + @border-radius-base) 0 white; // to hide elements in border radius when sticky
+        .sticky-mixin(6px);
     }
 
     .portal-chall-col-title {
@@ -211,9 +226,9 @@
 
 .challenge-body {
     .challenge-titlebox {
-        .sticky-mixin();
+        .sticky-mixin(0);
         background-color: white;
-        padding-bottom: .5em;
+        padding-bottom: .25em;
 
         .challenge-titlebox-title {
             display: inline-block;

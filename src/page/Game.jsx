@@ -16,7 +16,7 @@ import {
     GlobalOutlined,
     CarryOutOutlined,
     FileTextOutlined,
-    FireOutlined, UserSwitchOutlined, FormOutlined, ArrowUpOutlined, ArrowDownOutlined,
+    FireOutlined, UserSwitchOutlined, FormOutlined, ArrowUpOutlined, ArrowDownOutlined, UserOutlined,
 } from '@ant-design/icons';
 
 import {Reloader} from './GameLoading';
@@ -317,32 +317,35 @@ function ScoreDeduction({ch, flag, show_pass_count}) {
         touched_count = passed_count;
     }
 
+    let ratio = base_score===0 ? 0 : (1-cur_score/base_score)*100;
+
     let tooltip = `基础分值 ${base_score}，通过人数 ${passed_count}` + (
         touched_count>passed_count ? `，部分通过人数 ${touched_count}` : ''
     );
 
+    let item_full = (
+        <span className="item-discount-full">
+            (-{ratio.toFixed(0)}%)&ensp;<UserOutlined />{passed_count}{touched_count>passed_count ? '+' : ''}
+        </span>
+    );
+
+    let item_selected;
+
     if(show_pass_count) {
-        if(touched_count===0)
-            return null;
-        else {
-            return (
-                <span className="item-discount" title={tooltip}>
-                    ({passed_count}{touched_count>passed_count ? '+' : ''})
-                </span>
-            );
-        }
+        item_selected = touched_count===0 ? null : (
+            <span className="item-discount-selected">({passed_count}{touched_count>passed_count ? '+' : ''})</span>
+        );
     } else {
-        if(base_score===cur_score)
-            return null;
-        else {
-            let ratio = (1-cur_score/base_score)*100;
-            return (
-                <span className="item-discount" title={tooltip}>
-                    (-{ratio.toFixed(0)}%)
-                </span>
-            );
-        }
+        item_selected = base_score===cur_score ? null : (
+            <span className="item-discount-selected">(-{ratio.toFixed(0)}%)</span>
+        );
     }
+
+    return (
+        <span className="item-discount" title={tooltip}>
+            {item_full}{item_selected}
+        </span>
+    );
 }
 
 function Challenge({ch, do_reload_list}) {

@@ -40,6 +40,7 @@ let component = (
                     Table: {
                         rowHoverBg: '#f9f9f9',
                         headerBg: '#f9f9f9',
+                        headerBorderRadius: '0',
                     },
                 }
             }}
