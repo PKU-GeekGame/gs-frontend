@@ -4,7 +4,7 @@ import {HistoryOutlined, SyncOutlined, FireOutlined} from '@ant-design/icons';
 import LazyLoad, {forceCheck} from 'react-lazyload';
 
 import {Reloader} from './GameLoading';
-import {ChallengeIcon, FlagIcon} from '../widget/ChallengeIcon';
+import {ChallengeIcon, FlagIcon, CategoryBadge} from '../widget/ChallengeIcon';
 import {useWishData} from '../wish';
 import {format_ts, TimestampAgo, useReloadButton} from '../utils';
 import {UserBadges, UserName, UserGroupTag} from '../widget/UserBadges';
@@ -93,7 +93,7 @@ function ScoreBoardContent({data, last_reloaded}) {
                         return {};
                 }}
             >
-                <Table.Column title="#" dataIndex="rank" />
+                <Table.Column title="#" dataIndex="rank" align="right" />
                 <Table.Column title="昵称" key="name" className="board-col-bold" render={(_text, record)=>(
                     <LazyLoad
                         once={true} offset={150}
@@ -135,6 +135,8 @@ function FirstBloodBoardContent({data}) {
 
             challenge_title: ch.title,
             challenge_metadata: ch.metadata,
+            challenge_category: ch.category,
+            challenge_category_color: ch.category_color,
             flags_count: ch.flags.length,
             flag_idx0: idx,
             key: `${ch.key}_${idx}`
@@ -157,13 +159,16 @@ function FirstBloodBoardContent({data}) {
                     return {};
             }}
         >
-            <Table.Column title="题目" dataIndex="challenge_title" className="board-col-bold" onCell={(record)=>({
+            <Table.Column title="题目&emsp;" dataIndex="challenge_title" align="right" onCell={(record)=>({
                 rowSpan: record.flag_idx0===0 ? record.flags_count : 0,
-            })} />
+            })} render={(text, record)=>(<>
+                <CategoryBadge color={record.challenge_category_color}>{record.challenge_category}</CategoryBadge>
+                <b>{text}&emsp;</b>
+            </>)} />
             <Table.Column title="Flag" dataIndex="flag_name" render={(text, record)=>(<>
                 {text===null ? (
                     record.flags_count>1 ? '解出所有 Flag' : '解出 Flag'
-                ) : text}
+                ) : (<>&emsp;&gt; {text}</>)}
                 {!!(text===null && record.challenge_metadata.first_blood_award_eligible) &&
                     <Tooltip title="首个完全解出的校内选手可获得此题的解题先锋奖">
                         {' '}<Tag color="#a00">
