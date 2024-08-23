@@ -4,6 +4,12 @@
 @single-row-breakpoint: 765px;
 @small-multi-row-breakpoint: 1020px;
 
+.sticky-mixin() {
+    position: sticky;
+    top: @header-height;
+    z-index: 2;
+}
+
 .portal-container {
     display: flex;
     flex-direction: row;
@@ -159,6 +165,8 @@
     .portal-chall-header {
         background-color: #f0f0f0;
         font-weight: bold;
+        box-shadow: 0 -@border-radius-base 0 white; // to hide elements in border radius when sticky
+        .sticky-mixin();
     }
 
     .portal-chall-col-title {
@@ -202,13 +210,26 @@
 }
 
 .challenge-body {
-    h1 {
-        margin-bottom: 0;
-        small {
-            margin-left: .75rem;
+    .challenge-titlebox {
+        .sticky-mixin();
+        background-color: white;
+        padding-bottom: .5em;
+
+        .challenge-titlebox-title {
+            display: inline-block;
+            font-size: 2em;
+        }
+
+        .challenge-titlebox-key {
+            &::before {
+                content: '#'; // so that it can't be selected
+            }
+
+            display: inline-block;
+            margin-left: 1em;
             opacity: .6;
             font-weight: normal;
-            font-size: .85rem;
+            font-size: .85em;
         }
     }
     .challenge-stat {

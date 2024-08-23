@@ -92,6 +92,7 @@ function ScoreBoardContent({data, last_reloaded}) {
                     else
                         return {};
                 }}
+                sticky={true}
             >
                 <Table.Column title="#" dataIndex="rank" align="right" />
                 <Table.Column title="昵称" key="name" className="board-col-bold" render={(_text, record)=>(
@@ -158,6 +159,7 @@ function FirstBloodBoardContent({data}) {
                 else
                     return {};
             }}
+            sticky={true}
         >
             <Table.Column title="题目&emsp;" dataIndex="challenge_title" align="right" onCell={(record)=>({
                 rowSpan: record.flag_idx0===0 ? record.flags_count : 0,
@@ -185,8 +187,10 @@ function FirstBloodBoardContent({data}) {
                         <UserBadges badges={record.badges} />
                     </>
             )} />
-            <Table.Column title="提交时间" dataIndex="timestamp" render={(text)=>(
-                text===null ? null : format_ts(text)
+            <Table.Column title="提交时间" dataIndex="timestamp" render={(text, record)=>(
+                text===null ? null : <LookingGlassLink uid={record.uid} nickname={record.nickname}>
+                    <span style={{fontWeight: 'normal'}}>{format_ts(text)}</span>
+                </LookingGlassLink>
             )} />
         </Table>
     );
