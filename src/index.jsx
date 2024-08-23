@@ -28,14 +28,18 @@ let component = (
             locale={zhCN}
             theme={{
                 token: {
-                    colorPrimary: '#096dd9',
-                    colorLink: '#096dd9',
+                    colorPrimary: '#0063cc',
+                    colorLink: '#0063cc',
                     colorText: '#000',
                     fontWeightStrong: 500,
                 },
                 components: {
                     App: {
                         fontSize: 16,
+                    },
+                    Table: {
+                        rowHoverBg: '#f9f9f9',
+                        headerBg: '#f9f9f9',
                     },
                 }
             }}

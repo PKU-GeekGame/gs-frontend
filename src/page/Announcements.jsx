@@ -53,7 +53,7 @@ export function Announcements() {
             {cur_data.map((ann)=>(
                 <Announcement key={ann.id} announcement={ann} />
             ))}
-            <Pagination current={page} onChange={(x)=>set_page(x)} total={data.list.length} pageSize={PAGE_SIZE} />
+            <Pagination align="center" current={page} onChange={(x)=>set_page(x)} total={data.list.length} pageSize={PAGE_SIZE} />
         </div>
     );
 }
