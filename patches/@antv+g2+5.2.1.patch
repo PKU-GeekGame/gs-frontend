@@ -1,0 +1,13 @@
+diff --git a/node_modules/@antv/g2/esm/lib/std.js b/node_modules/@antv/g2/esm/lib/std.js
+index fd9e619..9219a63 100644
+--- a/node_modules/@antv/g2/esm/lib/std.js
++++ b/node_modules/@antv/g2/esm/lib/std.js
+@@ -3,6 +3,6 @@ import { geolib } from './geo';
+ import { graphlib } from './graph';
+ import { plotlib } from './plot';
+ export function stdlib() {
+-    return Object.assign(Object.assign(Object.assign(Object.assign({}, geolib()), graphlib()), plotlib()), corelib());
++    return corelib();
+ }
+ //# sourceMappingURL=std.js.map
+\ No newline at end of file

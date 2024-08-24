@@ -12,6 +12,7 @@
     "colord": "^2.9.3",
     "copy-to-clipboard": "^3.3.3",
     "less": "^4.2.0",
+    "patch-package": "^8.0.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-error-overlay": "^6.0.11",
@@ -19,7 +20,7 @@
     "react-router-dom": "^6.25.1",
     "react-timeago": "^7.1.0",
     "react-transition-group": "^4.4.5",
-    "terser": "^5.31.1",
+    "terser": "^5.31.6",
     "vite": "^5.3.1",
     "vite-plugin-compression2": "^1.1.2",
     "vite-plugin-html": "^3.2.2"
@@ -32,7 +33,8 @@
     "start": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "analyze": "source-map-explorer --gzip --no-border-checks 'build/assets/*.js'"
+    "analyze": "source-map-explorer --gzip --no-border-checks 'build/assets/*.js'",
+    "postinstall": "patch-package"
   },
   "eslintConfig": {
     "extends": [

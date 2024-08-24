@@ -1,0 +1,88 @@
+diff --git a/node_modules/@ant-design/plots/es/core/base/chart.js b/node_modules/@ant-design/plots/es/core/base/chart.js
+index 9e0a06d..1efe01a 100644
+--- a/node_modules/@ant-design/plots/es/core/base/chart.js
++++ b/node_modules/@ant-design/plots/es/core/base/chart.js
+@@ -9,6 +9,6 @@ var __assign = (this && this.__assign) || function () {
+     };
+     return __assign.apply(this, arguments);
+ };
+-import { plotlib } from '@antv/g2-extension-plot';
+-import { Runtime, extend, stdlib } from '@antv/g2';
+-export var Chart = extend(Runtime, __assign(__assign({}, stdlib()), plotlib()));
++//import { plotlib } from '@antv/g2-extension-plot';
++import { Runtime, extend, corelib } from '@antv/g2';
++export var Chart = extend(Runtime, corelib());
+\ No newline at end of file
+diff --git a/node_modules/@ant-design/plots/es/core/index.js b/node_modules/@ant-design/plots/es/core/index.js
+index b1da013..d44c628 100644
+--- a/node_modules/@ant-design/plots/es/core/index.js
++++ b/node_modules/@ant-design/plots/es/core/index.js
+@@ -37,36 +37,36 @@ import { Sunburst } from './plots/sunburst';
+ export var Plots = {
+     Base: Base,
+     Line: Line,
+-    Column: Column,
+-    Pie: Pie,
+-    Area: Area,
+-    Bar: Bar,
+-    DualAxes: DualAxes,
+-    Funnel: Funnel,
+-    Scatter: Scatter,
+-    Radar: Radar,
+-    Rose: Rose,
+-    Stock: Stock,
+-    TinyLine: TinyLine,
+-    TinyArea: TinyArea,
+-    TinyColumn: TinyColumn,
+-    TinyProgress: TinyProgress,
+-    TinyRing: TinyRing,
+-    Waterfall: Waterfall,
+-    Histogram: Histogram,
+-    Heatmap: Heatmap,
+-    Box: Box,
+-    Sankey: Sankey,
+-    Bullet: Bullet,
+-    Gauge: Gauge,
+-    Liquid: Liquid,
+-    WordCloud: WordCloud,
+-    Treemap: Treemap,
+-    RadialBar: RadialBar,
+-    CirclePacking: CirclePacking,
+-    Violin: Violin,
+-    BidirectionalBar: BidirectionalBar,
+-    Venn: Venn,
+-    Mix: Mix,
+-    Sunburst: Sunburst,
++    //Column: Column,
++    //Pie: Pie,
++    //Area: Area,
++    //Bar: Bar,
++    //DualAxes: DualAxes,
++    //Funnel: Funnel,
++    //Scatter: Scatter,
++    //Radar: Radar,
++    //Rose: Rose,
++    //Stock: Stock,
++    //TinyLine: TinyLine,
++    //TinyArea: TinyArea,
++    //TinyColumn: TinyColumn,
++    //TinyProgress: TinyProgress,
++    //TinyRing: TinyRing,
++    //Waterfall: Waterfall,
++    //Histogram: Histogram,
++    //Heatmap: Heatmap,
++    //Box: Box,
++    //Sankey: Sankey,
++    //Bullet: Bullet,
++    //Gauge: Gauge,
++    //Liquid: Liquid,
++    //WordCloud: WordCloud,
++    //Treemap: Treemap,
++    //RadialBar: RadialBar,
++    //CirclePacking: CirclePacking,
++    //Violin: Violin,
++    //BidirectionalBar: BidirectionalBar,
++    //Venn: Venn,
++    //Mix: Mix,
++    //Sunburst: Sunburst,
+ };

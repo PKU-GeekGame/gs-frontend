@@ -2,7 +2,6 @@ import {defineConfig} from 'vite';
 import react from '@vitejs/plugin-react';
 import {compression} from 'vite-plugin-compression2'
 import {createHtmlPlugin} from 'vite-plugin-html';
-import {resolve} from 'path';
 import zlib from 'zlib';
 
 const API_ENV = process.env['VITE_APP_MOCK_API_ENV'] || null;
@@ -29,18 +28,13 @@ export default defineConfig(() => {
                 },
             },
             minify: 'terser',
-        },
-        resolve: {
-            alias: [{
-                find: /^(\.\/(?:noFound|serverError|unauthorized))$/,
-                replacement: '$1',
-                customResolver: (source, importer, options) => {
-                    if(importer && /\/node_modules\/antd\/es\/result\/index\.js$/.test(importer)) {
-                        return resolve(__dirname, 'src/empty.js');
-                    }
-                    return null;
+            terserOptions: {
+                ecma: 2020,
+                module: true,
+                compress: {
+                    passes: 2,
                 },
-            }],
+            },
         },
         esbuild: {
             legalComments: 'none',

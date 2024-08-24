@@ -1,0 +1,30 @@
+diff --git a/node_modules/antd/es/result/index.js b/node_modules/antd/es/result/index.js
+index 8efa0c7..74d45df 100644
+--- a/node_modules/antd/es/result/index.js
++++ b/node_modules/antd/es/result/index.js
+@@ -8,21 +8,17 @@ import WarningFilled from "@ant-design/icons/es/icons/WarningFilled";
+ import classNames from 'classnames';
+ import { devUseWarning } from '../_util/warning';
+ import { ConfigContext } from '../config-provider';
+-import noFound from './noFound';
+-import serverError from './serverError';
++//import noFound from './noFound';
++//import serverError from './serverError';
+ import useStyle from './style';
+-import unauthorized from './unauthorized';
++//import unauthorized from './unauthorized';
+ export const IconMap = {
+   success: CheckCircleFilled,
+   error: CloseCircleFilled,
+   info: ExclamationCircleFilled,
+   warning: WarningFilled
+ };
+-export const ExceptionMap = {
+-  '404': noFound,
+-  '500': serverError,
+-  '403': unauthorized
+-};
++export const ExceptionMap = {};
+ // ExceptionImageMap keys
+ const ExceptionStatus = Object.keys(ExceptionMap);
+ const Icon = _ref => {
