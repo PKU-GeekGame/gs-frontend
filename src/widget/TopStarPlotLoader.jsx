@@ -2,7 +2,8 @@ import {Alert} from 'antd';
 import {Suspense, lazy} from 'react';
 import {Loading} from './Loading';
 
-const TopStarPlot = lazy(()=>import('./TopStarPlot'));
+export const preload = ()=>import('./TopStarPlot');
+const TopStarPlot = lazy(preload);
 
 export function TopStarPlotLoader({plotkey, data, single}) {
     return (

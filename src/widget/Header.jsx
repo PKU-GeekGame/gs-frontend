@@ -1,3 +1,4 @@
+import {useEffect} from 'react';
 import {useNavigate, useLocation} from 'react-router-dom';
 import {Menu, App} from 'antd';
 import {
@@ -18,8 +19,12 @@ import {
 import {useGameInfo} from '../logic/GameInfo';
 import {GAME_TITLE, Logo} from '../branding';
 import {Cap, to_auth} from '../utils';
+import {preload as preload_table} from './TableLoader';
+import {preload as preload_plot} from './TopStarPlotLoader';
 
 import "./Header.less";
+
+let preload_finished = false;
 
 export function Header() {
     let game_info = useGameInfo();
@@ -32,6 +37,14 @@ export function Header() {
             loc.pathname :
             '/' + loc.pathname.substring(1).split('/')[0]
     );
+
+    useEffect(() => {
+        if(!preload_finished && cur_key==='/board') {
+            preload_finished = true;
+            preload_table();
+            preload_plot();
+        }
+    }, [cur_key]);
 
     return (
         <div className="header-container">

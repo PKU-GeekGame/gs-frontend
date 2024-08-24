@@ -130,12 +130,14 @@ function AnticheatReporter() {
             void fetch(`${SYBIL_ROOT}event?name=focus&tabid=${TABID}`, {
                 method: 'POST',
                 credentials: 'include',
+                priority: 'low',
             });
         }
         function on_blur() {
             void fetch(`${SYBIL_ROOT}event?name=blur&tabid=${TABID}`, {
                 method: 'POST',
                 credentials: 'include',
+                priority: 'low',
             });
         }
         function on_paste(e) {
@@ -147,6 +149,7 @@ function AnticheatReporter() {
             void fetch(`${SYBIL_ROOT}event?name=paste&tabid=${TABID}`, {
                 method: 'POST',
                 credentials: 'include',
+                priority: 'low',
                 headers: {
                     'Content-Type': 'application/json',
                 },

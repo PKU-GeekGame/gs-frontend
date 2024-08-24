@@ -2,7 +2,8 @@ import {Alert} from 'antd';
 import {Suspense, lazy} from 'react';
 import {Loading} from './Loading';
 
-const Table = lazy(()=>import('./Table'));
+export const preload = ()=>import('./Table');
+const Table = lazy(preload);
 const TableColumn = lazy(async ()=>(await import('./Table')).Column);
 
 export function TableLoader(props) {

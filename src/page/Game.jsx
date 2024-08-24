@@ -60,6 +60,7 @@ function ChallengeAction({action, ch}) {
         void fetch(`${SYBIL_ROOT}event?name=visit_action&tabid=${TABID}`, {
             method: 'POST',
             credentials: 'include',
+            priority: 'low',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -333,7 +334,7 @@ function ScoreDeduction({ch, flag, show_pass_count}) {
 
     if(show_pass_count) {
         item_selected = touched_count===0 ? null : (
-            <span className="item-discount-selected">({passed_count}{touched_count>passed_count ? '+' : ''})</span>
+            <span className="item-discount-selected"><UserOutlined />{passed_count}{touched_count>passed_count ? '+' : ''}</span>
         );
     } else {
         item_selected = base_score===cur_score ? null : (
