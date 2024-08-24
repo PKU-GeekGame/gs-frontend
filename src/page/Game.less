@@ -75,18 +75,21 @@
 }
 
 .trend-mark {
-    font-size: .8rem;
+    display: inline-block;
+    font-size: .75rem;
     border-radius: 4px;
     padding: .1em .5em .1em;
-    margin: .3em;
+    margin-left: .25rem;
     vertical-align: text-bottom;
     color: white;
-    transition: opacity 1000ms linear;
-    opacity: .35;
+    transition: opacity 1500ms linear, transform 1500ms linear;
+    opacity: .3;
+    transform: scale(.85);
 
     &.trend-mark-active {
-        transition: opacity 100ms linear;
+        transition: opacity 100ms linear, transform 100ms linear;
         opacity: 1;
+        transform: none;
     }
 
     &.trend-mark-up {

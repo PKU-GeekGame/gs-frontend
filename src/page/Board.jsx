@@ -211,7 +211,7 @@ function BoardContent({data, last_reloaded}) {
 
 export const Board = memo(function Board({name}) {
     let [error, data, load_data] = useWishData('board/'+name);
-    let [last_reloaded, do_reload, reload_btn] = useReloadButton(load_data, 3, 300);
+    let [last_reloaded, do_reload, reload_btn] = useReloadButton(load_data, 3, 180);
     let {message} = App.useApp();
 
     if(error)

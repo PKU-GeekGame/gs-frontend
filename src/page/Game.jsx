@@ -562,7 +562,7 @@ function Portal() {
     let [error, data, load_data] = useWishData('game');
     let info = useGameInfo();
     let nav = useNavigate();
-    let [last_reloaded, do_reload, reload_btn] = useReloadButton(load_data, 3, 600);
+    let [last_reloaded, do_reload, reload_btn] = useReloadButton(load_data, 3, 180);
     let {challenge: active_challenge_key} = useParams();
     let {message} = App.useApp();
 
