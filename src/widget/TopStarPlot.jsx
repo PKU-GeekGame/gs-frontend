@@ -72,6 +72,8 @@ export default function TopStarPlot({data, single}) {
         Infinity,
     ].sort((a, b) => a-b);
 
+    let timestamps = timepoints.map((x) => new Date(x));
+
     data.topstars.forEach((topstar, idx) => {
         let time_idx = 0;
         let cur_score = 0;
@@ -81,7 +83,7 @@ export default function TopStarPlot({data, single}) {
             cur_time += p[0]*1000;
             for(; timepoints[time_idx]<cur_time; time_idx++) {
                 points.push({
-                    timestamp_ms: timepoints[time_idx],
+                    timestamp: timestamps[time_idx],
                     score: cur_score,
                     idx0: ''+idx,
                 });
@@ -90,7 +92,7 @@ export default function TopStarPlot({data, single}) {
         });
         for(; time_idx<timepoints.length-1; time_idx++) {
             points.push({
-                timestamp_ms: timepoints[time_idx],
+                timestamp: timestamps[time_idx],
                 score: cur_score,
                 idx0: ''+idx,
             });
@@ -99,18 +101,18 @@ export default function TopStarPlot({data, single}) {
 
     let top_colors = assign_color_palette(data.topstars.map(x=>x.uid));
 
-    //console.log('! render chart', data, timepoints.map((x)=>new Date(x)), points);
+    //console.log('! render chart', data, timestamps, points);
 
     return (
         <Line
             containerStyle={{lineHeight: 0, height: (single ? 125 : 350)+'px'}}
             data={points}
             margin={6} paddingLeft={30} paddingBottom={16}
-            xField="timestamp_ms" yField="score" seriesField="idx0" colorField="idx0"
+            xField="timestamp" yField="score" seriesField="idx0" colorField="idx0"
             shapeField="hv"
             axis={{
                 x: {
-                    labelFormatter: (x) => format_ts(x/1000, false),
+                    labelFormatter: (x) => format_ts(x, false),
                     grid: false,
                 },
                 y: {
@@ -141,7 +143,7 @@ export default function TopStarPlot({data, single}) {
                 },
             }}
             tooltip={{
-                title: (d) => format_ts(d.timestamp_ms/1000, false),
+                title: (d) => format_ts(d.timestamp, false),
                 items: [(d)=>({
                     name: nicknames[d.idx0],
                     value: d.score,

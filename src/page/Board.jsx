@@ -57,6 +57,12 @@ function ChallengeTooltip({ch, record, marginLeft}) {
     );
 }
 
+function ChallengeTooltips({challenges, record}) {
+    return challenges.map((ch, idx)=>(
+        <ChallengeTooltip key={ch.key} ch={ch} record={record} marginLeft={idx>0 && ch.category!==challenges[idx-1].category} />
+    ));
+}
+
 function ScoreBoardContent({data, last_reloaded}) {
     let info = useGameInfo();
     let cur_uid = info.user!==null ? info.user.id : null;
@@ -101,7 +107,7 @@ function ScoreBoardContent({data, last_reloaded}) {
                         placeholder={record.nickname}
                     >
                         <UserName name={record.nickname} />
-                        {record.group_disp===null ? null : <>&nbsp;&nbsp;<UserGroupTag>{record.group_disp}</UserGroupTag></>}
+                        {record.group_disp===null ? null : <>&ensp;<UserGroupTag>{record.group_disp}</UserGroupTag></>}
                         <UserBadges badges={record.badges} />
                     </LazyLoad>
                 )} />
@@ -116,9 +122,7 @@ function ScoreBoardContent({data, last_reloaded}) {
                         once={true} offset={150}
                         placeholder={challenges_placeholder}
                     >
-                        {data.challenges.map((ch, idx)=>(
-                            <ChallengeTooltip key={ch.key} ch={ch} record={record} marginLeft={idx>0 && ch.category!==data.challenges[idx-1].category} />
-                        ))}
+                        <ChallengeTooltips record={record} challenges={data.challenges} />
                     </LazyLoad>
                 )} />
             </Table>
@@ -183,7 +187,7 @@ function FirstBloodBoardContent({data}) {
                 record.nickname!==null &&
                     <>
                         <UserName name={record.nickname} />
-                        {record.group_disp===null ? null : <>&nbsp;&nbsp;<UserGroupTag>{record.group_disp}</UserGroupTag></>}
+                        {record.group_disp===null ? null : <>&ensp;<UserGroupTag>{record.group_disp}</UserGroupTag></>}
                         <UserBadges badges={record.badges} />
                     </>
             )} />

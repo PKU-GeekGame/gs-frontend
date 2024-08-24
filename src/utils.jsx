@@ -35,7 +35,7 @@ function pad2(x) {
     return x<10 ? '0'+x : x;
 }
 export function format_ts(ts, seconds=true) {
-    let time = new Date(ts*1000);
+    let time = (ts instanceof Date) ? ts : new Date(ts*1000);
     if(seconds)
         return `${pad2(time.getMonth()+1)}-${pad2(time.getDate())} ${pad2(time.getHours())}:${pad2(time.getMinutes())}:${pad2(time.getSeconds())}`;
     else
