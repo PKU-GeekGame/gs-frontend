@@ -93,7 +93,7 @@ function ScoreBoardContent({data, last_reloaded}) {
                     x: 'max-content',
                 }}
                 onRow={(record)=>{
-                    if(record.uid===cur_uid)
+                    if(cur_uid && record.uid===cur_uid)
                         return {className: 'active-bg-row'};
                     else
                         return {};
@@ -148,6 +148,9 @@ function FirstBloodBoardContent({data}) {
         }))
     ));
 
+    // to avoid width collapse when no data
+    let spanner = <span style={{display: 'inline-block', width: '5em'}} />;
+
     return (
         <Table
             size="small"
@@ -158,7 +161,7 @@ function FirstBloodBoardContent({data}) {
                 x: 'max-content',
             }}
             onRow={(record)=>{
-                if(record.uid===cur_uid)
+                if(cur_uid && record.uid===cur_uid)
                     return {className: 'active-bg-row'};
                 else
                     return {};
@@ -184,7 +187,7 @@ function FirstBloodBoardContent({data}) {
                 }
             </>)} />
             <Table.Column title="一血获得者" key="user" render={(_text, record)=>(
-                record.nickname!==null &&
+                record.nickname===null ? spanner :
                     <>
                         <UserName name={record.nickname} />
                         {record.group_disp===null ? null : <>&ensp;<UserGroupTag>{record.group_disp}</UserGroupTag></>}
@@ -192,7 +195,7 @@ function FirstBloodBoardContent({data}) {
                     </>
             )} />
             <Table.Column title="提交时间" dataIndex="timestamp" render={(text, record)=>(
-                text===null ? null : <LookingGlassLink uid={record.uid} nickname={record.nickname}>
+                text===null ? spanner : <LookingGlassLink uid={record.uid} nickname={record.nickname}>
                     <span style={{fontWeight: 'normal'}}>{format_ts(text)}</span>
                 </LookingGlassLink>
             )} />
