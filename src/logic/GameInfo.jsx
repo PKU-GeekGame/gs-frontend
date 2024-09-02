@@ -7,6 +7,8 @@ export let GameInfoCtx = createContext({
     info: {
         user: {
             id: null,
+            login_key: '',
+            group: '',
             group_disp: '',
             token: '',
             profile: {

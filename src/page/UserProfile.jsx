@@ -144,10 +144,13 @@ function UserProfileForm() {
             <Card title="其他信息" {...card_style}>
                 <Form name="other" {...form_style}>
                     {info.user.profile.comment!==undefined &&
-                        <Form.Item name="comment" label="了解比赛的渠道">
+                        <Form.Item name="comment" label="了解比赛的渠道" extra="用于调研宣传效果">
                             <Input maxLength={100} placeholder="（可不填）" {...input_style} />
                         </Form.Item>
                     }
+                    <Form.Item label="登录方式">
+                        <span className="ant-form-text">{info.user.login_key}</span>
+                    </Form.Item>
                 </Form>
             </Card>
             <br />
