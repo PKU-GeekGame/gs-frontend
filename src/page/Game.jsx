@@ -85,7 +85,7 @@ function ChallengeAction({action, ch}) {
                     window.open(`https://${action.host}/docker-manager/stop?${info.user.token}`);
                 }}>关闭环境</Button>
             </div>}>
-                <Button size="small" style={{marginLeft: '.5em'}}><CodepenOutlined />环境控制</Button>
+                <Button size="small" className="challenge-action-auxbtn"><CodepenOutlined />环境控制</Button>
             </Popover>
         </>);
     else if(action.type==='terminal')
@@ -105,7 +105,7 @@ function ChallengeAction({action, ch}) {
                         message.success({content: '已复制', key: 'ChallengeActionAttachment', duration: 2});
                 }}>复制下载链接</Button>
             </div>}>
-                <Button size="small" style={{marginLeft: '.5em'}}><CopyOutlined />复制链接</Button>
+                <Button size="small" className="challenge-action-auxbtn"><CopyOutlined />复制链接</Button>
             </Popover>
         </>);
     }
