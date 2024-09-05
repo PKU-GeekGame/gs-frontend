@@ -1,6 +1,7 @@
 import {Fragment, useMemo, useState, useEffect, useReducer, useRef} from 'react';
 import {useNavigate, unstable_usePrompt, useParams} from 'react-router-dom';
 import {Button, Empty, Tag, Alert, Input, Tooltip, Popover, Card, App, Popconfirm} from 'antd';
+import copy from 'copy-to-clipboard';
 import {
     PieChartFilled,
     SyncOutlined,
@@ -16,7 +17,7 @@ import {
     GlobalOutlined,
     CarryOutOutlined,
     FileTextOutlined,
-    FireOutlined, UserSwitchOutlined, FormOutlined, ArrowUpOutlined, ArrowDownOutlined, UserOutlined,
+    FireOutlined, UserSwitchOutlined, FormOutlined, ArrowUpOutlined, ArrowDownOutlined, UserOutlined, CopyOutlined,
 } from '@ant-design/icons';
 
 import {Reloader} from './GameLoading';
@@ -55,6 +56,7 @@ function LoginBanner() {
 function ChallengeAction({action, ch}) {
     /* eslint-disable react/jsx-no-target-blank */
     let info = useGameInfo();
+    let {message} = App.useApp();
 
     function report_click() {
         void fetch(`${SYBIL_ROOT}event?name=visit_action&tabid=${TABID}`, {
@@ -91,10 +93,22 @@ function ChallengeAction({action, ch}) {
             你可以 <a onPointerDown={report_click} href={WEB_TERMINAL_ADDR(action, info.user.token)} target="_blank">打开网页终端</a> 或者通过命令{' '}
             <code>nc {action.host} {action.port}</code> 连接到{action.name}
         </>);
-    else if(action.type==='attachment')
+    else if(action.type==='attachment') {
+        let url = `${ATTACHMENT_ROOT}${ch.key}/${action.filename}?token=${info.user.token}`;
         return (<>
-            你可以 <a href={`${ATTACHMENT_ROOT}${ch.key}/${action.filename}`} target="_blank">下载{action.name}</a>
+            你可以 <a href={url} target="_blank">下载{action.name}</a>
+            <Popover trigger="click" content={<div>
+                <p>可以在未登录比赛平台的设备上通过链接下载附件</p>
+                <p>下载链接包含你的个人 Token，与他人分享将视为作弊</p>
+                <Button block onClick={()=>{
+                    if(copy(new URL(url, location.href).href))
+                        message.success({content: '已复制', key: 'ChallengeActionAttachment', duration: 2});
+                }}>复制下载链接</Button>
+            </div>}>
+                <Button size="small" style={{marginLeft: '.5em'}}><CopyOutlined />复制链接</Button>
+            </Popover>
         </>);
+    }
 }
 
 function TouchedUsersTable({ch}) {
