@@ -74,11 +74,11 @@ class PushClient {
         url.protocol = url.protocol==='http:' ? 'ws:' : 'wss:';
 
         this.ws = new WebSocket(url.href);
-        console.log(`PushClient: connecting to ${url.href}`);
+        //console.log(`PushClient: connecting to ${url.href}`);
 
         let stable_waiter = null;
         this.ws.onopen = ()=>{
-            console.log('PushClient: socket opened');
+            //console.log('PushClient: socket opened');
             stable_waiter = setTimeout(()=>{
                 this.count_reconnect = 0;
             }, PUSH_STABLE_MS);
@@ -86,20 +86,20 @@ class PushClient {
 
         this.ws.onclose = (e)=>{
             if(e.code===4337) {
-                console.log('PushClient: socket closed by server, will not retry', e.reason);
+                //console.log('PushClient: socket closed by server, will not retry', e.reason);
                 this.stopped = true;
             }
             if(this.stopped)
                 return;
 
-            console.log('PushClient: socket closed, will reconnect later', e);
+            //console.log('PushClient: socket closed, will reconnect later', e);
             setTimeout(()=>{
                 if(this.count_reconnect<PUSH_RECONNECT_MAX) {
                     this.count_reconnect++;
                     this.connect();
                 } else {
                     this.app.message.error({content: '消息推送连接中断', key: 'PushDaemon.Error', duration: 3});
-                    console.log('PushClient: stopped reconnecting');
+                    //console.log('PushClient: stopped reconnecting');
                 }
             }, PUSH_RECONNECT_DELAY_MS);
 
@@ -128,11 +128,11 @@ export function PushDaemon({info, reload_info}) {
 
             // stop websocket to make the page available for bfcache
             window.addEventListener('pagehide', (e)=>{
-                console.log('PushClient: pagehide', e.persisted);
+                //console.log('PushClient: pagehide', e.persisted);
                 client.stop();
             }, {capture: true});
             window.addEventListener('pageshow', (e)=>{
-                console.log('PushClient: pageshow', e.persisted);
+                //console.log('PushClient: pageshow', e.persisted);
                 client.stop();
                 client = new PushClient(reload_info, app);
             }, {capture: true});

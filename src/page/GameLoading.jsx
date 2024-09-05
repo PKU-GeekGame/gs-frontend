@@ -40,7 +40,6 @@ export function GameLoading({set_info}) {
             navigator.serviceWorker.getRegistrations()
                 .then((registrations)=>{
                     for(let registration of registrations) {
-                        console.log('unregister', registration);
                         // noinspection JSIgnoredPromiseFromCall
                         registration.unregister();
                     }
