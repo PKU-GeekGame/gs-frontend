@@ -11,12 +11,16 @@ li {
 }
 
 .g2-tooltip {
-    border: 1px solid black;
+    border: 1px solid @card-border-color;
     padding: .5em 1em !important;
 
     li {
         margin-bottom: 0;
     }
+}
+
+.ant-popover-inner, .ant-table-filter-dropdown {
+    border: 1px solid @card-border-color !important;
 }
 
 a, .ant-btn-link, .ant-btn-default {

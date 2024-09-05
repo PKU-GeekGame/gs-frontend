@@ -32,6 +32,7 @@ let component = (
                     colorLink: '#0063cc',
                     colorText: '#000',
                     fontWeightStrong: 500,
+                    borderRadiusLG: '6px',
                 },
                 components: {
                     App: {
