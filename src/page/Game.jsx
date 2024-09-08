@@ -31,7 +31,7 @@ import {UserName, UserGroupTag, UserBadges} from '../widget/UserBadges';
 import {LookingGlassLink} from '../widget/LookingGlassLink';
 import {useWishData, wish, TABID} from '../wish';
 import {TimestampAgo, NotFound, useReloadButton, to_auth, format_ts} from '../utils';
-import {WEB_TERMINAL_ADDR, ATTACHMENT_ROOT, ANTICHEAT_REPORT, SYBIL_ROOT, BANNED_MSG} from '../branding';
+import {WEB_TERMINAL_ADDR, ATTACHMENT_ROOT, ANTICHEAT_REPORT, SYBIL_ROOT, BANNED_MSG, Logo} from '../branding';
 import {TableLoader as Table} from '../widget/TableLoader';
 import {Loading} from '../widget/Loading';
 
@@ -559,15 +559,25 @@ function PortalChallengeList({list, active_key, set_active_key}) {
     );
 }
 
-function BannedToast() {
+function BannedToast({error_msg}) {
+    let [popup, set_popup] = useState(true);
+    let nav = useNavigate();
+
     return (
-        <div>
-            <div className="banned-toast">
-                <h1>wasted</h1>
+        <div className="slim-container">
+            <Alert type="error" message={error_msg} showIcon/>
+            {popup===true && <div className="banned-splash">
+                <div><Logo/></div>
+                <h1>你号没了</h1>
                 <p>{BANNED_MSG}</p>
-            </div>
-            <br />
-            <TemplateFile name="game" />
+                <div>
+                    <Button type="text" danger={true} size="large" onClick={() => nav('/info/announcements')}>查看比赛公告</Button>
+                    &ensp;
+                    <Button type="text" danger={true} size="large" onClick={() => set_popup(false)}>知道了</Button>
+                </div>
+            </div>}
+            <br/>
+            <TemplateFile name="game"/>
         </div>
     );
 }
@@ -626,7 +636,7 @@ function Portal() {
     if(error) {
         if(error.error==='USER_BANNED')
             return (
-                <BannedToast />
+                <BannedToast error_msg={error.error_msg} />
             );
         else
             return (
