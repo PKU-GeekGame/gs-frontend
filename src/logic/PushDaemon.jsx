@@ -2,15 +2,21 @@ import {useEffect} from 'react';
 import {App} from 'antd';
 import {NotificationOutlined, CarryOutOutlined, RocketOutlined} from '@ant-design/icons';
 
+import {TABID} from '../wish';
 import {WS_ROOT} from '../branding';
 
 import './PushDaemon.less';
-import {TABID} from '../wish';
 
 const PUSH_STARTUP_DELAY_MS = 2000;
 const PUSH_RECONNECT_DELAY_MS = 5000;
 const PUSH_STABLE_MS = 25000;
 const PUSH_RECONNECT_MAX = 8;
+
+function rnd_delay() { // add a random delay to flatten the backend load
+    return 200 + Math.random()*1300;
+}
+
+const PUSH_DEBUG = localStorage['gs_push_debug'] || false;
 
 class PushClient {
     constructor(reload_info, app) {
@@ -32,6 +38,9 @@ class PushClient {
             className: 'push-notif',
         };
 
+        if(PUSH_DEBUG)
+            console.log('PushClient: handle message', data);
+
         if(data.type==='new_announcement') {
             this.app.notification.info({
                 ...notif_conf,
@@ -48,7 +57,7 @@ class PushClient {
                     description: data.new_tick_name.replace(/;/, '，'),
                 });
                 this.reload_info();
-            }, 200+Math.random()*1300); // add a random delay to flatten the backend load
+            }, rnd_delay());
         } else if(data.type==='flag_first_blood') {
             this.app.notification.success({
                 ...notif_conf,
@@ -63,6 +72,10 @@ class PushClient {
                 message: '题目一血提醒',
                 description: `恭喜【${data.nickname}】在【${data.board_name}】中拿到了题目【${data.challenge}】的一血`,
             });
+        } else if(data.type==='reload_user') {
+            setTimeout(()=>{
+                this.reload_info();
+            }, rnd_delay());
         }
     }
 
@@ -74,11 +87,13 @@ class PushClient {
         url.protocol = url.protocol==='http:' ? 'ws:' : 'wss:';
 
         this.ws = new WebSocket(url.href);
-        //console.log(`PushClient: connecting to ${url.href}`);
+        if(PUSH_DEBUG)
+            console.log('PushClient: connecting to', url.href);
 
         let stable_waiter = null;
         this.ws.onopen = ()=>{
-            //console.log('PushClient: socket opened');
+            if(PUSH_DEBUG)
+                console.log('PushClient: socket opened');
             stable_waiter = setTimeout(()=>{
                 this.count_reconnect = 0;
             }, PUSH_STABLE_MS);
@@ -86,20 +101,26 @@ class PushClient {
 
         this.ws.onclose = (e)=>{
             if(e.code===4337) {
-                //console.log('PushClient: socket closed by server, will not retry', e.reason);
+                if(PUSH_DEBUG)
+                    console.log('PushClient: socket closed by server, will not retry', e.reason);
+
                 this.stopped = true;
             }
             if(this.stopped)
                 return;
 
-            //console.log('PushClient: socket closed, will reconnect later', e);
+            if(PUSH_DEBUG)
+                console.log('PushClient: socket closed, will reconnect later', e);
+
             setTimeout(()=>{
                 if(this.count_reconnect<PUSH_RECONNECT_MAX) {
                     this.count_reconnect++;
                     this.connect();
                 } else {
+                    if(PUSH_DEBUG)
+                        console.log('PushClient: stopped reconnecting');
+
                     this.app.message.error({content: '消息推送连接中断', key: 'PushDaemon.Error', duration: 3});
-                    //console.log('PushClient: stopped reconnecting');
                 }
             }, PUSH_RECONNECT_DELAY_MS);
 
@@ -128,11 +149,15 @@ export function PushDaemon({info, reload_info}) {
 
             // stop websocket to make the page available for bfcache
             window.addEventListener('pagehide', (e)=>{
-                //console.log('PushClient: pagehide', e.persisted);
+                if(PUSH_DEBUG)
+                    console.log('PushClient: pagehide', e.persisted);
+
                 client.stop();
             }, {capture: true});
             window.addEventListener('pageshow', (e)=>{
-                //console.log('PushClient: pageshow', e.persisted);
+                if(PUSH_DEBUG)
+                    console.log('PushClient: pageshow', e.persisted);
+
                 client.stop();
                 client = new PushClient(reload_info, app);
             }, {capture: true});
