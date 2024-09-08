@@ -77,5 +77,5 @@ ReactDOM.createRoot(document.getElementById('root')).render(component);
 queueMicrotask(console.log.bind(
     console,
     '%c比赛平台不是题目的一部分，解出题目无需分析比赛平台的源码。\n根据参赛须知，请仅对题目指定的主机（prob*.geekgame.pku.edu.cn）和程序进行攻击。',
-    'font-size: 1.5em; background-color: yellow; font-weight: bold; padding: .5em',
+    'font-size: 1.5em; background-color: yellow; color: black; font-weight: bold; padding: .5em',
 ));
