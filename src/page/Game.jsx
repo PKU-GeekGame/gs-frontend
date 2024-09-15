@@ -559,7 +559,7 @@ function PortalChallengeList({list, active_key, set_active_key}) {
     );
 }
 
-function BannedToast({error_msg}) {
+function BannedSplash({error_msg, splash_msg}) {
     let [popup, set_popup] = useState(true);
     let nav = useNavigate();
 
@@ -569,7 +569,7 @@ function BannedToast({error_msg}) {
             {popup===true && <div className="banned-splash">
                 <div><Logo/></div>
                 <h1>你号没了</h1>
-                <p>{BANNED_MSG}</p>
+                <p>{splash_msg}</p>
                 <div>
                     <Button type="text" danger={true} size="large" onClick={() => nav('/info/announcements')}>查看比赛公告</Button>
                     &ensp;
@@ -633,10 +633,14 @@ function Portal() {
         }
     }, [error, nav]);
 
+    if(active_challenge_key==='try-try-jiu-die-die')
+        return (
+            <BannedSplash error_msg="欸，就是玩~" splash_msg="其实你号还在，但总有人想体验这种别样的乐趣。不是吗？" />
+        );
     if(error) {
         if(error.error==='USER_BANNED')
             return (
-                <BannedToast error_msg={error.error_msg} />
+                <BannedSplash error_msg={error.error_msg} splash_msg={BANNED_MSG} />
             );
         else
             return (
