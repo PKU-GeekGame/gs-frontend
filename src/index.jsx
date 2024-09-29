@@ -32,7 +32,8 @@ let component = (
                     colorLink: '#0063cc',
                     colorText: '#000',
                     fontWeightStrong: 500,
-                    borderRadiusLG: '6px',
+                    borderRadiusLG: 6,
+                    motionDurationSlow: '0.2s',
                 },
                 components: {
                     App: {
@@ -41,7 +42,7 @@ let component = (
                     Table: {
                         rowHoverBg: '#f9f9f9',
                         headerBg: '#f9f9f9',
-                        headerBorderRadius: '0',
+                        headerBorderRadius: 0,
                     },
                 }
             }}

@@ -18,7 +18,7 @@ import {
 
 import {useGameInfo} from '../logic/GameInfo';
 import {GAME_TITLE, Logo} from '../branding';
-import {Cap, to_auth} from '../utils';
+import {Cap, to_auth, WithCaret} from '../utils';
 import {preload as preload_table} from './TableLoader';
 import {preload as preload_plot} from './TopStarPlotLoader';
 
@@ -27,7 +27,7 @@ import "./Header.less";
 let preload_finished = false;
 
 export function Header() {
-    let game_info = useGameInfo();
+    let info = useGameInfo();
     let loc = useLocation();
     let nav = useNavigate();
     let {message} = App.useApp();
@@ -60,7 +60,7 @@ export function Header() {
                         mode="horizontal" theme="dark"
                         selectedKeys={[cur_key]} onSelect={(e)=>{if(e.key.charAt(0)!=='_') nav(e.key + (e.item.props.default_subview || ''))}}
                         items={[
-                            ...((game_info.feature.game && game_info.user) ? [{
+                            ...((info.feature.game && info.user) ? [{
                             key: '/game',
                             icon: <UnorderedListOutlined />,
                             label: '比赛主页',
@@ -79,13 +79,10 @@ export function Header() {
                                 label: '信息',
                             },
 
-                            ...(game_info.user ? [{
+                            ...(info.user ? [{
                                 key: '_/user',
                                 icon: <UserOutlined />,
-                                label: (<>
-                                    <Cap text={game_info.user.profile.nickname||'账户'} width={110} />
-                                    <span className="header-nav-caret"><CaretDownOutlined /></span>
-                                </>),
+                                label: <WithCaret><Cap text={info.user.profile.nickname||'账户'} width={110} /></WithCaret>,
 
                                 popupClassName: 'header-nav-popup',
                                 popupOffset: [-6, 2],
@@ -117,10 +114,7 @@ export function Header() {
                             }] : [{
                                 key: '_/login',
                                 icon: <LoginOutlined />,
-                                label: (<>
-                                    参赛
-                                    <span className="header-nav-caret"><CaretDownOutlined /></span>
-                                </>),
+                                label: <WithCaret>参赛</WithCaret>,
 
                                 className: 'header-nav-login',
                                 popupClassName: 'header-nav-popup',

@@ -3,7 +3,7 @@ import {useLocation, useNavigate} from 'react-router-dom';
 import {Result, Button} from 'antd';
 import RealTimeAgo from 'react-timeago';
 import buildFormatter from 'react-timeago/lib/formatters/buildFormatter';
-import {InboxOutlined} from '@ant-design/icons';
+import {InboxOutlined, CaretDownOutlined} from '@ant-design/icons';
 
 import {AUTH_ROOT} from './branding';
 import {useGameInfo} from './logic/GameInfo';
@@ -140,4 +140,11 @@ export function useReloadButton(reload_fn, disable_s, expire_s) {
     }
 
     return [last_reloaded_ms.current/1000, do_reload, reload_btn];
+}
+
+export function WithCaret({children}) {
+    return (<>
+        {children}
+        <span className="nav-caret"><CaretDownOutlined/></span>
+    </>);
 }
