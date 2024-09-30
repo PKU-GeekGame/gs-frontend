@@ -113,7 +113,7 @@ function UserProfileForm() {
                 </>}
                 {info.user.group==='other' && <>
                     <br />
-                    <Alert type="info" showIcon message="你的身份不是北京大学在校学生，将不参与评奖。如有疑问请联系工作人员。" />
+                    <Alert type="info" showIcon message="你的身份不是两校在校学生，将不参与评奖。如有疑问请联系工作人员。" />
                 </>}
             </Card>
             <br />
