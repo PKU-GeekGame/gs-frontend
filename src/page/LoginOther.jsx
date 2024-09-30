@@ -1,5 +1,5 @@
 import {Alert, Button, App} from 'antd';
-import {GithubOutlined, WindowsOutlined, HomeOutlined} from '@ant-design/icons';
+import {GithubOutlined, WindowsOutlined, BankOutlined} from '@ant-design/icons';
 
 import {to_auth} from '../utils';
 
@@ -45,13 +45,17 @@ export function LoginOther() {
                 <hr />
                 <br />
 
-                <p className="login-pku-warning"><b>北京大学校内选手注意</b></p>
+                <p className="login-iaaa-warning"><b>校内选手注意</b></p>
                 <p>
-                    本竞赛不允许选手注册多个账号，校内选手务必全程通过北京大学统一身份认证（IAAA）系统登录，否则视为放弃评奖资格。
+                    本竞赛不允许选手注册多个账号，北京大学和清华大学选手务必全程通过校内统一身份认证系统登录，否则将会失去评奖资格。
                 </p>
                 <p>
                     <Button size="large" onClick={()=>to_auth('pku/redirect', message)}>
-                        <HomeOutlined /> 北京大学登录
+                        <BankOutlined /> 北京大学登录
+                    </Button>
+                    &ensp;
+                    <Button size="large" onClick={()=>{location.href = '#/login/thu'}}>
+                        <BankOutlined /> 清华大学登录
                     </Button>
                 </p>
             </div>

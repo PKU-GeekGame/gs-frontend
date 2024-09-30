@@ -13,11 +13,17 @@ import {
     FlagOutlined,
     SolutionOutlined,
     CodepenOutlined,
-    HomeOutlined,
     GlobalOutlined,
     CarryOutOutlined,
     FileTextOutlined,
-    FireOutlined, UserSwitchOutlined, FormOutlined, ArrowUpOutlined, ArrowDownOutlined, UserOutlined, CopyOutlined,
+    FireOutlined,
+    UserSwitchOutlined,
+    FormOutlined,
+    ArrowUpOutlined,
+    ArrowDownOutlined,
+    UserOutlined,
+    CopyOutlined,
+    BankOutlined,
 } from '@ant-design/icons';
 
 import {Reloader} from './GameLoading';
@@ -44,9 +50,10 @@ function LoginBanner() {
         <div className="landing-login-form">
             <Card type="inner" size="small" bordered={false}>
                 <b>报名参赛：</b>
-                <Button type="primary"
-                        onClick={() => to_auth('pku/redirect', message)}><HomeOutlined/> 北京大学登录</Button>
-                {' '}
+                <Button type="primary" onClick={() => to_auth('pku/redirect', message)}><BankOutlined /> 北京大学登录</Button>
+                &ensp;
+                <Button type="primary" onClick={() => window.location.href = '#/login/thu'}><BankOutlined /> 清华大学登录</Button>
+                &ensp;
                 <Button onClick={() => window.location.href = '#/login/other'}><GlobalOutlined/> 校外选手</Button>
             </Card>
         </div>
@@ -147,13 +154,15 @@ function TouchedUsersTable({ch}) {
                     )}
                     filters={[
                         {text: '北京大学选手', value: 'pku'},
+                        {text: '清华大学选手', value: 'thu'},
                         {text: '其他选手', value: 'other'},
                     ]}
                     onFilter={(value, record)=>(
                         value.uid===0 ? true : (
                             value==='pku'? record.group_disp==='北京大学' :
-                            value==='other'? record.group_disp!=='北京大学' :
-                                    true
+                            value==='thu'? record.group_disp==='清华大学' :
+                            value==='other'? (record.group_disp!=='北京大学' && record.group_disp!=='清华大学') :
+                                true
                         )
                     )}
                     filterMultiple={false}
@@ -400,7 +409,7 @@ function Challenge({ch, do_reload_list}) {
                         命题人：{ch.metadata.author}
                     </Tag>
                 }
-                {!!ch.metadata.first_blood_award_eligible &&
+                {!!(ch.metadata.first_blood_award_eligible && info.user.group==='pku') &&
                     <Tag color="default">
                         <a href="#/board/first_pku">
                             <b><FireOutlined/> 解题先锋奖</b>
@@ -481,7 +490,7 @@ function PortalUserInfo({info, last_reloaded}) {
         <div className="portal-user-info" onClick={()=>nav('/board/'+info.board_key)}>
             <div className="portal-user-info-status">
                 总分 <b>{info.tot_score}</b><TrendMark reversed={false} current={info.tot_score} reloaded={last_reloaded} />{'，'}
-                {info.board_name}排名 <b>#{info.board_rank || 'N/A'}</b><TrendMark reversed={true} current={info.board_rank} reloaded={last_reloaded} />
+                {info.board_name} <b>#{info.board_rank || 'N/A'}</b><TrendMark reversed={true} current={info.board_rank} reloaded={last_reloaded} />
             </div>
             {tot_score_by_cat.length>0 &&
                 <div className="portal-user-info-cat">
