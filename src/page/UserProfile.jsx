@@ -16,7 +16,7 @@ for(let i='A'.charCodeAt(0), max='Z'.charCodeAt(0); i<=max; i++)
 
 function unicode_length_counter(s) {
     let seg = Intl.Segmenter ? Array.from(new Intl.Segmenter().segment(s)).map(g=>g.segment) : [...s];
-    return seg.map(c=>(c.length===1 && c.charCodeAt(0)<128 && !WIDE_CHARS.has(c)) ? 1 : 2).reduce((a,b)=>a+b, 0);
+    return seg.map(c=>(c.length===1 && c.charCodeAt(0)<128 && !WIDE_CHARS.has(c)) ? 1 : Math.max(2, Math.floor([...c].length/2))).reduce((a,b)=>a+b, 0);
 }
 
 function UserProfileForm() {
