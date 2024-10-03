@@ -36,7 +36,7 @@ import {TokenWidget} from '../widget/TokenWidget';
 import {UserName, UserGroupTag, UserBadges} from '../widget/UserBadges';
 import {LookingGlassLink} from '../widget/LookingGlassLink';
 import {useWishData, wish, TABID} from '../wish';
-import {TimestampAgo, NotFound, useReloadButton, to_auth, format_ts} from '../utils';
+import {TimestampAgo, NotFound, useReloadButton, to_auth, format_ts, ExtLink} from '../utils';
 import {WEB_TERMINAL_ADDR, ATTACHMENT_ROOT, ANTICHEAT_REPORT, SYBIL_ROOT, BANNED_MSG, Logo} from '../branding';
 import {TableLoader as Table} from '../widget/TableLoader';
 import {Loading} from '../widget/Loading';
@@ -79,11 +79,11 @@ function ChallengeAction({action, ch}) {
 
     if(action.type==='webpage')
         return (<>
-            你可以 <a onPointerDown={report_click} href={action.url.replace(/\{\{token}}/g, info.user.token)} target="_blank">访问{action.name}</a>
+            你可以 <ExtLink onPointerDown={report_click} href={action.url.replace(/\{\{token}}/g, info.user.token)}>访问{action.name}</ExtLink>
         </>);
     else if(action.type==='webdocker')
         return (<>
-            你可以 <a onPointerDown={report_click} href={`https://${action.host}/docker-manager/start?${info.user.token}`} target="_blank">访问{action.name}</a>
+            你可以 <ExtLink onPointerDown={report_click} href={`https://${action.host}/docker-manager/start?${info.user.token}`}>访问{action.name}</ExtLink>
             {' '}
             <Popover trigger="click" content={<div>
                 <p>本题为每名选手分配一个独立的后端环境，参见 <a href="#/info/faq">FAQ：关于 Web 题目环境</a></p>
@@ -97,13 +97,13 @@ function ChallengeAction({action, ch}) {
         </>);
     else if(action.type==='terminal')
         return (<>
-            你可以 <a onPointerDown={report_click} href={WEB_TERMINAL_ADDR(action, info.user.token)} target="_blank">打开网页终端</a> 或者通过命令{' '}
+            你可以 <ExtLink onPointerDown={report_click} href={WEB_TERMINAL_ADDR(action, info.user.token)}>打开网页终端</ExtLink> 或者通过命令{' '}
             <code>nc {action.host} {action.port}</code> 连接到{action.name}
         </>);
     else if(action.type==='attachment') {
         let url = `${ATTACHMENT_ROOT}${ch.key}/${action.filename}?token=${info.user.token}`;
         return (<>
-            你可以 <a href={url} target="_blank">下载{action.name}</a>
+            你可以 <ExtLink href={url}>下载{action.name}</ExtLink>
             <Popover trigger="click" content={<div>
                 <p>可以在未登录比赛平台的设备上通过链接下载附件</p>
                 <p>下载链接包含你的个人 Token，与他人分享将视为作弊</p>

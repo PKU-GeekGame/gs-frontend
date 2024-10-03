@@ -92,9 +92,9 @@ export function NotFound() {
     );
 }
 
-export function ExtLink({href, children}) {
+export function ExtLink({children, ...attrs}) {
     return (
-        <a href={href}  target="_blank" rel="noreferrer">{children}</a>
+        <a {...attrs} target="_blank" rel="noopener noreferrer">{children}</a>
     );
 }
 
