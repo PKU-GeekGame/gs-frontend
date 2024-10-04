@@ -27,6 +27,8 @@ export let GameInfoCtx = createContext({
             submit_flag: false,
             templates: [],
         },
+        cur_tick: 0,
+        diag_ts: 0,
     },
     reload_info: ()=>{},
 });

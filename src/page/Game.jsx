@@ -1,4 +1,4 @@
-import {Fragment, useMemo, useState, useEffect, useReducer, useRef} from 'react';
+import {Fragment, useMemo, useState, useEffect, useReducer, useRef, useContext} from 'react';
 import {useNavigate, unstable_usePrompt, useParams} from 'react-router-dom';
 import {Button, Empty, Tag, Alert, Input, Tooltip, Popover, Card, App, Popconfirm} from 'antd';
 import copy from 'copy-to-clipboard';
@@ -28,7 +28,7 @@ import {
 
 import {Reloader} from './GameLoading';
 import {Announcement} from './Announcements';
-import {useGameInfo} from '../logic/GameInfo';
+import {useGameInfo, GameInfoCtx} from '../logic/GameInfo';
 import {TemplateFile, TemplateStr} from '../widget/Template';
 import {ChallengeIcon, FlagIcon, CategoryBadge} from '../widget/ChallengeIcon';
 import {Transition} from '../widget/Transition';
@@ -593,11 +593,18 @@ function BannedSplash({error_msg, splash_msg}) {
 
 function Portal() {
     let [error, data, load_data] = useWishData('game');
-    let info = useGameInfo();
+    let {info, reload_info} = useContext(GameInfoCtx);
     let nav = useNavigate();
     let [last_reloaded, do_reload, reload_btn] = useReloadButton(load_data, 3, 180);
     let {challenge: active_challenge_key} = useParams();
     let {message} = App.useApp();
+
+    useEffect(() => {
+        if(data && info.cur_tick!==data.cur_tick) {
+            message.info({content: '赛程已更新', key: 'Portal.ReloadInfo', duration: 2});
+            reload_info();
+        }
+    }, [info, data]);
 
     active_challenge_key = active_challenge_key || null;
     let shown_challenge_key = info.user ? active_challenge_key : null;
