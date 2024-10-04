@@ -601,8 +601,7 @@ function Portal() {
 
     useEffect(() => {
         if(data && info.cur_tick!==data.cur_tick) {
-            message.info({content: '赛程已更新', key: 'Portal.ReloadInfo', duration: 2});
-            reload_info();
+            reload_info(); // policy may change, so refresh the whole ui
         }
     }, [info, data]);
 
@@ -696,7 +695,7 @@ function Portal() {
                                     <SolutionOutlined /> 提交 Writeup
                                 </Button> :
                             info.user===null ?
-                                <Alert type="info" showIcon message="比赛进行中，报名参赛后可以查看题目" /> :
+                                <Alert type="info" showIcon message="比赛进行中，报名参赛方可查看题目" /> :
                                 <Button block size="large" onClick={()=>nav('/info/faq')}>
                                     <FileTextOutlined /> 选手常见问题
                                 </Button>
