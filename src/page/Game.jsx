@@ -698,7 +698,12 @@ function Portal() {
                         {data.user_info!==null &&
                             <PortalUserInfo info={data.user_info} last_reloaded={last_reloaded} />
                         }
-                        <PortalChallengeList list={data.challenge_list} active_key={active_challenge_key} set_active_key={(k)=>goto_challenge(k)} />
+                        <PortalChallengeList list={data.challenge_list} active_key={active_challenge_key} set_active_key={(k)=>{
+                            if(info.user)
+                                goto_challenge(k)
+                            else
+                                message.info({content: '报名参赛方可查看题目', key: 'Portal.GotoChallenge', duration: 2});
+                        }} />
                     </>
                 }
             </div>
