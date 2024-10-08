@@ -52,7 +52,7 @@ function LoginBanner() {
                 <b>报名参赛：</b>
                 <Button type="primary" onClick={() => to_auth('pku/redirect', message)}><BankOutlined /> 北京大学登录</Button>
                 &ensp;
-                <Button type="primary" onClick={() => window.location.href = '#/login/thu'}><BankOutlined /> 清华大学登录</Button>
+                <Button type="primary" onClick={() => to_auth('carsi/login', message)}><BankOutlined /> 清华大学登录</Button>
                 &ensp;
                 <Button onClick={() => window.location.href = '#/login/other'}><GlobalOutlined/> 校外选手</Button>
             </Card>

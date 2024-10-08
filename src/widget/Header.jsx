@@ -134,9 +134,10 @@ export function Header() {
                                         onClick: ()=>to_auth('pku/redirect', message),
                                     },
                                     {
-                                        key: '/login/thu',
+                                        key: '_/login/thu',
                                         icon: <BankOutlined />,
                                         label: '清华大学登录',
+                                        onClick: ()=>to_auth('carsi/login', message),
                                     },
                                     {
                                         key: '/login/other',

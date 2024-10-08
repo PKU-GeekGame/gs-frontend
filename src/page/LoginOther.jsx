@@ -54,7 +54,7 @@ export function LoginOther() {
                         <BankOutlined /> 北京大学登录
                     </Button>
                     &ensp;
-                    <Button size="large" onClick={()=>{location.href = '#/login/thu'}}>
+                    <Button size="large" onClick={()=>to_auth('carsi/login', message)}>
                         <BankOutlined /> 清华大学登录
                     </Button>
                 </p>
