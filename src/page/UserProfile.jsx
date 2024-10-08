@@ -6,7 +6,7 @@ import {useNavigate} from 'react-router-dom';
 import {GameInfoCtx} from '../logic/GameInfo';
 import {UserBadges, UserGroupTag} from '../widget/UserBadges';
 import {wish} from '../wish';
-import {QQ_GROUP_PKU, QQ_GROUP_THU, BANNED_MSG} from '../branding';
+import {QQ_GROUP, BANNED_MSG} from '../branding';
 
 import './UserProfile.less';
 
@@ -126,6 +126,11 @@ function UserProfileForm() {
                     }
                     {info.user.profile.email!==undefined &&
                         <Form.Item name="email" label="邮箱">
+                            <Input {...input_style} placeholder="请填写清华邮箱地址" />
+                        </Form.Item>
+                    }
+                    {info.user.profile.stuid!==undefined &&
+                        <Form.Item name="stuid" label="学号">
                             <Input {...input_style} />
                         </Form.Item>
                     }
@@ -135,13 +140,9 @@ function UserProfileForm() {
                         </Form.Item>
                     }
                 </Form>
-                {info.user.group==='pku' && <>
+                {['pku', 'thu'].includes(info.user.group) && <>
                     <br />
-                    <Alert type="info" showIcon message={<>请正确填写以便赛后联系和颁奖，同时请加入选手 QQ 群 {QQ_GROUP_PKU}</>} />
-                </>}
-                {info.user.group==='thu' && <>
-                    <br />
-                    <Alert type="info" showIcon message={<>请正确填写以便赛后联系并通知线下活动，同时请加入清华大学选手 QQ 群 {QQ_GROUP_THU}</>} />
+                    <Alert type="info" showIcon message={<>请正确填写以便赛后联系和颁奖，同时请加入选手 QQ 群 {QQ_GROUP}</>} />
                 </>}
             </Card>
             <br />

@@ -13,9 +13,9 @@ export let GameInfoCtx = createContext({
             token: '',
             profile: {
                 nickname: '',
-                gender: '',
                 tel: '',
                 email: '',
+                stuid: '',
                 qq: '',
                 comment: '',
             },
