@@ -17,7 +17,7 @@ import {
     CarryOutOutlined,
     FileTextOutlined,
     FireOutlined,
-    UserSwitchOutlined,
+    SwapOutlined,
     FormOutlined,
     ArrowUpOutlined,
     ArrowDownOutlined,
@@ -509,6 +509,7 @@ function PortalUserInfo({info, last_reloaded}) {
 
 function PortalChallengeList({list, active_key, set_active_key}) {
     let [show_pass_count, set_show_pass_count] = useState(false);
+    let [show_prob_id, set_show_prob_id] = useState(false);
 
     return (
         <div className="portal-chall-list">
@@ -518,12 +519,17 @@ function PortalChallengeList({list, active_key, set_active_key}) {
                     <div className="portal-chall-row portal-chall-header">
                         <div className="portal-chall-col-title">
                             题目名称
+                            <span className="portal-chall-mode-switch-btn" onClick={()=>set_show_prob_id(!show_prob_id)}>
+                                <Tooltip title={<>当前显示：{show_prob_id ? '题目 ID' : '题目分类'}<br />点击切换</>}>
+                                    (<SwapOutlined />)
+                                </Tooltip>
+                            </span>
                         </div>
                         <div className="portal-chall-col-score">
                             分值
                             <span className="portal-chall-mode-switch-btn" onClick={()=>set_show_pass_count(!show_pass_count)}>
                                 <Tooltip title={<>当前显示：{show_pass_count ? '总通过人数' : '动态分值系数'}<br />点击切换</>}>
-                                    (<UserSwitchOutlined />)
+                                    (<SwapOutlined />)
                                 </Tooltip>
                             </span>
                         </div>
@@ -535,7 +541,10 @@ function PortalChallengeList({list, active_key, set_active_key}) {
                                 onClick={()=>set_active_key(ch.key)}
                             >
                                 <div className="portal-chall-col-title">
-                                    <CategoryBadge color={ch.category_color}>{ch.category}</CategoryBadge>
+                                    {show_prob_id ?
+                                        <span style={{color: ch.category_color}} className="portal-chall-col-key">{ch.key}</span> :
+                                        <CategoryBadge color={ch.category_color}>{ch.category}</CategoryBadge>
+                                    }
                                     <ChallengeIcon status={ch.status} /> {ch.title}
                                     {ch.flags.length>1 && <span className="portal-chall-caret"><CaretDownOutlined /></span>}
                                 </div>
