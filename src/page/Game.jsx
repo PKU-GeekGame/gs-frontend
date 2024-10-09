@@ -104,6 +104,7 @@ function ChallengeAction({action, ch}) {
         let url = `${ATTACHMENT_ROOT}${ch.key}/${action.filename}?token=${info.user.token}`;
         return (<>
             你可以 <ExtLink href={url}>下载{action.name}</ExtLink>
+            {' '}
             <Popover trigger="click" content={<div>
                 <p>可以在未登录比赛平台的设备上通过链接下载附件</p>
                 <p>下载链接包含你的个人 Token，与他人分享将视为作弊</p>
