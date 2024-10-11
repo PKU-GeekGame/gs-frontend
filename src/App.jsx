@@ -7,7 +7,7 @@ import {
     CarryOutOutlined,
     FundOutlined,
     AimOutlined,
-    BankOutlined, GlobalOutlined,
+    BankOutlined, GlobalOutlined, CrownOutlined,
 } from '@ant-design/icons';
 
 import {License} from './page/License';
@@ -125,8 +125,25 @@ function BoardShell() {
                         ],
                     },
                     {
-                        key: '_all',
+                        key: '_other',
                         icon: <GlobalOutlined />,
+                        label: <WithCaret>其他选手</WithCaret>,
+                        children: [
+                            {
+                                key: 'score_other',
+                                icon: <FundOutlined />,
+                                label: '排名',
+                            },
+                            {
+                                key: 'first_other',
+                                icon: <AimOutlined />,
+                                label: '一血榜',
+                            },
+                        ],
+                    },
+                    {
+                        key: '_all',
+                        icon: <CrownOutlined />,
                         label: <WithCaret>所有选手</WithCaret>,
                         children: [
                             {
