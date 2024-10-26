@@ -3,10 +3,21 @@ import react from '@vitejs/plugin-react';
 import {compression} from 'vite-plugin-compression2'
 import {createHtmlPlugin} from 'vite-plugin-html';
 import zlib from 'zlib';
+import fs from 'fs';
+import {minify_sync} from 'terser';
+
+import {WISH_ROOT, TEMPLATE_ROOT, WISH_VER} from './src/api_config';
 
 const API_ENV = process.env['VITE_APP_MOCK_API_ENV'] || null;
 const API_URL = API_ENV ? process.env['MOCK_API_URL_'+API_ENV] : 'https://geekgame.pku.edu.cn';
 const API_COOKIE = API_ENV ? (process.env['MOCK_API_COOKIE_'+API_ENV] || null) : null;
+
+const preload_script_src = minify_sync(
+    fs.readFileSync('src/index-preloaded.js', 'utf-8')
+        .replace(/\{__WISH_ROOT__}/g, WISH_ROOT)
+        .replace(/\{__WISH_VER__}/g, WISH_VER)
+        .replace(/\{__TEMPLATE_ROOT__}/g, TEMPLATE_ROOT)
+).code;
 
 export default defineConfig(() => {
     return {
@@ -43,6 +54,11 @@ export default defineConfig(() => {
             react(),
             createHtmlPlugin({
                 minify: true,
+                inject: {
+                    data: {
+                        PRELOAD_SCRIPT: preload_script_src,
+                    },
+                },
             }),
             compression({
                 include: /\.*$/,

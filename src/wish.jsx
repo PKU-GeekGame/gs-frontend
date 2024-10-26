@@ -10,15 +10,22 @@ window._TABID = TABID;
 
 export function wish(endpoint, data) {
     return new Promise((resolve)=>{
-        fetch(WISH_ROOT + endpoint + (endpoint.includes('?') ? '&' : '?') + 'tabid=' + TABID, {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                'X-Wish-Version': WISH_VER,
-                'Content-Type': 'application/json',
-            },
-            body: data ? JSON.stringify(data) : '{}',
-        })
+        let req = null;
+        if(endpoint==='game_info' && window._gameinfo_prefetch) {
+            req = window._gameinfo_prefetch;
+            window._gameinfo_prefetch = null;
+        }
+        if(req===null)
+            req = fetch(WISH_ROOT + endpoint + (endpoint.includes('?') ? '&' : '?') + 'tabid=' + TABID, {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'X-Wish-Version': WISH_VER,
+                    'Content-Type': 'application/json',
+                },
+                body: data ? JSON.stringify(data) : '{}',
+            });
+        req
             .then((res)=>{
                 if(res.status!==200)
                     return {

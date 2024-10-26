@@ -2,11 +2,9 @@ import {useState, useEffect, useCallback} from 'react';
 
 import {Reloader} from '../page/GameLoading';
 import {Loading} from './Loading';
-import {SVC_ROOT} from '../api_config';
+import {TEMPLATE_ROOT} from '../api_config';
 
 import './Template.less';
-
-const TEMPLATE_ROOT = SVC_ROOT+'template/';
 
 export function TemplateStr({name, children}) {
     return (
