@@ -1,5 +1,5 @@
 import {useEffect} from 'react';
-import {useNavigate, Navigate, useParams, useLocation, Outlet, useOutlet} from 'react-router-dom';
+import {useNavigate, Navigate, useParams, useLocation, useOutlet} from 'react-router-dom';
 import {Menu, Alert} from 'antd';
 import {
     NotificationOutlined,
@@ -14,7 +14,7 @@ import {License} from './page/License';
 import {Board} from './page/Board';
 import {UserSubmissions} from './page/UserSubmissions';
 import {Writeup} from './page/Writeup';
-import {Game} from './page/Game';
+import {Game, SYBIL_ROOT} from './page/Game';
 import {Announcements} from './page/Announcements';
 import {Triggers} from './page/Triggers';
 import {UserProfile} from './page/UserProfile';
@@ -26,7 +26,6 @@ import {Transition} from './widget/Transition';
 import {TemplateFile} from './widget/Template';
 import {useGameInfo} from './logic/GameInfo';
 import {NotFound, WithCaret} from './utils'
-import {SYBIL_ROOT} from './branding';
 import {TABID} from './wish';
 
 import './App.less';

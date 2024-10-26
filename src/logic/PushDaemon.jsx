@@ -3,7 +3,7 @@ import {App} from 'antd';
 import {NotificationOutlined, CarryOutOutlined, RocketOutlined} from '@ant-design/icons';
 
 import {TABID} from '../wish';
-import {WS_ROOT} from '../branding';
+import {SVC_ROOT} from '../api_config';
 
 import './PushDaemon.less';
 
@@ -12,11 +12,12 @@ const PUSH_RECONNECT_DELAY_MS = 5000;
 const PUSH_STABLE_MS = 25000;
 const PUSH_RECONNECT_MAX = 8;
 
+const WS_ROOT = SVC_ROOT+'ws/';
+const PUSH_DEBUG = localStorage['gs_push_debug'] || false;
+
 function rnd_delay() { // add a random delay to flatten the backend load
     return 200 + Math.random()*1300;
 }
-
-const PUSH_DEBUG = localStorage['gs_push_debug'] || false;
 
 class PushClient {
     constructor(reload_info, app) {

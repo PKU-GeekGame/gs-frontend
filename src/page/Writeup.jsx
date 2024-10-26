@@ -3,9 +3,10 @@ import {Alert, Form, Radio, Upload, Button, Card, App} from 'antd';
 import {FileAddOutlined, FileDoneOutlined, UploadOutlined} from '@ant-design/icons';
 
 import {Reloader} from './GameLoading';
-import {useWishData, WISH_VER} from '../wish';
+import {useWishData} from '../wish';
 import {ExtLink} from '../utils';
-import {WISH_ROOT, WRITEUP_INSTRUCTION} from '../branding';
+import {WISH_VER, WISH_ROOT} from '../api_config';
+import {WRITEUP_INSTRUCTION} from '../branding';
 
 import './Writeup.less';
 import {Loading} from '../widget/Loading';

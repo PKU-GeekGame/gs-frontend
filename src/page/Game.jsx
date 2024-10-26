@@ -37,11 +37,15 @@ import {UserName, UserGroupTag, UserBadges} from '../widget/UserBadges';
 import {LookingGlassLink} from '../widget/LookingGlassLink';
 import {useWishData, wish, TABID} from '../wish';
 import {TimestampAgo, NotFound, useReloadButton, to_auth, format_ts, ExtLink} from '../utils';
-import {WEB_TERMINAL_ADDR, ATTACHMENT_ROOT, ANTICHEAT_REPORT, SYBIL_ROOT, BANNED_MSG, Logo} from '../branding';
+import {WEB_TERMINAL_ADDR, ANTICHEAT_REPORT, BANNED_MSG, Logo} from '../branding';
 import {TableLoader as Table} from '../widget/TableLoader';
 import {Loading} from '../widget/Loading';
+import {SVC_ROOT} from '../api_config';
 
 import './Game.less';
+
+export const SYBIL_ROOT = SVC_ROOT+'anticheat/';
+const ATTACHMENT_ROOT = SVC_ROOT+'attachment/';
 
 function LoginBanner() {
     let {message} = App.useApp();

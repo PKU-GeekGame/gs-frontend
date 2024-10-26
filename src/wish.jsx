@@ -1,6 +1,6 @@
 import {useState, useCallback, useEffect} from 'react';
 
-import {WISH_ROOT} from './branding';
+import {WISH_ROOT} from './api_config';
 import {random_str} from './utils';
 
 export const WISH_VER = '2024.v3';

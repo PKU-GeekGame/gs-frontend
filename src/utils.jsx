@@ -5,8 +5,10 @@ import RealTimeAgo from 'react-timeago';
 import buildFormatter from 'react-timeago/lib/formatters/buildFormatter';
 import {InboxOutlined, CaretDownOutlined} from '@ant-design/icons';
 
-import {AUTH_ROOT} from './branding';
 import {useGameInfo} from './logic/GameInfo';
+import {SVC_ROOT} from './api_config';
+
+const AUTH_ROOT = SVC_ROOT+'auth/';
 
 export function Cap({text, width}) {
     return (
