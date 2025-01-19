@@ -7,7 +7,7 @@
     --darkred: darkred;
 }
 .dark-decl() {
-    --card-border: #666;
+    --card-border: #777;
     --body-background: black;
     --body-foreground: white;
     --loading-background: #141414;
@@ -34,7 +34,7 @@
 .fancy-card-mixin() {
     .ant-card {
         background-color: #fcfcfc !important;
-        body.theme-dark & {
+        html.theme-dark & {
             background-color: #141414 !important;
         }
 
@@ -42,7 +42,7 @@
 
         .ant-card-head {
             background-color: #f0f0f0 !important;
-            body.theme-dark & {
+            html.theme-dark & {
                 background-color: #333 !important;
             }
         }

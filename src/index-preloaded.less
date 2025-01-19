@@ -2,12 +2,12 @@
 
 // fallback color scheme when loading
 @media(prefers-color-scheme: light) {
-    body:not(.theme-light):not(.theme-dark) {
+    html:not(.theme-light):not(.theme-dark) {
         .light-decl();
     }
 }
 @media(prefers-color-scheme: dark) {
-    body:not(.theme-light):not(.theme-dark) {
+    html:not(.theme-light):not(.theme-dark) {
         .dark-decl();
     }
 }

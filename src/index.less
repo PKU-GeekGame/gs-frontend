@@ -1,17 +1,21 @@
 @import 'antd/dist/reset.css';
 @import './vars.less';
 
-body.theme-light {
+html.theme-light {
     color-scheme: only light;
     .light-decl();
 }
-body.theme-dark {
+html.theme-dark {
     color-scheme: only dark;
     .dark-decl();
 }
 
-.ant-menu {
+.ant-menu-light {
     background-color: unset !important;
+}
+
+.ant-message-notice-content {
+    border: 1px solid @card-border-color;
 }
 
 ::selection {

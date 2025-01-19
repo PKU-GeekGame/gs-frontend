@@ -25,9 +25,9 @@ function ThemeShell() {
     let disable_all_anim = config.ui_animation==='off';
 
     useEffect(() => {
-        document.body.classList.add(`theme-${theme}`);
+        document.documentElement.classList.add(`theme-${theme}`);
         return ()=>{
-            document.body.classList.remove(`theme-${theme}`);
+            document.documentElement.classList.remove(`theme-${theme}`);
         };
     }, [theme]);
 
@@ -57,6 +57,9 @@ function ThemeShell() {
                         headerBg: theme==='dark' ? '#333' : '#f9f9f9',
                         headerBorderRadius: 0,
                     },
+                    Button: {
+                        defaultBorderColor: 'var(--card-border)',
+                    }
                 },
                 algorithm: theme==='dark' ? antd_theme.darkAlgorithm : antd_theme.defaultAlgorithm,
             }}
