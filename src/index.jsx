@@ -42,6 +42,7 @@ function ThemeShell() {
                     colorPrimary: theme==='dark' ? '#3396ff' : '#0063cc',
                     colorLink: theme==='dark' ? '#b8d9ff' : '#0063cc',
                     colorText: theme==='dark' ? '#fff' : '#000',
+                    colorBorder: 'var(--card-border)',
                     fontWeightStrong: 500,
                     borderRadiusLG: 6,
                     motionDurationFast: disable_all_anim ? '.001s' : '0.1s',
@@ -57,9 +58,6 @@ function ThemeShell() {
                         headerBg: theme==='dark' ? '#333' : '#f9f9f9',
                         headerBorderRadius: 0,
                     },
-                    Button: {
-                        defaultBorderColor: 'var(--card-border)',
-                    }
                 },
                 algorithm: theme==='dark' ? antd_theme.darkAlgorithm : antd_theme.defaultAlgorithm,
             }}

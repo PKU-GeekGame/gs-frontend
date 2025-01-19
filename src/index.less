@@ -14,8 +14,12 @@ html.theme-dark {
     background-color: unset !important;
 }
 
-.ant-message-notice-content {
+.ant-message-notice-content, .ant-notification-notice-wrapper {
     border: 1px solid @card-border-color;
+
+    html.theme-dark & {
+        box-shadow: 0 0 4px rgba(255, 255, 255, .4) !important
+    }
 }
 
 ::selection {
@@ -40,7 +44,7 @@ li {
     border: 1px solid @card-border-color !important;
 }
 
-a, .ant-btn-link, .ant-btn-default {
+a, .ant-btn-link, .ant-btn-default, .ant-radio-button-wrapper {
     transition: none !important; // no transition for link hovering
 }
 
