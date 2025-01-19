@@ -94,9 +94,11 @@ function ConfigForm() {
         <br />
         <Card title="其他" {...card_style}>
             <Form {...form_style}>
-                <Form.Item label="退出登录" extra={'当前用户：'+info.user.login_key}>
-                    <Button danger block onClick={()=>to_auth('logout', message)}>退出登录当前用户</Button>
-                </Form.Item>
+                {info.user!==null && (
+                    <Form.Item label="退出登录" extra={'当前用户：'+info.user.login_key}>
+                        <Button danger block onClick={()=>to_auth('logout', message)}>退出登录当前用户</Button>
+                    </Form.Item>
+                )}
                 <Form.Item label="重置" extra="此浏览器上的前端设置将恢复默认">
                     <Button danger block onClick={()=>{clear_config(); message.success({content: '已重置', key: 'ConfigPage', duration: 2}) }}>重置所有设置</Button>
                 </Form.Item>
