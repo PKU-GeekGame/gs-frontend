@@ -153,9 +153,6 @@ function UserProfileForm() {
                             <Input maxLength={100} placeholder="（可不填）" {...input_style} />
                         </Form.Item>
                     }
-                    <Form.Item label="登录方式">
-                        <span className="ant-form-text">{info.user.login_key}</span>
-                    </Form.Item>
                 </Form>
             </Card>
             <br />
@@ -170,7 +167,7 @@ function UserProfileForm() {
 
 export function UserProfile() {
     return (
-        <div className="slim-container user-profile-container">
+        <div className="slim-container form-page-container">
             <h1>个人资料</h1>
             <UserProfileForm />
         </div>

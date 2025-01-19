@@ -1,23 +1,50 @@
-@body-background: #ffffff;
+.light-decl() {
+    --card-border: #d9d9d9;
+    --body-background: white;
+    --body-foreground: black;
+    --loading-background: #fcfcfc;
+    --loading-foreground: rgba(0, 0, 0, .6);
+    --darkred: darkred;
+}
+.dark-decl() {
+    --card-border: #666;
+    --body-background: black;
+    --body-foreground: white;
+    --loading-background: #141414;
+    --loading-foreground: rgba(255, 255, 255, .6);
+    --darkred: #f88;
+}
+
+@body-background: var(--body-background);
 @max-body-width: 1300px;
 @body-padding: 6px;
 
 @border-radius-base: 6px;
-@card-border-color: #d9d9d9;
+@card-border-color: var(--card-border);
 
 @header-background: #333;
 @header-height: 58px;
 
-@loading-background: #fcfcfc;
-@loading-color: rgba(0, 0, 0, .6);
+@loading-background: var(--loading-background);
+@loading-color: var(--loading-foreground);
 
-.fancy-card-mixin(@header-background) {
+@darkred: var(--darkred);
+@body-foreground: var(--body-foreground);
+
+.fancy-card-mixin() {
     .ant-card {
         background-color: #fcfcfc !important;
+        body.theme-dark & {
+            background-color: #141414 !important;
+        }
+
         border: 1px solid @card-border-color;
 
         .ant-card-head {
-            background-color: @header-background !important;
+            background-color: #f0f0f0 !important;
+            body.theme-dark & {
+                background-color: #333 !important;
+            }
         }
     }
 }

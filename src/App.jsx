@@ -19,6 +19,7 @@ import {Announcements} from './page/Announcements';
 import {Triggers} from './page/Triggers';
 import {UserProfile} from './page/UserProfile';
 import {Terms} from './page/Terms';
+import {ConfigPage} from './page/ConfigPage';
 import {LoginOther} from './page/LoginOther';
 import {Header} from './widget/Header';
 import {Footer} from './widget/Footer';
@@ -283,6 +284,7 @@ export const routes = [
             {path: 'profile', element: <UserProfile />},
             {path: 'submissions', element: <UserSubmissions />},
             {path: 'terms', element: <Terms />},
+            {path: 'config', element: <ConfigPage />},
         ]},
 
         {path: '/login/other', element: <LoginOther />},

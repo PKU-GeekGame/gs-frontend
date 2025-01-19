@@ -1,6 +1,19 @@
 @import 'antd/dist/reset.css';
 @import './vars.less';
 
+body.theme-light {
+    color-scheme: only light;
+    .light-decl();
+}
+body.theme-dark {
+    color-scheme: only dark;
+    .dark-decl();
+}
+
+.ant-menu {
+    background-color: unset !important;
+}
+
 ::selection {
     color: black;
     background-color: #c5ebff;

@@ -41,6 +41,7 @@ import {WEB_TERMINAL_ADDR, ANTICHEAT_REPORT, BANNED_MSG, Logo} from '../branding
 import {TableLoader as Table} from '../widget/TableLoader';
 import {Loading} from '../widget/Loading';
 import {SVC_ROOT} from '../api_config';
+import {useFrontendConfig} from '../logic/FrontendConfig';
 
 import './Game.less';
 
@@ -332,7 +333,7 @@ function Feedback({ch}) {
     );
 }
 
-function ScoreDeduction({ch, flag, show_pass_count}) {
+function ScoreDeduction({ch, flag, show_mode}) {
     let base_score, cur_score, passed_count, touched_count;
     if(ch) {
         base_score = ch.tot_base_score;
@@ -360,13 +361,13 @@ function ScoreDeduction({ch, flag, show_pass_count}) {
 
     let item_selected;
 
-    if(show_pass_count) {
-        item_selected = touched_count===0 ? null : (
-            <span className="item-discount-selected"><UserOutlined />{passed_count}{touched_count>passed_count ? '+' : ''}</span>
-        );
-    } else {
+    if(show_mode==='deduction') {
         item_selected = base_score===cur_score ? null : (
             <span className="item-discount-selected">(-{ratio.toFixed(0)}%)</span>
+        );
+    } else {
+        item_selected = touched_count===0 ? null : (
+            <span className="item-discount-selected"><UserOutlined />{passed_count}{touched_count>passed_count ? '+' : ''}</span>
         );
     }
 
@@ -513,8 +514,7 @@ function PortalUserInfo({info, last_reloaded}) {
 }
 
 function PortalChallengeList({list, active_key, set_active_key}) {
-    let [show_pass_count, set_show_pass_count] = useState(false);
-    let [show_prob_id, set_show_prob_id] = useState(false);
+    let {config, set_config} = useFrontendConfig();
 
     return (
         <div className="portal-chall-list">
@@ -524,16 +524,16 @@ function PortalChallengeList({list, active_key, set_active_key}) {
                     <div className="portal-chall-row portal-chall-header">
                         <div className="portal-chall-col-title">
                             题目名称
-                            <span className="portal-chall-mode-switch-btn" onClick={()=>set_show_prob_id(!show_prob_id)}>
-                                <Tooltip title={<>当前显示：{show_prob_id ? '题目 ID' : '题目分类'}<br />点击切换</>}>
+                            <span className="portal-chall-mode-switch-btn" onClick={()=>set_config({portal_challenge_badge: config.portal_challenge_badge==='category' ? 'id' : 'category'})}>
+                                <Tooltip title={<>当前显示：{config.portal_challenge_badge==='category' ? '题目分类' : '题目 ID'}<br />点击切换</>}>
                                     (<SwapOutlined />)
                                 </Tooltip>
                             </span>
                         </div>
                         <div className="portal-chall-col-score">
                             分值
-                            <span className="portal-chall-mode-switch-btn" onClick={()=>set_show_pass_count(!show_pass_count)}>
-                                <Tooltip title={<>当前显示：{show_pass_count ? '总通过人数' : '动态分值系数'}<br />点击切换</>}>
+                            <span className="portal-chall-mode-switch-btn" onClick={()=>set_config({portal_score_badge: config.portal_score_badge==='deduction' ? 'pass_count' : 'deduction'})}>
+                                <Tooltip title={<>当前显示：{config.portal_score_badge==='deduction' ? '动态分值系数' : '总通过人数'}<br />点击切换</>}>
                                     (<SwapOutlined />)
                                 </Tooltip>
                             </span>
@@ -546,16 +546,16 @@ function PortalChallengeList({list, active_key, set_active_key}) {
                                 onClick={()=>set_active_key(ch.key)}
                             >
                                 <div className="portal-chall-col-title">
-                                    {show_prob_id ?
-                                        <span style={{color: ch.category_color}} className="portal-chall-col-key">{ch.key}</span> :
-                                        <CategoryBadge color={ch.category_color}>{ch.category}</CategoryBadge>
+                                    {config.portal_challenge_badge==='category' ?
+                                        <CategoryBadge color={ch.category_color}>{ch.category}</CategoryBadge> :
+                                        <span style={{color: ch.category_color}} className="portal-chall-col-key">{ch.key}</span>
                                     }
                                     <ChallengeIcon status={ch.status} /> {ch.title}
                                     {ch.flags.length>1 && <span className="portal-chall-caret"><CaretDownOutlined /></span>}
                                 </div>
                                 <div className="portal-chall-col-score">
                                     {ch.tot_cur_score}<span className="label-for-score">分</span>
-                                    {' '}<ScoreDeduction ch={ch} show_pass_count={show_pass_count} />
+                                    {' '}<ScoreDeduction ch={ch} show_mode={config.portal_score_badge} />
                                 </div>
                             </div>
                             {active_key===ch.key && ch.flags.length>1 &&
@@ -566,7 +566,7 @@ function PortalChallengeList({list, active_key, set_active_key}) {
                                         </div>
                                         <div className="portal-chall-col-score">
                                             {f.cur_score}<span className="label-for-score">分</span>
-                                            {' '}<ScoreDeduction flag={f} show_pass_count={show_pass_count} />
+                                            {' '}<ScoreDeduction flag={f} show_mode={config.portal_score_badge} />
                                         </div>
                                     </div>
                                 ))

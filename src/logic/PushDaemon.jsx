@@ -1,7 +1,8 @@
-import {useEffect} from 'react';
+import {useEffect, useRef} from 'react';
 import {App} from 'antd';
 import {NotificationOutlined, CarryOutOutlined, RocketOutlined} from '@ant-design/icons';
 
+import {useFrontendConfig} from './FrontendConfig';
 import {TABID} from '../wish';
 import {SVC_ROOT} from '../api_config';
 
@@ -19,64 +20,113 @@ function rnd_delay() { // add a random delay to flatten the backend load
     return 200 + Math.random()*1300;
 }
 
+function arbitration(callback) {
+    let nonce = `${+new Date()}-${Math.random()}`;
+    localStorage.setItem('gs_push_arbitration', nonce);
+    setTimeout(()=>{
+        if(localStorage.getItem('gs_push_arbitration')===nonce)
+            callback();
+    }, 1000);
+}
+
 class PushClient {
-    constructor(reload_info, app) {
-        this.app = app;
+    constructor() {
         this.ws = null;
         this.stopped = false;
         this.count_reconnect = 0;
-        this.reload_info = reload_info;
+
+        this.app = null;
+        this.reload_info = null;
+        this.config = null;
 
         setTimeout(()=>{
             this.connect();
         }, PUSH_STARTUP_DELAY_MS);
+
+        window.gs_push_test = ()=>this.handle_message({
+            type: 'frontent_test',
+        });
+    }
+
+    show_message(type, icon, title, description) {
+        this.app.notification[type]({
+            key: `notification-${+new Date()}`,
+            className: 'push-notif',
+            icon: icon,
+            message: title,
+            description: description,
+        });
+
+        let send_toast = (
+            this.config.notif_toast==='always'
+            || (this.config.notif_toast==='only_background' && document.visibilityState==='hidden')
+        );
+        let tts_msg = (
+            this.config.notif_tts==='title' ? `${title}。` :
+            this.config.notif_tts==='title_and_content' ? `${title}。${description}。` :
+                null
+        );
+
+        arbitration(()=>{
+            if(send_toast) {
+                new Notification(title, {body: description});
+            }
+
+            if(tts_msg) {
+                let ut = new SpeechSynthesisUtterance(tts_msg);
+                ut.lang = 'zh-CN';
+                ut.rate = 1.25;
+                window.speechSynthesis.speak(ut);
+            }
+        });
     }
 
     handle_message(data) {
-        let key = `notification-${+new Date()}`;
-        let notif_conf = {
-            key: key,
-            className: 'push-notif',
-        };
-
         if(PUSH_DEBUG)
             console.log('PushClient: handle message', data);
 
         if(data.type==='new_announcement') {
-            this.app.notification.info({
-                ...notif_conf,
-                icon: <NotificationOutlined />,
-                message: '比赛公告',
-                description: `有新的公告【${data.title}】`,
-            });
+            this.show_message(
+                'info',
+                <NotificationOutlined />,
+                '比赛公告',
+                `有新的公告【${data.title}】`,
+            );
         } else if(data.type==='tick_update') {
             setTimeout(()=>{
-                this.app.notification.info({
-                    ...notif_conf,
-                    icon: <CarryOutOutlined />,
-                    message: '赛程提醒',
-                    description: data.new_tick_name.replace(/;/, '，'),
-                });
+                this.show_message(
+                    'info',
+                    <CarryOutOutlined />,
+                    '赛程提醒',
+                    data.new_tick_name.replace(/;/, '，'),
+                );
                 this.reload_info();
             }, rnd_delay());
         } else if(data.type==='flag_first_blood') {
-            this.app.notification.success({
-                ...notif_conf,
-                icon: <RocketOutlined />,
-                message: 'Flag 一血提醒',
-                description: `恭喜【${data.nickname}】在【${data.board_name}】中拿到了题目【${data.challenge}】的【${data.flag}】的一血`,
-            });
+            this.show_message(
+                'success',
+                <RocketOutlined />,
+                'Flag 一血提醒',
+                `恭喜【${data.nickname}】在【${data.board_name}】中拿到了题目【${data.challenge}】的【${data.flag}】的一血`,
+            );
         } else if(data.type==='challenge_first_blood') {
-            this.app.notification.success({
-                ...notif_conf,
-                icon: <RocketOutlined />,
-                message: '题目一血提醒',
-                description: `恭喜【${data.nickname}】在【${data.board_name}】中拿到了题目【${data.challenge}】的一血`,
-            });
+            this.show_message(
+                'success',
+                <RocketOutlined />,
+                '题目一血提醒',
+                `恭喜【${data.nickname}】在【${data.board_name}】中拿到了题目【${data.challenge}】的一血`,
+            );
         } else if(data.type==='reload_user') {
             setTimeout(()=>{
                 this.reload_info();
             }, rnd_delay());
+        } else if(data.type==='frontent_test') {
+            this.show_message(
+                'info',
+                <NotificationOutlined />,
+                '吃葡萄不吐葡萄皮',
+                '这是测试消息',
+            );
         }
     }
 
@@ -136,6 +186,7 @@ class PushClient {
 
     stop() {
         this.stopped = true;
+        window.gs_push_test = null;
         if(this.ws!==null)
             this.ws.close();
     }
@@ -143,31 +194,50 @@ class PushClient {
 
 export function PushDaemon({info, reload_info}) {
     let app = App.useApp();
+    let {config} = useFrontendConfig();
+    let client = useRef(null);
 
     useEffect(()=>{
-        if(info!==null && info.feature.push) {
-            let client = new PushClient(reload_info, app);
+        function sync_properties(c) {
+            c.app = app;
+            c.reload_info = reload_info;
+            c.config = config;
+        }
+
+        if(client.current)
+            sync_properties(client.current);
+
+        // maybe spawn client
+        if(client.current===null && info!==null && info.feature.push) {
+            client.current = new PushClient();
+            sync_properties(client.current);
 
             // stop websocket to make the page available for bfcache
             window.addEventListener('pagehide', (e)=>{
                 if(PUSH_DEBUG)
                     console.log('PushClient: pagehide', e.persisted);
 
-                client.stop();
+                client.current.stop();
             }, {capture: true});
             window.addEventListener('pageshow', (e)=>{
                 if(PUSH_DEBUG)
                     console.log('PushClient: pageshow', e.persisted);
 
-                client.stop();
-                client = new PushClient(reload_info, app);
+                client.current.stop();
+                client.current = new PushClient(reload_info, app);
+                sync_properties(client.current);
             }, {capture: true});
-
-            return ()=>{
-                client.stop();
-            };
         }
-    }, [info, reload_info]);
+    });
+
+    useEffect(()=>{
+        return ()=>{
+            if(client.current) {
+                client.current.stop();
+                client.current = null;
+            }
+        };
+    }, []);
 
     return null;
 }

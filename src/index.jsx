@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import ReactDOM from 'react-dom/client';
-import {ConfigProvider, Alert, App as AntdApp} from 'antd';
+import {ConfigProvider, Alert, App as AntdApp, theme as antd_theme} from 'antd';
 import {createHashRouter, RouterProvider} from 'react-router-dom';
 import {StyleProvider, legacyLogicalPropertiesTransformer} from '@ant-design/cssinjs';
 import {CloseCircleOutlined} from '@ant-design/icons';
@@ -8,6 +8,7 @@ import zhCN from 'antd/es/locale/zh_CN';
 
 import {GameInfoProvider} from './logic/GameInfo';
 import {routes} from './App';
+import {FrontendConfigProvider, useFrontendConfig} from './logic/FrontendConfig';
 
 import './polyfill';
 
@@ -19,8 +20,18 @@ let router = createHashRouter(routes, {
     },
 });
 
-let component = (
-    <React.StrictMode>
+function ThemeShell() {
+    let {config, theme} = useFrontendConfig();
+    let disable_all_anim = config.ui_animation==='off';
+
+    useEffect(() => {
+        document.body.classList.add(`theme-${theme}`);
+        return ()=>{
+            document.body.classList.remove(`theme-${theme}`);
+        };
+    }, [theme]);
+
+    return (
         <ConfigProvider
             button={{
                 autoInsertSpace: false,
@@ -28,23 +39,26 @@ let component = (
             locale={zhCN}
             theme={{
                 token: {
-                    colorPrimary: '#0063cc',
-                    colorLink: '#0063cc',
-                    colorText: '#000',
+                    colorPrimary: theme==='dark' ? '#3396ff' : '#0063cc',
+                    colorLink: theme==='dark' ? '#b8d9ff' : '#0063cc',
+                    colorText: theme==='dark' ? '#fff' : '#000',
                     fontWeightStrong: 500,
                     borderRadiusLG: 6,
-                    motionDurationSlow: '0.2s',
+                    motionDurationFast: disable_all_anim ? '.001s' : '0.1s',
+                    motionDurationMid: disable_all_anim ? '.001s' : '0.2s',
+                    motionDurationSlow: disable_all_anim ? '.001s' : '0.2s',
                 },
                 components: {
                     App: {
                         fontSize: 16,
                     },
                     Table: {
-                        rowHoverBg: '#f9f9f9',
-                        headerBg: '#f9f9f9',
+                        rowHoverBg: theme==='dark' ? '#333' : '#f9f9f9',
+                        headerBg: theme==='dark' ? '#333' : '#f9f9f9',
                         headerBorderRadius: 0,
                     },
-                }
+                },
+                algorithm: theme==='dark' ? antd_theme.darkAlgorithm : antd_theme.defaultAlgorithm,
             }}
         >
             <StyleProvider hashPriority="high" transformers={[legacyLogicalPropertiesTransformer]}>
@@ -70,10 +84,16 @@ let component = (
                 </Alert.ErrorBoundary>
             </StyleProvider>
         </ConfigProvider>
+    );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+    <React.StrictMode>
+        <FrontendConfigProvider>
+            <ThemeShell />
+        </FrontendConfigProvider>
     </React.StrictMode>
 );
-
-ReactDOM.createRoot(document.getElementById('root')).render(component);
 
 queueMicrotask(console.log.bind(
     console,

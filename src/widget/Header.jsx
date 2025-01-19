@@ -9,9 +9,8 @@ import {
     LoginOutlined,
     EditOutlined,
     FileProtectOutlined,
-    DisconnectOutlined,
     GlobalOutlined,
-    HistoryOutlined, BankOutlined,
+    HistoryOutlined, BankOutlined, SettingOutlined,
 } from '@ant-design/icons';
 
 import {useGameInfo} from '../logic/GameInfo';
@@ -110,11 +109,9 @@ export function Header() {
                                         label: '参赛须知',
                                     },
                                     {
-                                        key: '_/user/logout',
-                                        icon: <DisconnectOutlined />,
-                                        label: '注销',
-                                        danger: true,
-                                        onClick: ()=>to_auth('logout', message),
+                                        key: '/user/config',
+                                        icon: <SettingOutlined />,
+                                        label: '设置',
                                     },
                                 ],
                             }] : [{

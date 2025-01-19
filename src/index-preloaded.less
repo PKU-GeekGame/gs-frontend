@@ -1,5 +1,17 @@
 @import './vars.less';
 
+// fallback color scheme when loading
+@media(prefers-color-scheme: light) {
+    body:not(.theme-light):not(.theme-dark) {
+        .light-decl();
+    }
+}
+@media(prefers-color-scheme: dark) {
+    body:not(.theme-light):not(.theme-dark) {
+        .dark-decl();
+    }
+}
+
 body { // from antd reset
     margin: 0;
     line-height: 1.15;

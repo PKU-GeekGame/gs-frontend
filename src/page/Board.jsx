@@ -74,7 +74,7 @@ function ScoreBoardContent({data, last_reloaded}) {
             n_width += .55;
 
     let challenges_placeholder = (
-        <div style={{height: '1.5em', width: `${1.5*n_width}em`, backgroundColor: '#eee'}} />
+        <div className="scoreboard-challenges-placeholder" style={{width: `${1.5*n_width}em`}} />
     );
 
     useEffect(()=>{

@@ -51,7 +51,7 @@ function assign_color_palette(uids) {
     return ret;
 }
 
-export default function TopStarPlot({data, single}) {
+export default function TopStarPlot({data, single, theme}) {
     let points = [];
     let timepoints = {};
 
@@ -110,6 +110,7 @@ export default function TopStarPlot({data, single}) {
             margin={6} paddingLeft={30} paddingBottom={16}
             xField="timestamp" yField="score" seriesField="idx0" colorField="idx0"
             shapeField="hv"
+            theme={theme==='dark' ? 'classicDark' : 'classic'}
             axis={{
                 x: {
                     labelFormatter: (x) => format_ts(x, false),

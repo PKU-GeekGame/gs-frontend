@@ -15,9 +15,11 @@
             position: sticky;
             top: @header-height;
             z-index: 2;
-            background-color: white;
             padding-bottom: .25rem;
             margin-bottom: 0; // remove margin bottom to avoid glitches when scrolling to bottom
+
+            // necessary for sticky elems to avoid showing items behind it
+            background-color: @body-background;
 
             &+* {
                 margin-top: .5rem;
@@ -33,14 +35,17 @@
     blockquote {
         padding: .125em 1em;
         margin: .5em 0;
-        border-left: 4px solid #ccc;
+        border-left: 4px solid @card-border-color;
         color: rgba(0, 0, 0, .75);
+        body.theme-dark & {
+            color: rgba(255, 255, 255, .75);
+        }
     }
 
     .well {
         padding: .25em 1em;
         margin: 1em 0;
-        border: 2px solid #ccc;
+        border: 2px solid @card-border-color;
         border-radius: @border-radius-base;
     }
 
@@ -51,6 +56,6 @@
 
 .template:not(.template-announcement) {
     strong {
-        color: darkred;
+        color: @darkred;
     }
 }
