@@ -29,8 +29,13 @@ function ConfigForm() {
 
     useEffect(() => {
         if(config.notif_toast!=='off') {
-            if(Notification.permission!=='granted') {
-                Notification.requestPermission().then((permission)=>{
+            if(!window.Notification) {
+                set_config({notif_toast: 'off'});
+                message.error({content: '浏览器不支持桌面通知', key: 'ConfigPage', duration: 2});
+                return;
+            }
+            if(window.Notification.permission!=='granted') {
+                window.Notification.requestPermission().then((permission)=>{
                     if(permission!=='granted') {
                         set_config({notif_toast: 'off'});
                         message.error({content: '未获得通知权限', key: 'ConfigPage', duration: 2});

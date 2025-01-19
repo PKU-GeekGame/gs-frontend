@@ -68,8 +68,8 @@ class PushClient {
         );
 
         arbitration(()=>{
-            if(send_toast) {
-                new Notification(title, {body: description});
+            if(send_toast && window.Notification) {
+                new window.Notification(title, {body: description});
             }
 
             if(tts_msg) {
