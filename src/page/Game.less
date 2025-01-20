@@ -309,33 +309,3 @@
         background-color: #222;
     }
 }
-
-.banned-splash {
-    z-index: 1001;
-    background-color: hsla(0, 100%, 20%, .8);
-    backdrop-filter: blur(15px);
-    color: white;
-    position: fixed;
-    top: 0; left: 0; bottom: 0; right: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.2em;
-    animation: banned-splash-fadein 1500ms ease-out;
-    cursor: not-allowed;
-
-    @keyframes banned-splash-fadein {
-        from { transform: scale(1.4); filter: opacity(.1); }
-        to { transform: scale(1); filter: unset; }
-    }
-
-    &>* {
-        margin: 1rem .5rem;
-    }
-
-    .game-logo {
-        height: 5em;
-        transform: unset;
-    }
-}
