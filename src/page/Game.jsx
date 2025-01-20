@@ -214,7 +214,7 @@ function FlagInput({do_reload_list, ch}) {
                 if(res.error)
                     message.error({content: res.error_msg, key: 'FlagInput', duration: 3});
                 else {
-                    message.success({content: <>Flag正确<FlagCorrectSplash /></>, key: 'FlagInput', duration: 2});
+                    message.success({content: <>Flag正确<FlagCorrectSplash /></>, key: 'FlagInput', duration: 3});
                     do_reload_list();
                 }
             });
