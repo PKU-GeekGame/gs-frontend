@@ -221,18 +221,10 @@
         }
     }
 
-    .portal-chall-col-key {
+    .challenge-key {
         float: right;
         margin-right: .5rem;
-        font-size: .8em;
         line-height: 1.57rem; // to match the row height
-        font-weight: bold;
-        font-style: italic;
-        text-decoration: underline;
-
-        html.theme-dark & {
-            filter: brightness(3) contrast(.6);
-        }
     }
 
     .portal-chall-mode-switch-btn {
@@ -266,15 +258,13 @@
             font-size: 2em;
         }
 
-        .challenge-titlebox-key {
+        .challenge-key {
             &::before {
                 content: '#'; // so that it can't be selected
             }
 
             display: inline-block;
             margin-left: 1em;
-            opacity: .6;
-            font-weight: normal;
             font-size: .85em;
         }
     }

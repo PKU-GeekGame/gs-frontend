@@ -52,3 +52,9 @@ export function CategoryBadge({color, children}) {
         </span>
     );
 }
+
+export function ChallengeKey({color, children}) {
+    return (
+        <span style={{color: color}} className="challenge-key">{children}</span>
+    )
+}

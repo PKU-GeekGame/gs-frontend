@@ -30,7 +30,7 @@ import {Reloader} from './GameLoading';
 import {Announcement} from './Announcements';
 import {useGameInfo, GameInfoCtx} from '../logic/GameInfo';
 import {TemplateFile, TemplateStr} from '../widget/Template';
-import {ChallengeIcon, FlagIcon, CategoryBadge} from '../widget/ChallengeIcon';
+import {ChallengeIcon, FlagIcon, CategoryBadge, ChallengeKey} from '../widget/ChallengeIcon';
 import {Transition} from '../widget/Transition';
 import {TokenWidget} from '../widget/TokenWidget';
 import {UserName, UserGroupTag, UserBadges} from '../widget/UserBadges';
@@ -387,7 +387,7 @@ function Challenge({ch, do_reload_list}) {
         <div className="challenge-body">
             <div className="challenge-titlebox">
                 <span className="challenge-titlebox-title">{ch.title}</span>
-                <span className="challenge-titlebox-key">{ch.key}</span>
+                <ChallengeKey color={ch.category_color}>{ch.key}</ChallengeKey>
             </div>
             <p className="challenge-stat">
                 <Tag color="default">
@@ -549,7 +549,7 @@ function PortalChallengeList({list, active_key, set_active_key}) {
                                 <div className="portal-chall-col-title">
                                     {config.portal_challenge_badge==='category' ?
                                         <CategoryBadge color={ch.category_color}>{ch.category}</CategoryBadge> :
-                                        <span style={{color: ch.category_color}} className="portal-chall-col-key">{ch.key}</span>
+                                        <ChallengeKey color={ch.category_color}>{ch.key}</ChallengeKey>
                                     }
                                     <ChallengeIcon status={ch.status} /> {ch.title}
                                     {ch.flags.length>1 && <span className="portal-chall-caret"><CaretDownOutlined /></span>}
