@@ -17,11 +17,11 @@ export const ChallengeIcon = memo(function ChallengeIcon({status}) {
 
     let icon;
     if(passed==='untouched')
-        icon = <BorderOutlined className="challenge-icon-untouched" />;
+        icon = <BorderOutlined className="status-icon challenge-icon-untouched" />;
     else if(passed==='partial')
-        icon = <MinusSquareTwoTone className="challenge-icon-partial" twoToneColor="#1e63bd" />;
+        icon = <MinusSquareTwoTone className="status-icon challenge-icon-partial" twoToneColor="#1e63bd" />;
     else if(passed==='passed')
-        icon = <CheckSquareTwoTone className="challenge-icon-passed" twoToneColor="#1ab500" />;
+        icon = <CheckSquareTwoTone className="status-icon challenge-icon-passed" twoToneColor="#1ab500" />;
     else
         icon = '??';
 
@@ -33,9 +33,9 @@ export const FlagIcon = memo(function FlagIcon({status}) {
 
     let icon;
     if(passed==='untouched')
-        icon = <FlagTwoTone className="flag-icon-passed" twoToneColor="#a7a7a7" />;
+        icon = <FlagTwoTone className="status-icon flag-icon-passed" twoToneColor="#a7a7a7" />;
     else if(passed==='passed')
-        icon = <FlagTwoTone className="flag-icon-passed" twoToneColor="#1ab500" />;
+        icon = <FlagTwoTone className="status-icon flag-icon-passed" twoToneColor="#1ab500" />;
     else
         icon = '??';
 
