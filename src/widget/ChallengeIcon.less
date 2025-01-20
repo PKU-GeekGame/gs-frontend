@@ -4,9 +4,15 @@
     opacity: .3;
 }
 
-.status-icon {
-    html.theme-dark & {
-        filter: brightness(.9);
+.status-icon-dark {
+    &.challenge-icon-partial, &.flag-icon-partial {
+        color: #80bfff;
+    }
+    &.challenge-icon-passed, &.flag-icon-passed {
+        color: #a8ff80;
+    }
+    &.flag-icon-untouched {
+        opacity: .3;
     }
 }
 
@@ -16,8 +22,12 @@
     margin-left: .65rem;
     margin-top: .5rem;
     font-weight: bold;
-    color: darkred;
+    color: @darkred;
+
     text-shadow: 0 0 2px #faa;
+    html.theme-dark & {
+        text-shadow: 0 0 2px #a00;
+    }
 }
 
 .category-badge {

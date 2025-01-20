@@ -1,6 +1,14 @@
 import {memo} from 'react';
-import {MinusSquareTwoTone, CheckSquareTwoTone, FlagTwoTone, BorderOutlined} from '@ant-design/icons';
+import {
+    MinusSquareTwoTone,
+    CheckSquareTwoTone,
+    FlagTwoTone,
+    BorderOutlined,
+    MinusSquareOutlined, CheckSquareOutlined, FlagOutlined,
+} from '@ant-design/icons';
 import {Tag} from 'antd';
+
+import {useFrontendConfig} from '../logic/FrontendConfig';
 
 import './ChallengeIcon.less';
 
@@ -13,15 +21,20 @@ function parse_status(status) {
 }
 
 export const ChallengeIcon = memo(function ChallengeIcon({status}) {
+    let {theme} = useFrontendConfig();
     let [passed, deduct] = parse_status(status);
 
     let icon;
     if(passed==='untouched')
-        icon = <BorderOutlined className="status-icon challenge-icon-untouched" />;
+        icon = <BorderOutlined className="challenge-icon-untouched" />;
     else if(passed==='partial')
-        icon = <MinusSquareTwoTone className="status-icon challenge-icon-partial" twoToneColor="#1e63bd" />;
+        icon = theme==='dark' ?
+            <MinusSquareOutlined className="status-icon-dark challenge-icon-partial" />:
+            <MinusSquareTwoTone className="challenge-icon-partial" twoToneColor="#1e63bd" />;
     else if(passed==='passed')
-        icon = <CheckSquareTwoTone className="status-icon challenge-icon-passed" twoToneColor="#1ab500" />;
+        icon = theme==='dark' ?
+            <CheckSquareOutlined className="status-icon-dark challenge-icon-passed" /> :
+            <CheckSquareTwoTone className="challenge-icon-passed" twoToneColor="#1ab500" />;
     else
         icon = '??';
 
@@ -29,13 +42,18 @@ export const ChallengeIcon = memo(function ChallengeIcon({status}) {
 });
 
 export const FlagIcon = memo(function FlagIcon({status}) {
+    let {theme} = useFrontendConfig();
     let [passed, deduct] = parse_status(status);
 
     let icon;
     if(passed==='untouched')
-        icon = <FlagTwoTone className="status-icon flag-icon-passed" twoToneColor="#a7a7a7" />;
+        icon = theme==='dark' ?
+            <FlagOutlined className="status-icon-dark flag-icon-untouched" /> :
+            <FlagTwoTone className="flag-icon-untouched" twoToneColor="#a7a7a7" />;
     else if(passed==='passed')
-        icon = <FlagTwoTone className="status-icon flag-icon-passed" twoToneColor="#1ab500" />;
+        icon = theme==='dark' ?
+            <FlagOutlined className="status-icon-dark flag-icon-passed" /> :
+            <FlagTwoTone className="flag-icon-passed" twoToneColor="#1ab500" />;
     else
         icon = '??';
 
