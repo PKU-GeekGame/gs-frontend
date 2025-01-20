@@ -23,7 +23,7 @@ import {
     ArrowDownOutlined,
     UserOutlined,
     CopyOutlined,
-    BankOutlined,
+    BankOutlined, CheckCircleOutlined,
 } from '@ant-design/icons';
 
 import {Reloader} from './GameLoading';
@@ -584,6 +584,7 @@ function PortalChallengeList({list, active_key, set_active_key}) {
 }
 
 function Portal() {
+    let {config, set_config} = useFrontendConfig();
     let [error, data, load_data] = useWishData('game');
     let {info, reload_info} = useContext(GameInfoCtx);
     let nav = useNavigate();
@@ -659,6 +660,8 @@ function Portal() {
             );
     }
 
+    let last_announcement_read = data && data.last_announcement && data.last_announcement.timestamp_s===config.read_announcement_id;
+
     return (
         <div className="portal-container">
             <div className="portal-sidebar">
@@ -726,10 +729,11 @@ function Portal() {
                 {data!==null && data.last_announcement!==null &&
                     <Announcement
                         announcement={data.last_announcement}
+                        hide={last_announcement_read}
                         extra={
-                            <a href="#/info/announcements">
-                                <RightCircleOutlined /> 查看所有公告
-                            </a>
+                            last_announcement_read ?
+                                <a href="#/info/announcements"><RightCircleOutlined /> 查看所有公告</a> :
+                                <Button size="small" type="primary" onClick={()=>set_config({read_announcement_id: data.last_announcement.timestamp_s})}><CheckCircleOutlined /> 已阅</Button>
                         }
                     />
                 }

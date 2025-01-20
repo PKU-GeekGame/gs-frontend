@@ -12,7 +12,7 @@ import './Announcements.less';
 
 const PAGE_SIZE = 10;
 
-export function Announcement({announcement, extra}) {
+export function Announcement({announcement, extra, hide}) {
     return (
         <div className="announcement">
             <Card
@@ -22,6 +22,7 @@ export function Announcement({announcement, extra}) {
                     <NotificationOutlined /> {announcement.title}</Tag>
                     {' '}<TimestampAgo ts={announcement.timestamp_s} />发布
                 </>}
+                className={hide ? 'announcement-hide' : ''}
             >
                 <TemplateStr name="announcement">{announcement.content}</TemplateStr>
             </Card>
@@ -51,7 +52,7 @@ export function Announcements() {
     return (
         <div className="announcement-list">
             {cur_data.map((ann)=>(
-                <Announcement key={ann.id} announcement={ann} />
+                <Announcement key={ann.id} announcement={ann} hide={false} />
             ))}
             <Pagination align="center" current={page} onChange={(x)=>set_page(x)} total={data.list.length} pageSize={PAGE_SIZE} />
         </div>
