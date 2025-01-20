@@ -5,6 +5,7 @@ import {NotificationOutlined, CarryOutOutlined, RocketOutlined} from '@ant-desig
 import {useFrontendConfig} from './FrontendConfig';
 import {TABID} from '../wish';
 import {SVC_ROOT} from '../api_config';
+import {tts_say} from '../utils';
 
 import './PushDaemon.less';
 
@@ -73,10 +74,7 @@ class PushClient {
             }
 
             if(tts_msg) {
-                let ut = new SpeechSynthesisUtterance(tts_msg);
-                ut.lang = 'zh-CN';
-                ut.rate = 1.25;
-                window.speechSynthesis.speak(ut);
+                tts_say(tts_msg);
             }
         });
     }

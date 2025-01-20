@@ -150,3 +150,15 @@ export function WithCaret({children}) {
         <span className="nav-caret"><CaretDownOutlined/></span>
     </>);
 }
+
+export function tts_say(msg) {
+    if(window.SpeechSynthesisUtterance && window.speechSynthesis) {
+        let ut = new window.SpeechSynthesisUtterance(msg);
+        ut.lang = 'zh-CN';
+        ut.rate = 1.25;
+        window.speechSynthesis.speak(ut);
+        return true;
+    } else {
+        return false;
+    }
+}
