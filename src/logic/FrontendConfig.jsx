@@ -3,14 +3,16 @@ import {createContext, useState, useEffect, useContext} from 'react';
 const DEFAULT_CONFIG = {
     read_announcement_id: -1,
 
-    portal_challenge_badge: 'category',
-    portal_score_badge: 'deduction',
-
     ui_selected_theme: 'auto',
     ui_animation: 'on',
 
+    portal_challenge_badge: 'category',
+    portal_score_badge: 'deduction',
+
     notif_toast: 'off',
     notif_tts: 'off',
+
+    toge: 'ari',
 };
 
 const LOCALSTORAGE_KEY = 'gs_frontend_config_v1';

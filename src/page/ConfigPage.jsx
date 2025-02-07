@@ -99,6 +99,12 @@ function ConfigForm() {
         <br />
         <Card title="其他" {...card_style}>
             <Form {...form_style}>
+                <Form.Item label="彩蛋">
+                    <Radio.Group buttonStyle="solid" value={config.toge} onChange={config_setter('toge')}>
+                        <Radio.Button value="ari">显示</Radio.Button>
+                        <Radio.Button value="nashi">不显示</Radio.Button>
+                    </Radio.Group>
+                </Form.Item>
                 {info.user!==null && (
                     <Form.Item label="退出登录" extra={'当前用户：'+info.user.login_key}>
                         <Button danger block onClick={()=>to_auth('logout', message)}>退出登录当前用户</Button>

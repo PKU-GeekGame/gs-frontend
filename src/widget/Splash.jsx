@@ -5,12 +5,17 @@ import {Alert, Button} from 'antd';
 
 import {Logo} from '../branding';
 import {TemplateFile} from './Template';
+import {useFrontendConfig} from '../logic/FrontendConfig';
 
 import './Splash.less';
 
 export function BannedSplash({error_msg, splash_msg}) {
     let [popup, set_popup] = useState(true);
+    let {config} = useFrontendConfig();
     let nav = useNavigate();
+
+    if(config.toge!=='ari')
+        popup = false;
 
     return (
         <div className="slim-container">
@@ -35,7 +40,11 @@ export function BannedSplash({error_msg, splash_msg}) {
 const CONGRAT_EMOJIS = ['👍', '⭐', '🤩', '🌟', '⛳', '✅', '👋', '😎', '🐮', '🎉', '💯', '🆒'];
 
 export function FlagCorrectSplash() {
+    let {config} = useFrontendConfig();
     let emoji = useRef(CONGRAT_EMOJIS[Math.floor(Math.random() * CONGRAT_EMOJIS.length)]);
+
+    if(config.toge!=='ari')
+        return null;
 
     return createPortal((
         <div className="flag-correct-splash">{emoji.current}</div>
