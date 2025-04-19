@@ -1,5 +1,3 @@
-import {GithubOutlined} from '@ant-design/icons';
-
 import {useGameInfo} from '../logic/GameInfo';
 import {TimeAgo} from '../utils';
 
@@ -21,12 +19,8 @@ export function Footer() {
                 </p>
             </>}
             <p>
-                Project <b>Guiding Star</b> by PKUGGG Team
-                {import.meta.env.VITE_APP_BUILD_INFO ? ' ('+import.meta.env.VITE_APP_BUILD_INFO+')' : null}
+                build {import.meta.env.VITE_APP_BUILD_INFO ? import.meta.env.VITE_APP_BUILD_INFO : '---'}
                 {import.meta.env.VITE_APP_MOCK_API_ENV ? ' (Mock: '+import.meta.env.VITE_APP_MOCK_API_ENV+')' : null}
-            </p>
-            <p>
-                <a href="#/license"><GithubOutlined /> 开放源代码</a>
             </p>
         </div>
     );

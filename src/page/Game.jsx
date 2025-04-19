@@ -92,7 +92,7 @@ function ChallengeAction({action, ch}) {
             你可以 <ExtLink onPointerDown={report_click} href={`https://${action.host}/docker-manager/start?${info.user.token}`}>访问{action.name}</ExtLink>
             {' '}
             <Popover trigger="click" content={<div>
-                <p>本题为每名选手分配一个独立的后端环境，参见 <a href="#/info/faq">FAQ：关于 Web 题目环境</a></p>
+                <p>本题为每个队伍分配一个独立的后端环境，参见 <a href="#/info/faq">FAQ：如何使用 Web 题目环境</a></p>
                 <p>如果题目出现问题可以手动关闭环境，下次访问时将启动新的环境</p>
                 <Button block danger onClick={()=>{
                     window.open(`https://${action.host}/docker-manager/stop?${info.user.token}`);
@@ -113,7 +113,7 @@ function ChallengeAction({action, ch}) {
             {' '}
             <Popover trigger="click" content={<div>
                 <p>可以在未登录比赛平台的设备上通过链接下载附件</p>
-                <p>下载链接包含你的个人 Token，与他人分享将视为作弊</p>
+                <p>下载链接包含你的队伍 Token，与他人分享将视为作弊</p>
                 <Button block onClick={()=>{
                     if(copy(new URL(url, location.href).href))
                         message.success({content: '已复制', key: 'ChallengeActionAttachment', duration: 2});
@@ -141,7 +141,7 @@ function TouchedUsersTable({ch}) {
             <Table
                 dataSource={data.list}
                 size="small"
-                rowKey="uid"
+                rowKey="idx"
                 onRow={(record)=>{
                     if(record.uid===cur_uid)
                         return {className: 'active-bg-row'};
@@ -150,7 +150,7 @@ function TouchedUsersTable({ch}) {
                 }}
             >
                 <Table.Column
-                    title="昵称"
+                    title="队伍"
                     key="user"
                     render={(_text, record)=>(
                     <>
@@ -159,21 +159,16 @@ function TouchedUsersTable({ch}) {
                         <UserBadges badges={record.badges} />
                     </>
                     )}
-                    filters={[
-                        {text: '北京大学选手', value: 'pku'},
-                        {text: '其他选手', value: 'other'},
-                    ]}
+                    filters={info.feature.tot_board_groups.map(([g, name])=>(
+                        {text: name, value: g}
+                    ))}
                     onFilter={(value, record)=>(
-                        value.uid===0 ? true : (
-                            value==='pku'? record.group_disp==='北京大学' :
-                            value==='other'? record.group_disp!=='北京大学' :
-                                    true
-                        )
+                        (!value || value.uid===0) ? true : record.group===value
                     )}
                     filterMultiple={false}
                 />
                 <Table.Column
-                    title="总分"
+                    title="实践赛总分"
                     key="tot_score"
                     dataIndex="tot_score"
                     render={(score, record) => (
@@ -299,7 +294,7 @@ function Feedback({ch}) {
             {state==='notice' ? <>
                 <ul>
                     <li>使用此功能来<b>单方面反馈题目中的问题</b>，例如存在非预期解、题目环境与附件不符、题目描述具有误导性。</li>
-                    <li>出题人<b>不会单独回复反馈</b>，但可能依据反馈内容来修复题目问题、发布补充说明或者撰写第二阶段提示。</li>
+                    <li>出题人<b>不会单独回复反馈</b>，但可能依据反馈内容来修复题目问题、发布补充说明或者撰写提示。</li>
                     <li>如果希望咨询出题人并获得回复，请<b>在选手群联系管理员</b>，而非提交反馈。</li>
                     <li>请注意<b>每小时只能提交一次反馈</b>。</li>
                 </ul>
@@ -348,8 +343,8 @@ function ScoreDeduction({ch, flag, show_mode}) {
 
     let ratio = base_score===0 ? 0 : (1-cur_score/base_score)*100;
 
-    let tooltip = `基础分值 ${base_score}，通过人数 ${passed_count}` + (
-        touched_count>passed_count ? `，部分通过人数 ${touched_count}` : ''
+    let tooltip = `基础分值 ${base_score}，通过队伍数 ${passed_count}` + (
+        touched_count>passed_count ? `，部分通过队伍数 ${touched_count}` : ''
     );
 
     let item_full = (
@@ -395,9 +390,9 @@ function Challenge({ch, do_reload_list}) {
                 <a onClick={()=>toggle_panel('touched_users')}>
                     <Tag color="default">
                         {display_panel==='touched_users' ? <UpOutlined /> : <CaretDownOutlined />}{' '}
-                        共 {ch.passed_users_count} 人通过
+                        共 {ch.passed_users_count} 支队伍通过
                         {ch.touched_users_count>ch.passed_users_count && <>
-                            （{ch.touched_users_count} 人部分通过）
+                            （{ch.touched_users_count} 支队伍部分通过）
                         </>}
                     </Tag>
                 </a>
@@ -409,18 +404,11 @@ function Challenge({ch, do_reload_list}) {
                         </Tag>
                     </a>
                 }
-                {!!ch.metadata.author &&
+                {/* !!ch.metadata.author &&
                     <Tag color="default">
                         命题人：{ch.metadata.author}
                     </Tag>
-                }
-                {!!ch.metadata.first_blood_award_eligible &&
-                    <Tag color="default">
-                        <a href="#/board/first_pku">
-                            <b><FireOutlined/> 解题先锋奖</b>
-                        </a>
-                    </Tag>
-                }
+                */ }
             </p>
             <br />
             <Transition cur={display_panel} skipexit={display_panel===''}>
@@ -436,7 +424,7 @@ function Challenge({ch, do_reload_list}) {
             <ChallengeBody ch={ch} />
             {
                 ch.status.startsWith('passed') ?
-                    <Alert type="success" showIcon message="你已经通过此题" /> :
+                    <Alert type="success" showIcon message="已经通过此题" /> :
                 !info.feature.submit_flag ?
                     <Alert type="info" showIcon message="现在不允许提交 Flag" /> :
                     <FlagInput key={ch.key} do_reload_list={do_reload_list} ch={ch} />
@@ -532,7 +520,7 @@ function PortalChallengeList({list, active_key, set_active_key}) {
                         <div className="portal-chall-col-score">
                             分值
                             <span className="portal-chall-mode-switch-btn" onClick={()=>set_config({portal_score_badge: config.portal_score_badge==='deduction' ? 'pass_count' : 'deduction'})}>
-                                <Tooltip title={<>当前显示：{config.portal_score_badge==='deduction' ? '动态分值系数' : '总通过人数'}<br />点击切换</>}>
+                                <Tooltip title={<>当前显示：{config.portal_score_badge==='deduction' ? '动态分值系数' : '通过队伍数'}<br />点击切换</>}>
                                     (<SwapOutlined />)
                                 </Tooltip>
                             </span>
@@ -639,10 +627,6 @@ function Portal() {
         }
     }, [error, nav]);
 
-    if(active_challenge_key==='try-try-jiu-die-die')
-        return (
-            <BannedSplash error_msg="欸，就是玩~" splash_msg="其实你号还在，但总有人想体验这种别样的乐趣。不是吗？" />
-        );
     if(error) {
         if(error.error==='USER_BANNED')
             return (
@@ -688,7 +672,7 @@ function Portal() {
                                     <SolutionOutlined /> 提交 Writeup
                                 </Button> :
                             info.user===null ?
-                                <Alert type="info" showIcon message="比赛进行中，报名参赛方可查看题目" /> :
+                                <Alert type="info" showIcon message="比赛进行中，登录后可以查看题目" /> :
                                 <Button block size="large" onClick={()=>nav('/info/faq')}>
                                     <FileTextOutlined /> 选手常见问题
                                 </Button>
@@ -701,7 +685,7 @@ function Portal() {
                             if(info.user)
                                 goto_challenge(k)
                             else
-                                message.info({content: '报名参赛方可查看题目', key: 'Portal.GotoChallenge', duration: 2});
+                                message.info({content: '登录后可以查看题目', key: 'Portal.GotoChallenge', duration: 2});
                         }} />
                     </>
                 }
@@ -762,7 +746,7 @@ export function Game() {
             <div className="slim-container">
                 <TemplateFile name="game" />
                 <br />
-                <LoginBanner />
+                <Button type="primary" size="large" block onClick={()=>window.location.href='#/login/form'}><LoginOutlined /> 报名参赛</Button>
             </div>
         );
     else
