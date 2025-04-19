@@ -1,7 +1,8 @@
 import logo from '../assets/logo-bw.webp';
 
 export const GAME_TITLE = document.title;
-export const QQ_GROUP = '【群号】';
+export const QQ_GROUP_PKU = '【PKU群号】';
+export const QQ_GROUP_THU = '【THU群号】';
 
 export function WEB_TERMINAL_ADDR(action, token) {
     return `https://${action.host}/?token=${token}`;
