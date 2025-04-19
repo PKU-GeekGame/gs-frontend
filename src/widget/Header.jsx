@@ -9,8 +9,9 @@ import {
     LoginOutlined,
     EditOutlined,
     FileProtectOutlined,
+    HomeOutlined,
     GlobalOutlined,
-    HistoryOutlined, BankOutlined, SettingOutlined,
+    HistoryOutlined, SettingOutlined,
 } from '@ant-design/icons';
 
 import {useGameInfo} from '../logic/GameInfo';
@@ -34,14 +35,6 @@ export function Header() {
             loc.pathname :
             '/' + loc.pathname.substring(1).split('/')[0]
     );
-
-    let grp = 'all';
-    if(info.user) {
-        if(info.user.group==='pku')
-            grp = 'pku';
-        else if(info.user.group==='thu')
-            grp = 'thu';
-    }
 
     useEffect(() => {
         if(!preload_finished && cur_key==='/board') {
@@ -73,7 +66,7 @@ export function Header() {
 
                             {
                                 key: '/board',
-                                default_subview: '/score_'+grp,
+                                default_subview: '/score_pku',
                                 icon: <CrownOutlined />,
                                 label: '排行榜',
                             },
@@ -126,14 +119,9 @@ export function Header() {
                                 children: [
                                     {
                                         key: '_/login/pku',
-                                        icon: <BankOutlined />,
+                                        icon: <HomeOutlined />,
                                         label: '北京大学登录',
                                         onClick: ()=>to_auth('pku/redirect', message),
-                                    },
-                                    {
-                                        key: '/login/thu',
-                                        icon: <BankOutlined />,
-                                        label: '清华大学登录',
                                     },
                                     {
                                         key: '/login/other',

@@ -1,14 +1,7 @@
 import {useEffect} from 'react';
 import {useNavigate, Navigate, useParams, useLocation, useOutlet} from 'react-router-dom';
 import {Menu, Alert} from 'antd';
-import {
-    NotificationOutlined,
-    FileTextOutlined,
-    CarryOutOutlined,
-    FundOutlined,
-    AimOutlined,
-    BankOutlined, GlobalOutlined,
-} from '@ant-design/icons';
+import {NotificationOutlined, FileTextOutlined, CarryOutOutlined, FundOutlined, AimOutlined} from '@ant-design/icons';
 
 import {License} from './page/License';
 import {Board} from './page/Board';
@@ -26,7 +19,7 @@ import {Footer} from './widget/Footer';
 import {Transition} from './widget/Transition';
 import {TemplateFile} from './widget/Template';
 import {useGameInfo} from './logic/GameInfo';
-import {NotFound, WithCaret} from './utils'
+import {NotFound} from './utils'
 import {TABID} from './wish';
 
 import './App.less';
@@ -91,55 +84,24 @@ function BoardShell() {
                 selectedKeys={[name]} onSelect={(e)=>{nav(`/board/${e.key}`);}}
                 items={[
                     {
-                        key: '_pku',
-                        icon: <BankOutlined />,
-                        label: <WithCaret>北京大学赛道</WithCaret>,
-                        children: [
-                            {
-                                key: 'score_pku',
-                                icon: <FundOutlined />,
-                                label: '排名',
-                            },
-                            {
-                                key: 'first_pku',
-                                icon: <AimOutlined />,
-                                label: '一血榜',
-                            },
-                        ],
+                        key: 'score_pku',
+                        icon: <FundOutlined />,
+                        label: '北京大学排名',
                     },
                     {
-                        key: '_thu',
-                        icon: <BankOutlined />,
-                        label: <WithCaret>清华大学赛道</WithCaret>,
-                        children: [
-                            {
-                                key: 'score_thu',
-                                icon: <FundOutlined />,
-                                label: '排名',
-                            },
-                            {
-                                key: 'first_thu',
-                                icon: <AimOutlined />,
-                                label: '一血榜',
-                            },
-                        ],
+                        key: 'first_pku',
+                        icon: <AimOutlined />,
+                        label: '北京大学一血榜',
                     },
                     {
-                        key: '_all',
-                        icon: <GlobalOutlined />,
-                        label: <WithCaret>所有选手</WithCaret>,
-                        children: [
-                            {
-                                key: 'score_all',
-                                icon: <FundOutlined />,
-                                label: '排名',
-                            },
-                            {
-                                key: 'first_all',
-                                icon: <AimOutlined />,
-                                label: '一血榜',
-                            },
-                        ],
+                        key: 'score_all',
+                        icon: <FundOutlined />,
+                        label: '总排名',
+                    },
+                    {
+                        key: 'first_all',
+                        icon: <AimOutlined />,
+                        label: '总一血榜',
                     },
                 ]}
             />
@@ -231,32 +193,6 @@ function AppShell() {
     );
 }
 
-function NavigateToCurBoard() {
-    let info = useGameInfo();
-
-    let grp = 'all';
-    if(info.user) {
-        if(info.user.group==='pku')
-            grp = 'pku';
-        else if(info.user.group==='thu')
-            grp = 'thu';
-    }
-
-    return (
-        <Navigate to={'/board/score_'+grp} replace />
-    );
-}
-
-function LoginThu() {
-    return (
-        <div className="slim-container" style={{textAlign: 'center'}}>
-            <br />
-            <p><b>咕咕咕</b></p>
-            <p style={{fontSize: '8em'}}>🕊</p>
-        </div>
-    )
-}
-
 export const routes = [
     {element: <AppShell />, children: [
         {path: '/', element: <Navigate to="/game" replace />},
@@ -264,7 +200,7 @@ export const routes = [
         {path: '/game/:challenge?', element: <Game />},
 
         {path: '/board', element: <BoardShell />, children: [
-            {index: true, element: <NavigateToCurBoard />},
+            {index: true, element: <Navigate to="/board/score_pku" replace />},
             {path: ':name', element: <BoardPage />}
         ]},
 
@@ -281,7 +217,6 @@ export const routes = [
         ]},
 
         {path: '/login/other', element: <LoginOther />},
-        {path: '/login/thu', element: <LoginThu />},
         {path: '/writeup', element: <Writeup />},
         {path: '/license', element: <License />},
 
