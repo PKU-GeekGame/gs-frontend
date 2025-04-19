@@ -1,7 +1,16 @@
+@import '../vars.less';
+
 .login-instruction {
     text-align: center;
 
     .ant-btn:not(.ant-btn-primary) {
         background-color: #f7f7f7 !important;
+        html.theme-dark & {
+            background-color: #141414 !important;
+        }
+    }
+
+    .login-pku-warning {
+        color: @darkred;
     }
 }

@@ -2,55 +2,43 @@
   "name": "guiding-star-frontend",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "dependencies": {
-    "@ant-design/icons": "^4.8.0",
-    "@ant-design/plots": "^1.2.5",
-    "@craco/craco": "^7.1.0",
-    "antd": "^5.7.0",
+    "@ant-design/cssinjs": "^1.21.0",
+    "@ant-design/icons": "^5.3.7",
+    "@ant-design/plots": "^2.2.5",
+    "@vitejs/plugin-react": "^4.3.1",
+    "antd": "^5.19.3",
     "colord": "^2.9.3",
     "copy-to-clipboard": "^3.3.3",
-    "craco-less": "^3.0.1",
-    "http-proxy-middleware": "^2.0.6",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "less": "^4.2.0",
+    "patch-package": "^8.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-error-overlay": "^6.0.11",
-    "react-lazyload": "^3.2.0",
-    "react-router-dom": "^6.14.2",
-    "react-scripts": "^5.0.1",
+    "react-lazyload": "^3.2.1",
+    "react-router-dom": "^6.25.1",
     "react-timeago": "^7.1.0",
-    "react-transition-group": "^4.4.5"
+    "react-transition-group": "^4.4.5",
+    "terser": "^5.31.6",
+    "vite": "^5.3.1",
+    "vite-plugin-compression2": "^1.1.2",
+    "vite-plugin-html": "^3.2.2"
   },
   "devDependencies": {
-    "craco-mf": "^1.0.0",
-    "source-map-explorer": "^2.5.2"
-  },
-  "overrides": {
-    "react-lazyload": {
-      "react": "^18.2.0",
-      "react-dom": "^18.2.0"
-    }
+    "@types/react-timeago": "^4.1.7",
+    "source-map-explorer": "^2.5.3"
   },
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
-    "analyze": "source-map-explorer 'build/static/js/*.js'"
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "analyze": "source-map-explorer --gzip --no-border-checks 'build/assets/*.js'",
+    "postinstall": "patch-package"
   },
   "eslintConfig": {
     "extends": [
       "react-app"
     ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "homepage": "."
+  }
 }

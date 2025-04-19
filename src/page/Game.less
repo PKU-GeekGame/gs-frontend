@@ -4,6 +4,12 @@
 @single-row-breakpoint: 765px;
 @small-multi-row-breakpoint: 1020px;
 
+.sticky-mixin(@top) {
+    position: sticky;
+    top: @header-height + @top;
+    z-index: 2;
+}
+
 .portal-container {
     display: flex;
     flex-direction: row;
@@ -34,17 +40,6 @@
     }
 }
 
-.portal-main .announcement {
-    .ant-card {
-        background-color: #fafbff !important;
-        border-color: #b0d8e0 !important;
-
-        .ant-card-head {
-            background-color: #ebf6ff !important;
-        }
-    }
-}
-
 .portal-headline {
     display: flex;
     flex-direction: row;
@@ -59,23 +54,60 @@
 }
 
 .portal-user-info {
-    background-color: #f0f0f0;
+    html.theme-dark & {
+        background-color: #141414;
+    }
+
     border-radius: @border-radius-base;
     border: 1px solid @card-border-color;
     cursor: pointer;
 
     &:hover {
         background-color: #f6f6f6;
+        html.theme-dark & {
+            background-color: #333;
+        }
     }
 
     margin-bottom: 12px;
-    padding: 6px 12px;
+    padding: 6px 9px;
 
     .portal-user-info-status {
         font-size: 1.1em;
     }
     .portal-user-info-cat {
         font-size: .85em;
+    }
+}
+
+.trend-mark {
+    display: inline-block;
+    font-size: .75rem;
+    border-radius: 4px;
+    padding: .1em .5em .1em;
+    margin-left: .25rem;
+    vertical-align: text-bottom;
+    color: white;
+    transition: opacity 1500ms linear, transform 1500ms linear;
+    opacity: .3;
+    transform: scale(.85);
+
+    &.trend-mark-active {
+        transition: opacity 100ms linear, transform 100ms linear;
+        opacity: 1;
+        transform: none;
+    }
+
+    &.trend-mark-up {
+        background-color: darkgreen;
+        padding-left: .25em;
+    }
+    &.trend-mark-down {
+        background-color: darkred;
+        padding-left: .25em;
+    }
+    &.trend-mark-keep {
+        background-color: #555;
     }
 }
 
@@ -88,11 +120,26 @@
         display: flex;
         flex-direction: row;
         padding: 8px 0;
+        transition: background-color 200ms;
+
+        .item-discount-full {
+            display: none;
+        }
+        .item-discount-selected {
+            display: initial;
+        }
 
         @media (min-width: @single-row-breakpoint+1) and (max-width: @small-multi-row-breakpoint) {
             display: block;
 
             &.portal-chall-header .portal-chall-col-score {
+                display: none;
+            }
+
+            .item-discount-full {
+                display: initial;
+            }
+            .item-discount-selected {
                 display: none;
             }
         }
@@ -115,7 +162,12 @@
             cursor: pointer;
 
             &:hover {
+                transition: none;
+
                 background-color: #f9f9f9;
+                html.theme-dark & {
+                    background-color: #333;
+                }
             }
 
             &.portal-chall-row-active {
@@ -140,7 +192,12 @@
     }
     .portal-chall-header {
         background-color: #f0f0f0;
+        html.theme-dark & {
+            background-color: #333;
+        }
         font-weight: bold;
+        box-shadow: 0 -(6px + @border-radius-base) 0 @body-background; // to hide elements in border radius when sticky
+        .sticky-mixin(6px);
     }
 
     .portal-chall-col-title {
@@ -163,27 +220,51 @@
         }
     }
 
+    .challenge-key {
+        float: right;
+        margin-right: .5rem;
+        line-height: 1.57rem; // to match the row height
+    }
+
+    .portal-chall-mode-switch-btn {
+        opacity: .6;
+        font-size: .8em;
+        padding: 0 .5rem;
+        cursor: pointer;
+    }
+
     .portal-chall-caret {
         display: inline-block;
         transform: scale(.75);
-        opacity: .6;
+        opacity: .5;
         margin-left: .25em;
     }
 
     .item-discount {
-        color: darkred;
+        color: @darkred;
         font-size: small;
     }
 }
 
 .challenge-body {
-    h1 {
-        margin-bottom: 0;
-        small {
-            margin-left: .75rem;
-            opacity: .6;
-            font-weight: normal;
-            font-size: .85rem;
+    .challenge-titlebox {
+        .sticky-mixin(0);
+        background-color: @body-background;
+        padding-bottom: .25em;
+
+        .challenge-titlebox-title {
+            display: inline-block;
+            font-size: 2em;
+        }
+
+        .challenge-key {
+            &::before {
+                content: '#'; // so that it can't be selected
+            }
+
+            display: inline-block;
+            margin-left: 1em;
+            font-size: .85em;
         }
     }
     .challenge-stat {
@@ -194,5 +275,26 @@
     .challenge-action {
         font-weight: bold;
         margin-bottom: .5em;
+    }
+
+    .challenge-action-auxbtn {
+        font-size: .75em;
+        margin-left: .5rem;
+        opacity: .8;
+    }
+}
+
+.landing-login-form {
+    .fancy-card-mixin();
+}
+
+.feedback-form {
+    border: 1px solid @card-border-color;
+    border-radius: @border-radius-base;
+    padding: 1em;
+
+    background-color: #f0f0f0;
+    html.theme-dark & {
+        background-color: #222;
     }
 }

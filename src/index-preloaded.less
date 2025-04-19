@@ -1,0 +1,47 @@
+@import './vars.less';
+
+// fallback color scheme when loading
+@media(prefers-color-scheme: light) {
+    html:not(.theme-light):not(.theme-dark) {
+        .light-decl();
+    }
+}
+@media(prefers-color-scheme: dark) {
+    html:not(.theme-light):not(.theme-dark) {
+        .dark-decl();
+    }
+}
+
+body { // from antd reset
+    margin: 0;
+    line-height: 1.15;
+}
+
+body {
+    overflow-y: scroll; // force scrollbar to avoid layout shift
+    background-color: @body-background;
+}
+
+.jsloading-head {
+    width: 100%;
+    height: @header-height;
+    background-color: @header-background;
+}
+
+.jsloading-spin {
+    height: 500px;
+    line-height: 500px;
+    margin: 12px auto;
+    max-width: @max-body-width - 2*@body-padding;
+    background-color: @loading-background;
+    color: @loading-color;
+    text-align: center;
+    user-select: none;
+}
+.jsloading-spin svg {
+    vertical-align: -0.125em;
+    animation: jsloading-spin 1s infinite linear;
+}
+@keyframes jsloading-spin {
+    to {transform: rotate(360deg);}
+}

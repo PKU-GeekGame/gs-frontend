@@ -1,7 +1,7 @@
 @import '../vars.less';
 
-.user-profile-container {
-    .fancy-card-mixin(#f0f0f0);
+.form-page-container {
+    .fancy-card-mixin();
 
     .ant-card {
         .ant-card-body {
@@ -13,6 +13,10 @@
     }
 
     .ant-form {
+        .ant-form-item-label {
+            font-weight: bold;
+        }
+
         .ant-form-item:last-child {
             margin-bottom: 0 !important;
         }

@@ -15,8 +15,13 @@
     pointer-events: none; // fix antd tooltip mouseleave not firing glitch
 }
 
+.board-challenge-status-marginleft {
+    margin-left: .55em;
+}
+
 .board-challenge-status-tooltip {
     pointer-events: none;
+    max-width: 320px !important;
 
     .ant-tooltip-inner {
         padding: 4px 6px;
@@ -33,16 +38,16 @@
     font-weight: bold;
 }
 
-.topstar-plot-loading {
-    background-color: #fcfcfc;
-    color: rgba(0, 0, 0, .6);
-    height: 350px;
-    line-height: 350px;
-    text-align: center;
-}
-
 .scoreboard {
     .ant-table-row {
         height: 3.2em;
+    }
+}
+
+.scoreboard-challenges-placeholder {
+    height: 1.5em;
+    background-color: #eee;
+    html.theme-dark & {
+        background-color: #333;
     }
 }

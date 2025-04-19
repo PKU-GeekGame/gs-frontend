@@ -1,5 +1,33 @@
+@import '../vars.less';
+
 .challenge-icon-untouched {
     opacity: .3;
+}
+
+.status-icon-dark {
+    &.challenge-icon-partial, &.flag-icon-partial {
+        color: #80bfff;
+    }
+    &.challenge-icon-passed, &.flag-icon-passed {
+        color: #a8ff80;
+    }
+    &.flag-icon-untouched {
+        opacity: .3;
+    }
+}
+
+.status-icon-deducted::before {
+    content: '*';
+    position: absolute;
+    margin-left: .65rem;
+    margin-top: .5rem;
+    font-weight: bold;
+    color: @darkred;
+
+    text-shadow: 0 0 2px #faa;
+    html.theme-dark & {
+        text-shadow: 0 0 2px #a00;
+    }
 }
 
 .category-badge {
@@ -10,3 +38,14 @@
         border-radius: 1em;
     }
 }
+
+.challenge-key {
+        font-size: .8em;
+        font-weight: bold;
+        font-style: italic;
+        text-decoration: underline;
+
+        html.theme-dark & {
+            filter: brightness(3) contrast(.6);
+        }
+    }

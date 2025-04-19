@@ -1,0 +1,66 @@
+@import 'antd/dist/reset.css';
+@import './vars.less';
+
+html.theme-light {
+    color-scheme: only light;
+    .light-decl();
+}
+html.theme-dark {
+    color-scheme: only dark;
+    .dark-decl();
+}
+
+.ant-menu-light {
+    background-color: unset !important;
+}
+
+.ant-message-notice-content, .ant-notification-notice-wrapper {
+    border: 1px solid @card-border-color;
+
+    html.theme-dark & {
+        box-shadow: 0 0 4px rgba(255, 255, 255, .4) !important
+    }
+}
+
+::selection {
+    color: black;
+    background-color: #c5ebff;
+}
+
+li {
+    margin-bottom: .5em;
+}
+
+.g2-tooltip {
+    border: 1px solid @card-border-color;
+    padding: .5em 1em !important;
+
+    li {
+        margin-bottom: 0;
+    }
+}
+
+.ant-popover-inner, .ant-table-filter-dropdown {
+    border: 1px solid @card-border-color !important;
+}
+
+a, .ant-btn-link, .ant-btn-default, .ant-radio-button-wrapper {
+    transition: none !important; // no transition for link hovering
+}
+
+.main-container .ant-table-sticky-holder {
+    top: @header-height !important;
+}
+
+.ant-table-cell-row-hover {
+    transition: none !important;
+}
+
+// fix ... menu hard to click
+.ant-menu-overflow-item-rest {
+    padding: 0 !important;
+
+    >.ant-menu-submenu-title {
+        padding: 0 20px !important;
+    }
+}

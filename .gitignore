@@ -3,3 +3,5 @@ node_modules/
 /build/
 npm-debug.log*
 /public/media/
+/src/branding.jsx
+/src/brandings/

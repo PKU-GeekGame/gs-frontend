@@ -1,3 +1,5 @@
+@import '../vars.less';
+
 .template {
     h1, h2 {
         margin-top: 1.5rem;
@@ -8,6 +10,23 @@
         font-weight: bold;
     }
 
+    section {
+        h1, h2 {
+            position: sticky;
+            top: @header-height;
+            z-index: 2;
+            padding-bottom: .25rem;
+            margin-bottom: 0; // remove margin bottom to avoid glitches when scrolling to bottom
+
+            // necessary for sticky elems to avoid showing items behind it
+            background-color: @body-background;
+
+            &+* {
+                margin-top: .5rem;
+            }
+        }
+    }
+
     p {
         margin-top: .75em;
         margin-bottom: .75em;
@@ -16,15 +35,18 @@
     blockquote {
         padding: .125em 1em;
         margin: .5em 0;
-        border-left: 5px solid #ccc;
+        border-left: 4px solid @card-border-color;
         color: rgba(0, 0, 0, .75);
+        html.theme-dark & {
+            color: rgba(255, 255, 255, .75);
+        }
     }
 
     .well {
         padding: .25em 1em;
         margin: 1em 0;
-        border: 2px dashed #555;
-        border-radius: .5em;
+        border: 2px solid @card-border-color;
+        border-radius: @border-radius-base;
     }
 
     del {
@@ -34,6 +56,6 @@
 
 .template:not(.template-announcement) {
     strong {
-        color: darkred;
+        color: @darkred;
     }
 }

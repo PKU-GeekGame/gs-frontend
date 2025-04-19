@@ -1,7 +1,7 @@
 @import '../vars.less';
 
 .announcement {
-    .fancy-card-mixin(#f0f0f0);
+    .fancy-card-mixin();
 
     .ant-card {
         margin-bottom: 1.5rem;
@@ -9,14 +9,12 @@
         .ant-card-body {
             padding: 4px 12px !important;
         }
-
-        .ant-card-extra .ant-btn {
-            padding-right: 0;
-        }
     }
 }
 
-.announcement-list .ant-pagination {
-    text-align: center;
-    margin-bottom: 1.5rem;
+.announcement-hide {
+    .ant-card-body {
+        max-height: 7rem;
+        overflow-y: auto;
+    }
 }
