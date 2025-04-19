@@ -247,6 +247,16 @@ function NavigateToCurBoard() {
     );
 }
 
+function LoginThu() {
+    return (
+        <div className="slim-container" style={{textAlign: 'center'}}>
+            <br />
+            <p><b>咕咕咕</b></p>
+            <p style={{fontSize: '8em'}}>🕊</p>
+        </div>
+    )
+}
+
 export const routes = [
     {element: <AppShell />, children: [
         {path: '/', element: <Navigate to="/game" replace />},
@@ -271,6 +281,7 @@ export const routes = [
         ]},
 
         {path: '/login/other', element: <LoginOther />},
+        {path: '/login/thu', element: <LoginThu />},
         {path: '/writeup', element: <Writeup />},
         {path: '/license', element: <License />},
 
