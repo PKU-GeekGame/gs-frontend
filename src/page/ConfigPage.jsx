@@ -4,6 +4,23 @@ import {useGameInfo} from '../logic/GameInfo';
 import {to_auth} from '../utils';
 import {useEffect} from 'react';
 
+import togeari from '../../assets/togeari.webp';
+import './ConfigPage.less';
+
+function TogeariVisualizer({toge, onClick}) {
+    return (
+        <div
+            className="togeari-container"
+            onClick={onClick}
+        >
+            <img
+                src={togeari} alt={(toge==='ari' ? '有' : '无') + '刺'}
+                className="togeari-img" style={{top: (toge==='ari' ? '-100%' : '0'), opacity: (toge==='ari' ? 1 : 0)}}
+            />
+        </div>
+    )
+}
+
 function ConfigForm() {
     let info = useGameInfo();
     let {config, set_config, clear_config} = useFrontendConfig();
@@ -104,6 +121,7 @@ function ConfigForm() {
                         <Radio.Button value="ari">显示</Radio.Button>
                         <Radio.Button value="nashi">不显示</Radio.Button>
                     </Radio.Group>
+                    <TogeariVisualizer toge={config.toge} onClick={()=>set_config({toge: config.toge==='ari' ? 'nashi' : 'ari'})} />
                 </Form.Item>
                 {info.user!==null && (
                     <Form.Item label="退出登录" extra={'当前用户：'+info.user.login_key}>
