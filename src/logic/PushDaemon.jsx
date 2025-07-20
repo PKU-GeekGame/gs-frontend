@@ -30,6 +30,19 @@ function arbitration(callback) {
     }, 1000);
 }
 
+function fix_tts_user_gesture() {
+    // xxx: mobile safari requires a user gesture to use speech synthesis
+    // https://stackoverflow.com/questions/61658740/speechsynthesis-not-working-on-mobile-safari-even-though-its-supported#answer-79296650
+    if(!window._fix_tts_user_gesture) {
+        window._fix_tts_user_gesture = true;
+        function listener() {
+            tts_say('');
+            document.removeEventListener('click', listener, {passive: true});
+        }
+        document.addEventListener('click', listener, {passive: true});
+    }
+}
+
 class PushClient {
     constructor() {
         this.ws = null;
@@ -44,8 +57,9 @@ class PushClient {
             this.connect();
         }, PUSH_STARTUP_DELAY_MS);
 
-        window.gs_push_test = ()=>this.handle_message({
+        window.gs_push_test = (body)=>this.handle_message({
             type: 'frontent_test',
+            body: body,
         });
     }
 
@@ -122,8 +136,8 @@ class PushClient {
             this.show_message(
                 'info',
                 <NotificationOutlined />,
-                '吃葡萄不吐葡萄皮',
-                '这是测试消息',
+                '测试消息',
+                data.body,
             );
         }
     }
@@ -236,6 +250,11 @@ export function PushDaemon({info, reload_info}) {
             }
         };
     }, []);
+
+    useEffect(() => {
+        if(config.notif_tts!=='off')
+            fix_tts_user_gesture();
+    }, [config]);
 
     return null;
 }

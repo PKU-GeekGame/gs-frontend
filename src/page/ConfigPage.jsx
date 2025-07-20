@@ -104,7 +104,11 @@ function ConfigForm() {
                             message.info({content: '大的要来了……', key: 'ConfigPage', duration: 2});
                             setTimeout(()=>{
                                 if(window.gs_push_test)
-                                    window.gs_push_test();
+                                    window.gs_push_test(
+                                        (config.toge==='ari' && config.notif_tts==='title_and_content') ?
+                                            '亲爱的顾客魏防止过耗请扫描排耗单上的二维码或关注每位不用等微信公众账号随时查看您的排队进程欧' :
+                                            '如你所见，这是一条测试消息。',
+                                    );
                             }, 2000);
                         } else {
                             message.error({content: '比赛未启用消息通知', key: 'ConfigPage', duration: 2});
