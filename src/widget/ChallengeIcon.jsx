@@ -71,8 +71,19 @@ export function CategoryBadge({color, children}) {
     );
 }
 
-export function ChallengeKey({color, children}) {
+export function ChallengeKey({color, children, float=false}) {
     return (
-        <span style={{color: color}} className="challenge-key">{children}</span>
+        <span style={{color: color}} className={'challenge-key' + (float ? ' challenge-key-float' : '')}>{children}</span>
     )
+}
+
+export function ChallengeBadge({category_color, category, challenge_key}) {
+    let {config} = useFrontendConfig();
+
+    if(config.portal_challenge_badge==='category')
+        return <CategoryBadge color={category_color}>{category}</CategoryBadge>;
+    else if(config.portal_challenge_badge==='id')
+        return <ChallengeKey color={category_color} float={true}>{challenge_key}</ChallengeKey>;
+    else
+        return '??';
 }

@@ -30,7 +30,8 @@ import {Reloader} from './GameLoading';
 import {Announcement} from './Announcements';
 import {useGameInfo, GameInfoCtx} from '../logic/GameInfo';
 import {TemplateFile, TemplateStr} from '../widget/Template';
-import {ChallengeIcon, FlagIcon, CategoryBadge, ChallengeKey} from '../widget/ChallengeIcon';
+import {TotScoreByCat, ChallengeBadgeModeSwitcher} from '../widget/ChallengeAttrs';
+import {ChallengeIcon, FlagIcon, ChallengeKey, ChallengeBadge} from '../widget/ChallengeIcon';
 import {Transition} from '../widget/Transition';
 import {TokenWidget} from '../widget/TokenWidget';
 import {UserName, UserGroupTag, UserBadges} from '../widget/UserBadges';
@@ -491,7 +492,6 @@ function TrendMark({current, reloaded, reversed}) {
 
 function PortalUserInfo({info, last_reloaded}) {
     let nav = useNavigate();
-    let tot_score_by_cat = info.tot_score_by_cat ? info.tot_score_by_cat.filter((cat)=>cat[0]!=='Tutorial') : [];
 
     return (
         <div className="portal-user-info" onClick={()=>nav('/board/'+info.board_key)}>
@@ -499,17 +499,7 @@ function PortalUserInfo({info, last_reloaded}) {
                 总分 <b>{info.tot_score}</b><TrendMark reversed={false} current={info.tot_score} reloaded={last_reloaded} />{'，'}
                 {info.board_name} <b>#{info.board_rank || 'N/A'}</b><TrendMark reversed={true} current={info.board_rank} reloaded={last_reloaded} />
             </div>
-            {tot_score_by_cat.length>0 &&
-                <div className="portal-user-info-cat">
-                    <PieChartFilled />{' '}
-                    {tot_score_by_cat.map((cat, idx)=>(
-                        <Fragment key={cat}>
-                            {idx!==0 ? ' + ' : null}
-                            {cat[0]} {cat[1]}
-                        </Fragment>
-                    ))}
-                </div>
-            }
+            <TotScoreByCat data={info.tot_score_by_cat} />
         </div>
     );
 }
@@ -525,15 +515,11 @@ function PortalChallengeList({list, active_key, set_active_key}) {
                     <div className="portal-chall-row portal-chall-header">
                         <div className="portal-chall-col-title">
                             题目名称
-                            <span className="portal-chall-mode-switch-btn" onClick={()=>set_config({portal_challenge_badge: config.portal_challenge_badge==='category' ? 'id' : 'category'})}>
-                                <Tooltip title={<>当前显示：{config.portal_challenge_badge==='category' ? '题目分类' : '题目 ID'}<br />点击切换</>}>
-                                    (<SwapOutlined />)
-                                </Tooltip>
-                            </span>
+                            <ChallengeBadgeModeSwitcher />
                         </div>
                         <div className="portal-chall-col-score">
                             分值
-                            <span className="portal-chall-mode-switch-btn" onClick={()=>set_config({portal_score_badge: config.portal_score_badge==='deduction' ? 'pass_count' : 'deduction'})}>
+                            <span className="chall-mode-switch-btn" onClick={()=>set_config({portal_score_badge: config.portal_score_badge==='deduction' ? 'pass_count' : 'deduction'})}>
                                 <Tooltip title={<>当前显示：{config.portal_score_badge==='deduction' ? '动态分值系数' : '总通过人数'}<br />点击切换</>}>
                                     (<SwapOutlined />)
                                 </Tooltip>
@@ -547,11 +533,9 @@ function PortalChallengeList({list, active_key, set_active_key}) {
                                 onClick={()=>set_active_key(ch.key)}
                             >
                                 <div className="portal-chall-col-title">
-                                    {config.portal_challenge_badge==='category' ?
-                                        <CategoryBadge color={ch.category_color}>{ch.category}</CategoryBadge> :
-                                        <ChallengeKey color={ch.category_color}>{ch.key}</ChallengeKey>
-                                    }
-                                    <ChallengeIcon status={ch.status} /> {ch.title}
+                                    <ChallengeBadge challenge_key={ch.key} category={ch.category} category_color={ch.category_color} />
+                                    <ChallengeIcon status={ch.status} />
+                                    {' '}{ch.title}
                                     {ch.flags.length>1 && <span className="portal-chall-caret"><CaretDownOutlined /></span>}
                                 </div>
                                 <div className="portal-chall-col-score">

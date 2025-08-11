@@ -40,12 +40,18 @@
 }
 
 .challenge-key {
-        font-size: .8em;
-        font-weight: bold;
-        font-style: italic;
-        text-decoration: underline;
+    font-size: .8em;
+    font-weight: bold;
+    font-style: italic;
+    text-decoration: underline;
 
-        html.theme-dark & {
-            filter: brightness(3) contrast(.6);
-        }
+    html.theme-dark & {
+        filter: brightness(3) contrast(.6);
     }
+
+    &.challenge-key-float {
+        float: right;
+        margin-right: .5rem;
+        line-height: (1.57em/.8);
+    }
+}
