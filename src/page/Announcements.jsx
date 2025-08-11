@@ -7,6 +7,7 @@ import {Reloader} from './GameLoading';
 import {useWishData} from '../wish';
 import {TemplateStr} from '../widget/Template';
 import {TimestampAgo} from '../utils';
+import {useFrontendConfig} from '../logic/FrontendConfig';
 
 import './Announcements.less';
 
@@ -31,12 +32,18 @@ export function Announcement({announcement, extra, hide}) {
 }
 
 export function Announcements() {
+    let {set_config} = useFrontendConfig();
     let [error, data, load_data] = useWishData('announcements');
     let [page, set_page] = useState(1);
 
     useEffect(()=>{
         window.scroll(0, 0);
     }, [page]);
+
+    useEffect(() => {
+        if(data && data.list.length>0) // mark last announcement as read
+            set_config({read_announcement_id: data.list[0].timestamp_s});
+    }, [data]);
 
     if(error)
         return <Reloader message={error.error_msg} reload={load_data} />;
