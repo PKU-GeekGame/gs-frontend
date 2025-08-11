@@ -1,9 +1,7 @@
 import {useState, useCallback, useEffect} from 'react';
 
-import {WISH_ROOT} from './api_config';
+import {WISH_ROOT, WISH_VER} from './api_config';
 import {random_str} from './utils';
-
-export const WISH_VER = '2025.v1';
 
 export const TABID = random_str(4);
 window._TABID = TABID;
