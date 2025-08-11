@@ -499,7 +499,7 @@ function PortalUserInfo({info, last_reloaded}) {
                 总分 <b>{info.tot_score}</b><TrendMark reversed={false} current={info.tot_score} reloaded={last_reloaded} />{'，'}
                 {info.board_name} <b>#{info.board_rank || 'N/A'}</b><TrendMark reversed={true} current={info.board_rank} reloaded={last_reloaded} />
             </div>
-            <TotScoreByCat data={info.tot_score_by_cat} />
+            <TotScoreByCat data={info.tot_score_by_cat} hide_tutorial={true} />
         </div>
     );
 }

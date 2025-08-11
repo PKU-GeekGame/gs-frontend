@@ -6,8 +6,8 @@ import {useFrontendConfig} from '../logic/FrontendConfig';
 
 import './ChallengeAttrs.less';
 
-export function TotScoreByCat({data}) {
-    data = data ? data.filter((cat)=>cat[0]!=='Tutorial') : [];
+export function TotScoreByCat({data, hide_tutorial}) {
+    data = data ? (hide_tutorial ? data.filter((cat)=>cat[0]!=='Tutorial') : data) : [];
     if(data.length===0)
         return null;
 

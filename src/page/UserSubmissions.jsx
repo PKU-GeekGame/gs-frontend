@@ -29,7 +29,7 @@ export function SubmissionsTable({others_uid}) {
         <TopStarPlotLoader plotkey={null} data={data} single={true} />
         <br />
         <div style={{textAlign: 'center'}}>
-            <TotScoreByCat data={data.tot_score_by_cat} />
+            <TotScoreByCat data={data.tot_score_by_cat} hide_tutorial={false} />
         </div>
         <br />
         <Table
