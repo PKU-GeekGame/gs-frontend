@@ -49,8 +49,8 @@ function ChallengeTooltip({ch, record, marginLeft}) {
                 title={<ChallengeStatus ch={ch} record={record}/>}
                 placement="topRight" align={{offset: [9, -1]}}
                 open={state===1} trigger={[]}
-                overlayClassName="board-challenge-status-tooltip"
-                autoAdjustOverflow={false} destroyTooltipOnHide={true}
+                classNames={{root: "board-challenge-status-tooltip"}}
+                autoAdjustOverflow={false} destroyOnHidden={true}
             >
                 {icon}
             </Tooltip>}

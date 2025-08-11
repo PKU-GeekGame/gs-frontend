@@ -1,6 +1,6 @@
 import {useState, useRef} from 'react';
 import {createPortal} from 'react-dom';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router';
 import {Alert, Button} from 'antd';
 
 import {Logo} from '../branding';

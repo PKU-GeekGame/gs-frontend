@@ -1,5 +1,5 @@
 import {useEffect} from 'react';
-import {useNavigate, Navigate, useParams, useLocation, useOutlet} from 'react-router-dom';
+import {useNavigate, Navigate, useParams, useLocation, useOutlet} from 'react-router';
 import {Menu, Alert} from 'antd';
 import {
     NotificationOutlined,
@@ -268,7 +268,9 @@ export const routes = [
     {element: <AppShell />, children: [
         {path: '/', element: <Navigate to="/game" replace />},
 
-        {path: '/game/:challenge?', element: <Game />},
+        {path: '/game', children: [
+            {path: ':challenge?', element: <Game />},
+        ]},
 
         {path: '/board', element: <BoardShell />, children: [
             {index: true, element: <NavigateToCurBoard />},
@@ -287,7 +289,9 @@ export const routes = [
             {path: 'config', element: <ConfigPage />},
         ]},
 
-        {path: '/login/other', element: <LoginOther />},
+        {path: '/login', children: [
+            {path: 'other', element: <LoginOther />},
+        ]},
         {path: '/writeup', element: <Writeup />},
         {path: '/license', element: <License />},
 

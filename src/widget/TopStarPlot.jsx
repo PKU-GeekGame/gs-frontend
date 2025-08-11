@@ -133,11 +133,16 @@ export default function TopStarPlot({data, single, theme}) {
                 color: {
                     labelFormatter: (x) => nicknames[x],
                     itemMarker: 'circle',
+                    itemMarkerSize: 12,
                     itemLabelFontSize: 10,
-                    itemSpacing: 3,
+                    navPageNumFontSize: 10,
+                    itemSpacing: 0,
+                    colPadding: 6,
+                    navControllerSpacing: 12,
                     itemLabelFillOpacity: 1,
                     itemLabelFontWeight: 'bold',
-                    maxRows: 2,
+                    navLoop: true,
+                    navPageNumFillOpacity: .65,
                     layout: {
                         justifyContent: 'center',
                     }

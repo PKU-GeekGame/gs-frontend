@@ -1,7 +1,7 @@
 import {useContext, useState, useRef} from 'react';
 import {Card, Form, Input, Alert, Radio, Button, App} from 'antd';
 import {CheckCircleOutlined} from '@ant-design/icons';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router';
 
 import {GameInfoCtx} from '../logic/GameInfo';
 import {UserBadges, UserGroupTag} from '../widget/UserBadges';
@@ -45,7 +45,7 @@ function UserProfileForm() {
     let card_style = {
         size: 'small',
         type: 'inner',
-        bordered: false,
+        variant: 'borderless',
     };
     let input_style = {
         onPressEnter: ()=>{

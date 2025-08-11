@@ -1,6 +1,6 @@
 import {defineConfig} from 'vite';
 import react from '@vitejs/plugin-react';
-import {compression} from 'vite-plugin-compression2'
+import {compression, defineAlgorithm} from 'vite-plugin-compression2'
 import {createHtmlPlugin} from 'vite-plugin-html';
 import zlib from 'zlib';
 import fs from 'fs';
@@ -33,7 +33,7 @@ export default defineConfig(() => {
                     compact: true,
                     generatedCode: 'es2015',
                     manualChunks: {
-                        vendor: ['antd', '@ant-design/icons', 'react', 'react-dom', 'react-router-dom', 'react-transition-group', 'react-lazyload', 'react-timeago'],
+                        vendor: ['antd', '@ant-design/icons', 'react', 'react-dom', 'react-router', 'react-transition-group', 'react-lazyload', 'react-timeago'],
                         Table: ['antd/es/table', 'antd/es/tree', 'antd/es/tree-select', 'rc-tree', './src/widget/Table'],
                     },
                 },
@@ -63,13 +63,14 @@ export default defineConfig(() => {
             compression({
                 include: /\.*$/,
                 exclude: /\.(png|jpg|jpeg|webp|mp3|ogg|webm)$/i,
-                algorithm: 'brotliCompress',
-                compressionOptions: {
-                    params: {
-                        [zlib.constants.BROTLI_PARAM_MODE]: zlib.constants.BROTLI_MODE_TEXT,
-                        [zlib.constants.BROTLI_PARAM_QUALITY]: zlib.constants.BROTLI_MAX_QUALITY,
-                    },
-                },
+                algorithms: [
+                    defineAlgorithm('brotliCompress', {
+                        params: {
+                            [zlib.constants.BROTLI_PARAM_MODE]: zlib.constants.BROTLI_MODE_TEXT,
+                            [zlib.constants.BROTLI_PARAM_QUALITY]: zlib.constants.BROTLI_MAX_QUALITY,
+                        },
+                    }),
+                ],
             }),
         ],
         server: {

@@ -96,7 +96,7 @@ function WriteupForm() {
             <br />
             {WRITEUP_INSTRUCTION}
             <br />
-            <Card title="提交新的 Writeup" size="small" type="inner" bordered={false}>
+            <Card title="提交新的 Writeup" size="small" type="inner" variant="borderless">
                 <Form
                     onFinish={do_submit_writeup}
                     colon={false}

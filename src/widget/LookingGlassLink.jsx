@@ -25,7 +25,7 @@ export function LookingGlassLink({children, nickname, uid}) {
             title={`${nickname}（#${uid}）的得分记录`}
             open={state===1} onCancel={()=>set_state(2)}
             footer={null}
-            destroyOnClose={true}
+            destroyOnHidden={true}
             width={700}
         >
             <SubmissionsTable others_uid={uid} />

@@ -35,7 +35,7 @@ function ConfigForm() {
     let card_style = {
         size: 'small',
         type: 'inner',
-        bordered: false,
+        variant: 'borderless',
     };
 
     function config_setter(k) {

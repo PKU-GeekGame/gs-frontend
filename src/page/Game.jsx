@@ -1,5 +1,5 @@
 import {Fragment, useMemo, useState, useEffect, useReducer, useRef, useContext} from 'react';
-import {useNavigate, unstable_usePrompt, useParams} from 'react-router-dom';
+import {useNavigate, unstable_usePrompt, useParams} from 'react-router';
 import {Button, Empty, Tag, Alert, Input, Tooltip, Popover, Card, App, Popconfirm} from 'antd';
 import copy from 'copy-to-clipboard';
 import {
@@ -54,7 +54,7 @@ function LoginBanner() {
 
     return (
         <div className="landing-login-form">
-            <Card type="inner" size="small" bordered={false}>
+            <Card type="inner" size="small" variant="borderless">
                 <b>报名参赛：</b>
                 <Button type="primary" onClick={() => to_auth('pku/redirect', message)}><BankOutlined /> 北京大学登录</Button>
                 &ensp;

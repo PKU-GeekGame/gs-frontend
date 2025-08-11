@@ -16,7 +16,7 @@ export function Announcement({announcement, extra, hide}) {
     return (
         <div className="announcement">
             <Card
-                type="inner" size="small" bordered={false} extra={extra||null}
+                type="inner" size="small" variant="borderless" extra={extra||null}
                 title={<>
                     <Tag style={{fontSize: '1em', fontWeight: 'bold'}} color="#555">
                     <NotificationOutlined /> {announcement.title}</Tag>
