@@ -641,10 +641,6 @@ function Portal() {
         }
     }, [error, nav]);
 
-    if(active_challenge_key==='try-try-jiu-die-die')
-        return (
-            <BannedSplash error_msg="欸，就是玩~" splash_msg="其实你号还在，但总有人想体验这种别样的乐趣。不是吗？" />
-        );
     if(error) {
         if(error.error==='USER_BANNED')
             return (
