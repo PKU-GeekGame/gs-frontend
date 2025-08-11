@@ -44,7 +44,7 @@ function assign_color_palette(uids, is_dark) {
 
     uids.forEach((uid, color_idx) => {
         let hue = 360 * color_idx / uids.length;
-        let light = (is_dark ? 40 : 30) + 40 * (color_idx%2);
+        let light = (is_dark ? 40 : 35) + 40 * (color_idx%2);
         ret[uid_to_orig_idx[uid]] = colord(`lch(${light}% 100 ${hue})`).toHex();
     });
 

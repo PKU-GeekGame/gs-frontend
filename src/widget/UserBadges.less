@@ -4,8 +4,18 @@
     font-weight: normal;
 }
 
-.user-badges>span {
-    margin-left: .3em;
+.user-badges {
+    &>span {
+        margin-left: .3em;
+    }
+    .anticon {
+        html.theme-dark & {
+            filter: drop-shadow(0 1px 5px rgba(255, 255, 255, .6));
+        }
+        html.theme-light & {
+            filter: drop-shadow(0 1px 3px rgba(0, 0, 0, .15));
+        }
+    }
 }
 
 .name-base-part {
