@@ -63,13 +63,14 @@ class PushClient {
         });
     }
 
-    show_message(type, icon, title, description) {
+    show_message(type, icon, title, description, target_url) {
         this.app.notification[type]({
             key: `notification-${+new Date()}`,
             className: 'push-notif',
             icon: icon,
             message: title,
             description: description,
+            onClick: target_url ? ()=>{window.location.href = target_url} : null,
         });
 
         let send_toast = (
@@ -84,7 +85,12 @@ class PushClient {
 
         arbitration(()=>{
             if(send_toast && window.Notification) {
-                new window.Notification(title, {body: description});
+                let notif = new window.Notification(title, {body: description});
+                if(target_url)
+                    notif.addEventListener('click', ()=>{
+                        // browser will focus the current tab unless preventDefault(), so no need to call window.focus()
+                        window.location.href = target_url;
+                    });
             }
 
             if(tts_msg) {
@@ -103,6 +109,7 @@ class PushClient {
                 <NotificationOutlined />,
                 '比赛公告',
                 `有新的公告【${data.title}】`,
+                '#/info/announcements',
             );
         } else if(data.type==='tick_update') {
             setTimeout(()=>{
@@ -111,6 +118,7 @@ class PushClient {
                     <CarryOutOutlined />,
                     '赛程提醒',
                     data.new_tick_name.replace(/;/, '，'),
+                    '#/info/triggers',
                 );
                 this.reload_info();
             }, rnd_delay());
@@ -120,6 +128,7 @@ class PushClient {
                 <RocketOutlined />,
                 'Flag 一血提醒',
                 `恭喜【${data.nickname}】在【${data.board_name}】中拿到了题目【${data.challenge}】的【${data.flag}】的一血`,
+                null,
             );
         } else if(data.type==='challenge_first_blood') {
             this.show_message(
@@ -127,6 +136,7 @@ class PushClient {
                 <RocketOutlined />,
                 '题目一血提醒',
                 `恭喜【${data.nickname}】在【${data.board_name}】中拿到了题目【${data.challenge}】的一血`,
+                null,
             );
         } else if(data.type==='reload_user') {
             setTimeout(()=>{
@@ -138,6 +148,7 @@ class PushClient {
                 <NotificationOutlined />,
                 '测试消息',
                 data.body,
+                null,
             );
         }
     }
