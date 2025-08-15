@@ -1,4 +1,4 @@
-import {GithubOutlined} from '@ant-design/icons';
+import {GithubOutlined, SettingOutlined} from '@ant-design/icons';
 
 import {useGameInfo} from '../logic/GameInfo';
 import {TimeAgo} from '../utils';
@@ -26,6 +26,8 @@ export function Footer() {
                 {import.meta.env.VITE_APP_MOCK_API_ENV ? ' (Mock: '+import.meta.env.VITE_APP_MOCK_API_ENV+')' : null}
             </p>
             <p>
+                <a href="#/user/config"><SettingOutlined /> 网页设置</a>
+                &emsp;
                 <a href="#/license"><GithubOutlined /> 开放源代码</a>
             </p>
         </div>

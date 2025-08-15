@@ -128,11 +128,11 @@ function ConfigForm() {
                     <TogeariVisualizer toge={config.toge} onClick={()=>set_config({toge: config.toge==='ari' ? 'nashi' : 'ari'})} />
                 </Form.Item>
                 {info.user!==null && (
-                    <Form.Item label="退出登录" extra={'当前用户：'+info.user.login_key}>
+                    <Form.Item label="退出登录" extra={<>当前用户为 <code style={{textDecoration: 'underline'}}>{info.user.login_key}</code></>}>
                         <Button danger block onClick={()=>to_auth('logout', message)}>退出登录当前用户</Button>
                     </Form.Item>
                 )}
-                <Form.Item label="重置" extra="此浏览器上的前端设置将恢复默认">
+                <Form.Item label="重置" extra="此浏览器上的网页设置将恢复默认">
                     <Button danger block onClick={()=>{clear_config(); message.success({content: '已重置', key: 'ConfigPage', duration: 2}) }}>重置所有设置</Button>
                 </Form.Item>
             </Form>
@@ -144,7 +144,7 @@ function ConfigForm() {
 export function ConfigPage() {
     return (
         <div className="slim-container form-page-container">
-            <h1>设置</h1>
+            <h1>网页设置</h1>
             <ConfigForm />
         </div>
     )
