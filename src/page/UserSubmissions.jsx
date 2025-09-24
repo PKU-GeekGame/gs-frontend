@@ -1,7 +1,8 @@
 import {Tag} from 'antd';
 
 import {Reloader} from './GameLoading';
-import {FlagIcon, CategoryBadge} from '../widget/ChallengeIcon';
+import {FlagIcon, ChallengeBadge} from '../widget/ChallengeIcon';
+import {ChallengeBadgeModeSwitcher, TotScoreByCat} from '../widget/ChallengeAttrs';
 import {useWishData} from '../wish';
 import {format_ts} from '../utils';
 import {TopStarPlotLoader} from '../widget/TopStarPlotLoader';
@@ -16,8 +17,20 @@ export function SubmissionsTable({others_uid}) {
     if(data===null)
         return <Loading />;
 
+    data = {
+        ...data,
+        list: data.list.map((item, idx)=>({
+            ...item,
+            idx: idx, // add index for table row key
+        })),
+    }
+
     return (<>
         <TopStarPlotLoader plotkey={null} data={data} single={true} />
+        <br />
+        <div style={{textAlign: 'center'}}>
+            <TotScoreByCat data={data.tot_score_by_cat} hide_tutorial={false} />
+        </div>
         <br />
         <Table
             size="small"
@@ -28,8 +41,8 @@ export function SubmissionsTable({others_uid}) {
             }}
         >
             <Table.Column title="提交时间" dataIndex="timestamp_s" render={(text)=>format_ts(text)} />
-            <Table.Column title="题目" key="challenge_title" render={(_text, record)=>(<>
-                <CategoryBadge color={record.category_color}>{record.category}</CategoryBadge>
+            <Table.Column title={<>题目<ChallengeBadgeModeSwitcher /></>} key="challenge_title" render={(_text, record)=>(<>
+                <ChallengeBadge challenge_key={record.challenge_key} category={record.category} category_color={record.category_color} />
                 {record.challenge_title}
             </>)} />
             <Table.Column title="Flag" dataIndex="matched_flag" render={(text)=>

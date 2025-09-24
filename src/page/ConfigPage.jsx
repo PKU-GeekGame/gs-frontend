@@ -4,6 +4,23 @@ import {useGameInfo} from '../logic/GameInfo';
 import {to_auth} from '../utils';
 import {useEffect} from 'react';
 
+import togeari from '../../assets/togeari.webp';
+import './ConfigPage.less';
+
+function TogeariVisualizer({toge, onClick}) {
+    return (
+        <div
+            className="togeari-container"
+            onClick={onClick}
+        >
+            <img
+                src={togeari} alt={(toge==='ari' ? '有' : '无') + '刺'}
+                className="togeari-img" style={{top: (toge==='ari' ? '-100%' : '0'), opacity: (toge==='ari' ? 1 : 0)}}
+            />
+        </div>
+    )
+}
+
 function ConfigForm() {
     let info = useGameInfo();
     let {config, set_config, clear_config} = useFrontendConfig();
@@ -18,7 +35,7 @@ function ConfigForm() {
     let card_style = {
         size: 'small',
         type: 'inner',
-        bordered: false,
+        variant: 'borderless',
     };
 
     function config_setter(k) {
@@ -87,7 +104,11 @@ function ConfigForm() {
                             message.info({content: '大的要来了……', key: 'ConfigPage', duration: 2});
                             setTimeout(()=>{
                                 if(window.gs_push_test)
-                                    window.gs_push_test();
+                                    window.gs_push_test(
+                                        (config.toge==='ari' && config.notif_tts==='title_and_content') ?
+                                            '亲爱的顾客魏防止过耗请扫描排耗单上的二维码或关注每位不用等微信公众账号随时查看您的排队进程欧' :
+                                            '如你所见，这是一条测试消息。',
+                                    );
                             }, 2000);
                         } else {
                             message.error({content: '比赛未启用消息通知', key: 'ConfigPage', duration: 2});
@@ -104,13 +125,14 @@ function ConfigForm() {
                         <Radio.Button value="ari">显示</Radio.Button>
                         <Radio.Button value="nashi">不显示</Radio.Button>
                     </Radio.Group>
+                    <TogeariVisualizer toge={config.toge} onClick={()=>set_config({toge: config.toge==='ari' ? 'nashi' : 'ari'})} />
                 </Form.Item>
                 {info.user!==null && (
-                    <Form.Item label="退出登录" extra={'当前用户：'+info.user.login_key}>
+                    <Form.Item label="退出登录" extra={<>当前用户为 <code style={{textDecoration: 'underline'}}>{info.user.login_key}</code></>}>
                         <Button danger block onClick={()=>to_auth('logout', message)}>退出登录当前用户</Button>
                     </Form.Item>
                 )}
-                <Form.Item label="重置" extra="此浏览器上的前端设置将恢复默认">
+                <Form.Item label="重置" extra="此浏览器上的网页设置将恢复默认">
                     <Button danger block onClick={()=>{clear_config(); message.success({content: '已重置', key: 'ConfigPage', duration: 2}) }}>重置所有设置</Button>
                 </Form.Item>
             </Form>
@@ -122,7 +144,7 @@ function ConfigForm() {
 export function ConfigPage() {
     return (
         <div className="slim-container form-page-container">
-            <h1>设置</h1>
+            <h1>网页设置</h1>
             <ConfigForm />
         </div>
     )

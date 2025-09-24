@@ -1,9 +1,7 @@
 import {Fragment, useMemo, useState, useEffect, useReducer, useRef, useContext} from 'react';
-import {useNavigate, unstable_usePrompt, useParams} from 'react-router-dom';
+import {useNavigate, unstable_usePrompt, useParams} from 'react-router';
 import {Button, Empty, Tag, Alert, Input, Tooltip, Popover, Card, App, Popconfirm} from 'antd';
-import copy from 'copy-to-clipboard';
 import {
-    PieChartFilled,
     SyncOutlined,
     HistoryOutlined,
     RightCircleOutlined,
@@ -13,25 +11,23 @@ import {
     FlagOutlined,
     SolutionOutlined,
     CodepenOutlined,
-    HomeOutlined,
-    GlobalOutlined,
+    LoginOutlined,
     CarryOutOutlined,
     FileTextOutlined,
-    FireOutlined,
     SwapOutlined,
     FormOutlined,
     ArrowUpOutlined,
     ArrowDownOutlined,
     UserOutlined,
-    CopyOutlined,
-    BankOutlined, CheckCircleOutlined,
+    CheckCircleOutlined,
 } from '@ant-design/icons';
 
 import {Reloader} from './GameLoading';
 import {Announcement} from './Announcements';
 import {useGameInfo, GameInfoCtx} from '../logic/GameInfo';
 import {TemplateFile, TemplateStr} from '../widget/Template';
-import {ChallengeIcon, FlagIcon, CategoryBadge, ChallengeKey} from '../widget/ChallengeIcon';
+import {TotScoreByCat, ChallengeBadgeModeSwitcher} from '../widget/ChallengeAttrs';
+import {ChallengeIcon, FlagIcon, ChallengeKey, ChallengeBadge} from '../widget/ChallengeIcon';
 import {Transition} from '../widget/Transition';
 import {TokenWidget} from '../widget/TokenWidget';
 import {UserName, UserGroupTag, UserBadges} from '../widget/UserBadges';
@@ -49,22 +45,6 @@ import './Game.less';
 
 export const SYBIL_ROOT = SVC_ROOT+'anticheat/';
 const ATTACHMENT_ROOT = SVC_ROOT+'attachment/';
-
-function LoginBanner() {
-    let {message} = App.useApp();
-
-    return (
-        <div className="landing-login-form">
-            <Card type="inner" size="small" bordered={false}>
-                <b>报名参赛：</b>
-                <Button type="primary"
-                        onClick={() => to_auth('pku/redirect', message)}><HomeOutlined/> 北京大学登录</Button>
-                {' '}
-                <Button onClick={() => window.location.href = '#/login/other'}><GlobalOutlined/> 校外选手</Button>
-            </Card>
-        </div>
-    );
-}
 
 function ChallengeAction({action, ch}) {
     /* eslint-disable react/jsx-no-target-blank */
@@ -110,17 +90,6 @@ function ChallengeAction({action, ch}) {
         let url = `${ATTACHMENT_ROOT}${ch.key}/${action.filename}?token=${info.user.token}`;
         return (<>
             你可以 <ExtLink href={url}>下载{action.name}</ExtLink>
-            {' '}
-            <Popover trigger="click" content={<div>
-                <p>可以在未登录比赛平台的设备上通过链接下载附件</p>
-                <p>下载链接包含你的队伍 Token，与他人分享将视为作弊</p>
-                <Button block onClick={()=>{
-                    if(copy(new URL(url, location.href).href))
-                        message.success({content: '已复制', key: 'ChallengeActionAttachment', duration: 2});
-                }}>复制下载链接</Button>
-            </div>}>
-                <Button size="small" className="challenge-action-auxbtn"><CopyOutlined />复制链接</Button>
-            </Popover>
         </>);
     }
 }
@@ -141,7 +110,7 @@ function TouchedUsersTable({ch}) {
             <Table
                 dataSource={data.list}
                 size="small"
-                rowKey="idx"
+                rowKey="uid"
                 onRow={(record)=>{
                     if(record.uid===cur_uid)
                         return {className: 'active-bg-row'};
@@ -477,7 +446,6 @@ function TrendMark({current, reloaded, reversed}) {
 
 function PortalUserInfo({info, last_reloaded}) {
     let nav = useNavigate();
-    let tot_score_by_cat = info.tot_score_by_cat ? info.tot_score_by_cat.filter((cat)=>cat[0]!=='Tutorial') : [];
 
     return (
         <div className="portal-user-info" onClick={()=>nav('/board/'+info.board_key)}>
@@ -485,17 +453,7 @@ function PortalUserInfo({info, last_reloaded}) {
                 总分 <b>{info.tot_score}</b><TrendMark reversed={false} current={info.tot_score} reloaded={last_reloaded} />{'，'}
                 {info.board_name}排名 <b>#{info.board_rank || 'N/A'}</b><TrendMark reversed={true} current={info.board_rank} reloaded={last_reloaded} />
             </div>
-            {tot_score_by_cat.length>0 &&
-                <div className="portal-user-info-cat">
-                    <PieChartFilled />{' '}
-                    {tot_score_by_cat.map((cat, idx)=>(
-                        <Fragment key={cat}>
-                            {idx!==0 ? ' + ' : null}
-                            {cat[0]} {cat[1]}
-                        </Fragment>
-                    ))}
-                </div>
-            }
+            <TotScoreByCat data={info.tot_score_by_cat} hide_tutorial={true} />
         </div>
     );
 }
@@ -511,15 +469,11 @@ function PortalChallengeList({list, active_key, set_active_key}) {
                     <div className="portal-chall-row portal-chall-header">
                         <div className="portal-chall-col-title">
                             题目名称
-                            <span className="portal-chall-mode-switch-btn" onClick={()=>set_config({portal_challenge_badge: config.portal_challenge_badge==='category' ? 'id' : 'category'})}>
-                                <Tooltip title={<>当前显示：{config.portal_challenge_badge==='category' ? '题目分类' : '题目 ID'}<br />点击切换</>}>
-                                    (<SwapOutlined />)
-                                </Tooltip>
-                            </span>
+                            <ChallengeBadgeModeSwitcher />
                         </div>
                         <div className="portal-chall-col-score">
                             分值
-                            <span className="portal-chall-mode-switch-btn" onClick={()=>set_config({portal_score_badge: config.portal_score_badge==='deduction' ? 'pass_count' : 'deduction'})}>
+                            <span className="chall-mode-switch-btn" onClick={()=>set_config({portal_score_badge: config.portal_score_badge==='deduction' ? 'pass_count' : 'deduction'})}>
                                 <Tooltip title={<>当前显示：{config.portal_score_badge==='deduction' ? '动态分值系数' : '通过队伍数'}<br />点击切换</>}>
                                     (<SwapOutlined />)
                                 </Tooltip>
@@ -533,11 +487,9 @@ function PortalChallengeList({list, active_key, set_active_key}) {
                                 onClick={()=>set_active_key(ch.key)}
                             >
                                 <div className="portal-chall-col-title">
-                                    {config.portal_challenge_badge==='category' ?
-                                        <CategoryBadge color={ch.category_color}>{ch.category}</CategoryBadge> :
-                                        <ChallengeKey color={ch.category_color}>{ch.key}</ChallengeKey>
-                                    }
-                                    <ChallengeIcon status={ch.status} /> {ch.title}
+                                    <ChallengeBadge challenge_key={ch.key} category={ch.category} category_color={ch.category_color} />
+                                    <ChallengeIcon status={ch.status} />
+                                    {' '}{ch.title}
                                     {ch.flags.length>1 && <span className="portal-chall-caret"><CaretDownOutlined /></span>}
                                 </div>
                                 <div className="portal-chall-col-score">
@@ -728,7 +680,7 @@ function Portal() {
                             <TemplateFile name="game" />
                             {info.user===null && <>
                                 <br />
-                                <LoginBanner />
+                                <Button type="primary" size="large" block onClick={()=>window.location.href='#/login/form'}><LoginOutlined /> 登录</Button>
                             </>}
                         </>
                     }
@@ -746,7 +698,7 @@ export function Game() {
             <div className="slim-container">
                 <TemplateFile name="game" />
                 <br />
-                <Button type="primary" size="large" block onClick={()=>window.location.href='#/login/form'}><LoginOutlined /> 报名参赛</Button>
+                <Button type="primary" size="large" block onClick={()=>window.location.href='#/login/form'}><LoginOutlined /> 登录</Button>
             </div>
         );
     else

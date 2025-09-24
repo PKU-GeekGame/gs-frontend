@@ -1,6 +1,6 @@
 import {useContext} from 'react';
 import {Button, App} from 'antd';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router';
 import {CheckCircleOutlined} from '@ant-design/icons';
 
 import {GameInfoCtx} from '../logic/GameInfo';

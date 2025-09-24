@@ -5,4 +5,4 @@ export const SVC_ROOT = '/service/';
 export const WISH_ROOT = SVC_ROOT+'wish/';
 export const TEMPLATE_ROOT = SVC_ROOT+'template/';
 
-export const WISH_VER = '2024.v3';
+export const WISH_VER = '2025.v1';

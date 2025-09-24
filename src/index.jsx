@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import ReactDOM from 'react-dom/client';
 import {ConfigProvider, Alert, App as AntdApp, theme as antd_theme} from 'antd';
-import {createHashRouter, RouterProvider} from 'react-router-dom';
+import {createHashRouter, RouterProvider} from 'react-router';
 import {StyleProvider, legacyLogicalPropertiesTransformer} from '@ant-design/cssinjs';
 import {CloseCircleOutlined} from '@ant-design/icons';
 import zhCN from 'antd/es/locale/zh_CN';

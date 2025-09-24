@@ -38,7 +38,10 @@
         border-left: 4px solid @card-border-color;
         color: rgba(0, 0, 0, .75);
         html.theme-dark & {
-            color: rgba(255, 255, 255, .75);
+            color: rgba(255, 255, 255, .8);
+            background-color: #141414;
+            border-top-right-radius: .5rem;
+            border-bottom-right-radius: .5rem;
         }
     }
 
@@ -47,6 +50,10 @@
         margin: 1em 0;
         border: 2px solid @card-border-color;
         border-radius: @border-radius-base;
+
+        html.theme-dark & {
+            background-color: #141414;
+        }
     }
 
     del {

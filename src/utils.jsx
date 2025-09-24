@@ -1,5 +1,5 @@
 import {useRef, useEffect} from 'react';
-import {useLocation, useNavigate} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router';
 import {Result, Button} from 'antd';
 import RealTimeAgo from 'react-timeago';
 import buildFormatter from 'react-timeago/lib/formatters/buildFormatter';
@@ -155,7 +155,7 @@ export function tts_say(msg) {
     if(window.SpeechSynthesisUtterance && window.speechSynthesis) {
         let ut = new window.SpeechSynthesisUtterance(msg);
         ut.lang = 'zh-CN';
-        ut.rate = 1.25;
+        ut.rate = 1.33;
         window.speechSynthesis.speak(ut);
         return true;
     } else {

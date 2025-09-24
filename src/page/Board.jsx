@@ -4,7 +4,8 @@ import {HistoryOutlined, SyncOutlined, FireOutlined} from '@ant-design/icons';
 import LazyLoad, {forceCheck} from 'react-lazyload';
 
 import {Reloader} from './GameLoading';
-import {ChallengeIcon, FlagIcon, CategoryBadge} from '../widget/ChallengeIcon';
+import {ChallengeIcon, FlagIcon, ChallengeBadge} from '../widget/ChallengeIcon';
+import {ChallengeBadgeModeSwitcher} from '../widget/ChallengeAttrs';
 import {useWishData} from '../wish';
 import {format_ts, TimestampAgo, useReloadButton} from '../utils';
 import {UserBadges, UserName, UserGroupTag} from '../widget/UserBadges';
@@ -49,8 +50,8 @@ function ChallengeTooltip({ch, record, marginLeft}) {
                 title={<ChallengeStatus ch={ch} record={record}/>}
                 placement="topRight" align={{offset: [9, -1]}}
                 open={state===1} trigger={[]}
-                overlayClassName="board-challenge-status-tooltip"
-                autoAdjustOverflow={false} destroyTooltipOnHide={true}
+                classNames={{root: "board-challenge-status-tooltip"}}
+                autoAdjustOverflow={false} destroyOnHidden={true}
             >
                 {icon}
             </Tooltip>}
@@ -155,6 +156,7 @@ function FirstBloodBoardContent({data}) {
         ch.flags.map((f, idx)=>({
             ...f,
 
+            challenge_key: ch.key,
             challenge_title: ch.title,
             challenge_metadata: ch.metadata,
             challenge_category: ch.category,
@@ -185,12 +187,17 @@ function FirstBloodBoardContent({data}) {
             }}
             sticky={true}
         >
-            <Table.Column title="题目&emsp;" dataIndex="challenge_title" align="right" onCell={(record)=>({
-                rowSpan: record.flag_idx0===0 ? record.flags_count : 0,
-            })} render={(text, record)=>(<>
-                <CategoryBadge color={record.challenge_category_color}>{record.challenge_category}</CategoryBadge>
-                <b>{text}&emsp;</b>
-            </>)} />
+            <Table.Column
+                title={<>题目<ChallengeBadgeModeSwitcher />&ensp;</>}
+                dataIndex="challenge_title" align="right" className="firstbloodboard-challenge-cell"
+                onCell={(record)=>({
+                    rowSpan: record.flag_idx0===0 ? record.flags_count : 0,
+                })}
+                render={(text, record)=>(<>
+                    <ChallengeBadge challenge_key={record.challenge_key} category={record.challenge_category} category_color={record.challenge_category_color} />
+                    <b>{text}&ensp;</b>
+                </>)}
+            />
             <Table.Column title="Flag" dataIndex="flag_name" render={(text, record)=>(<>
                 {text===null ? (
                     record.flags_count>1 ? '解出所有 Flag' : '解出 Flag'

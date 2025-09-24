@@ -10,7 +10,7 @@ function minmax(x, lo, hi) {
     return Math.max(lo, Math.min(hi, x));
 }
 
-function assign_color_palette(uids) {
+function assign_color_palette(uids, is_dark) {
     if(uids.length===0) // make antd happy
         return ['#000000'];
 
@@ -44,7 +44,7 @@ function assign_color_palette(uids) {
 
     uids.forEach((uid, color_idx) => {
         let hue = 360 * color_idx / uids.length;
-        let light = 35 + 40 * (color_idx%2);
+        let light = (is_dark ? 40 : 35) + 40 * (color_idx%2);
         ret[uid_to_orig_idx[uid]] = colord(`lch(${light}% 100 ${hue})`).toHex();
     });
 
@@ -99,7 +99,7 @@ export default function TopStarPlot({data, single, theme}) {
         }
     });
 
-    let top_colors = assign_color_palette(data.topstars.map(x=>x.uid));
+    let top_colors = assign_color_palette(data.topstars.map(x=>x.uid), theme==='dark');
 
     //console.log('! render chart', data, timestamps, points);
 
@@ -133,11 +133,16 @@ export default function TopStarPlot({data, single, theme}) {
                 color: {
                     labelFormatter: (x) => nicknames[x],
                     itemMarker: 'circle',
+                    itemMarkerSize: 12,
                     itemLabelFontSize: 10,
-                    itemSpacing: 3,
+                    navPageNumFontSize: 10,
+                    itemSpacing: 0,
+                    colPadding: 6,
+                    navControllerSpacing: 12,
                     itemLabelFillOpacity: 1,
                     itemLabelFontWeight: 'bold',
-                    maxRows: 2,
+                    navLoop: true,
+                    navPageNumFillOpacity: .65,
                     layout: {
                         justifyContent: 'center',
                     }

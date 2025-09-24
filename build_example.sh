@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 VITE_APP_BUILD_INFO=$(date +"%y%m%d%H%M") GENERATE_SOURCEMAP=false VITE_APP_ANTICHEAT_ENABLED=true npm run build
 
