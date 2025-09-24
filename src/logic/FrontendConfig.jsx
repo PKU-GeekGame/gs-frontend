@@ -12,7 +12,7 @@ const DEFAULT_CONFIG = {
     notif_toast: 'off',
     notif_tts: 'off',
 
-    toge: 'ari',
+    toge: 'nashi',
 };
 
 const LOCALSTORAGE_KEY = 'gs_frontend_config_v1';

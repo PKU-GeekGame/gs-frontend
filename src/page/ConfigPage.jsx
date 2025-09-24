@@ -4,22 +4,7 @@ import {useGameInfo} from '../logic/GameInfo';
 import {to_auth} from '../utils';
 import {useEffect} from 'react';
 
-import togeari from '../../assets/togeari.webp';
 import './ConfigPage.less';
-
-function TogeariVisualizer({toge, onClick}) {
-    return (
-        <div
-            className="togeari-container"
-            onClick={onClick}
-        >
-            <img
-                src={togeari} alt={(toge==='ari' ? '有' : '无') + '刺'}
-                className="togeari-img" style={{top: (toge==='ari' ? '-100%' : '0'), opacity: (toge==='ari' ? 1 : 0)}}
-            />
-        </div>
-    )
-}
 
 function ConfigForm() {
     let info = useGameInfo();
@@ -101,14 +86,10 @@ function ConfigForm() {
                 <Form.Item label="测试">
                     <Button block onClick={()=>{
                         if(window.gs_push_test) {
-                            message.info({content: '大的要来了……', key: 'ConfigPage', duration: 2});
+                            message.info({content: '即将展示测试消息……', key: 'ConfigPage', duration: 2});
                             setTimeout(()=>{
                                 if(window.gs_push_test)
-                                    window.gs_push_test(
-                                        (config.toge==='ari' && config.notif_tts==='title_and_content') ?
-                                            '亲爱的顾客魏防止过耗请扫描排耗单上的二维码或关注每位不用等微信公众账号随时查看您的排队进程欧' :
-                                            '如你所见，这是一条测试消息。',
-                                    );
+                                    window.gs_push_test('如你所见，这是一条测试消息。');
                             }, 2000);
                         } else {
                             message.error({content: '比赛未启用消息通知', key: 'ConfigPage', duration: 2});
@@ -120,13 +101,6 @@ function ConfigForm() {
         <br />
         <Card title="其他" {...card_style}>
             <Form {...form_style}>
-                <Form.Item label="彩蛋">
-                    <Radio.Group buttonStyle="solid" value={config.toge} onChange={config_setter('toge')}>
-                        <Radio.Button value="ari">显示</Radio.Button>
-                        <Radio.Button value="nashi">不显示</Radio.Button>
-                    </Radio.Group>
-                    <TogeariVisualizer toge={config.toge} onClick={()=>set_config({toge: config.toge==='ari' ? 'nashi' : 'ari'})} />
-                </Form.Item>
                 {info.user!==null && (
                     <Form.Item label="退出登录" extra={<>当前用户为 <code style={{textDecoration: 'underline'}}>{info.user.login_key}</code></>}>
                         <Button danger block onClick={()=>to_auth('logout', message)}>退出登录当前用户</Button>
