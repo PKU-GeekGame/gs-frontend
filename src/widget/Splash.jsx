@@ -3,7 +3,6 @@ import {createPortal} from 'react-dom';
 import {useNavigate} from 'react-router';
 import {Alert, Button} from 'antd';
 
-import {Logo} from '../branding';
 import {TemplateFile} from './Template';
 import {useFrontendConfig} from '../logic/FrontendConfig';
 

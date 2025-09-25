@@ -6,7 +6,6 @@ import {useNavigate} from 'react-router';
 import {GameInfoCtx} from '../logic/GameInfo';
 import {UserBadges, UserGroupTag} from '../widget/UserBadges';
 import {wish} from '../wish';
-import {QQ_GROUP, BANNED_MSG} from '../branding';
 
 import './UserProfile.less';
 

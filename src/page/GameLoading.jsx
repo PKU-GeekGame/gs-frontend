@@ -3,7 +3,7 @@ import {Result, Button, Alert} from 'antd';
 import {WifiOutlined, RobotOutlined} from '@ant-design/icons';
 
 import {useWishData} from '../wish';
-import {Logo, GAME_TITLE} from '../branding';
+import {GAME_TITLE} from '../branding';
 import {Loading} from '../widget/Loading';
 
 function HeaderSkeleton() {
@@ -12,7 +12,6 @@ function HeaderSkeleton() {
             <div className="header-container">
                 <div className="header">
                     <div className="header-logo">
-                        <Logo cur_url="/" />
                         {GAME_TITLE}
                     </div>
                 </div>

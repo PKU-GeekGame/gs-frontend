@@ -1,7 +1,4 @@
-import logo from '../assets/logo-bw.webp';
-
 export const GAME_TITLE = document.title;
-export const QQ_GROUP = '1919810';
 
 export function WEB_TERMINAL_ADDR(action, token) {
     return `https://${action.host}/?token=${token}`;
@@ -42,10 +39,4 @@ export async function ANTICHEAT_REPORT() {
     } finally {
         _anticheat_in_progress = false;
     }
-}
-
-export function Logo({cur_url}) {
-    return (
-        <img src={logo} alt="" className="game-logo" />
-    );
 }
