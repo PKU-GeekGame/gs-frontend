@@ -132,9 +132,9 @@ function ScoreBoardContent({data, last_reloaded}) {
                     {record.group_disp===null ? null : <>&ensp;<UserGroupTag>{record.group_disp}</UserGroupTag></>}
                     <UserBadges badges={record.badges} />
                 </>)} />
-                <Table.Column title="最终成绩" dataIndex="normalized_score" className="board-col-bold" width="80px" render={(v)=>v.toFixed(2)} />
-                <Table.Column title="理论赛总分" dataIndex="score_offset" className="board-col-bold" width="90px" />
-                <Table.Column title="实践赛总分" dataIndex="score" className="board-col-bold" width="90px" render={(text, record)=>(
+                <Table.Column title="最终成绩" dataIndex="normalized_score" className="board-col-bold" width="85px" render={(v)=>v.toFixed(2)} />
+                <Table.Column title="理论赛" dataIndex="score_offset" className="board-col-bold" width="75px" />
+                <Table.Column title="实践赛" dataIndex="score" className="board-col-bold" width="75px" render={(text, record)=>(
                     <LookingGlassLink uid={record.uid} nickname={record.nickname}>{text}</LookingGlassLink>
                 )} />
                 <Table.Column title="实践赛答题进度" key="challenges" render={(_text, record)=>(
