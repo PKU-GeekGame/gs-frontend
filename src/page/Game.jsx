@@ -406,9 +406,9 @@ function Challenge({ch, do_reload_list}) {
                         命题人：{ch.metadata.author}
                     </Tag>
                 }
-                {!!(ch.metadata.first_blood_award_eligible && info.user.group==='pku') &&
+                {!!(ch.metadata.first_blood_award_eligible && ['pku', 'thu'].includes(info.user.group)) &&
                     <Tag color="default">
-                        <a href="#/board/first_pku">
+                        <a href={'#/board/first_'+info.user.group}>
                             <b><FireOutlined/> 解题先锋奖</b>
                         </a>
                     </Tag>

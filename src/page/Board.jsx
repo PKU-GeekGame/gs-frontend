@@ -187,7 +187,7 @@ function FirstBloodBoardContent({data}) {
                     record.flags_count>1 ? '解出所有 Flag' : '解出 Flag'
                 ) : (<>&emsp;&gt; {text}</>)}
                 {!!(text===null && record.challenge_metadata.first_blood_award_eligible) &&
-                    <Tooltip title="首个完全解出的校内选手可获得此题的解题先锋奖">
+                    <Tooltip title="首个完全解出的本校选手可获得此题的解题先锋奖">
                         {' '}<Tag color="#a00">
                             <FireOutlined twoToneColor="red" /> 解题先锋奖
                         </Tag>
