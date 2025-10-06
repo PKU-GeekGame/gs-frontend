@@ -38,7 +38,7 @@ function pad2(x) {
 }
 export function format_ts(ts, seconds=true, dow=false) {
     let time = (ts instanceof Date) ? ts : new Date(ts*1000);
-    let part_dow = dow ? ` 周${'日一二三四五六日'[time.getDay()]} ` : '';
+    let part_dow = dow ? `（周${'日一二三四五六日'[time.getDay()]}） ` : '';
     let part_seconds = seconds ? `:${pad2(time.getSeconds())}` : '';
     return `${pad2(time.getMonth()+1)}-${pad2(time.getDate())}${part_dow} ${pad2(time.getHours())}:${pad2(time.getMinutes())}${part_seconds}`;
 }
