@@ -21,6 +21,10 @@ function TogeariVisualizer({toge, onClick}) {
     )
 }
 
+function random_choice(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+}
+
 function ConfigForm() {
     let info = useGameInfo();
     let {config, set_config, clear_config} = useFrontendConfig();
@@ -106,8 +110,13 @@ function ConfigForm() {
                                 if(window.gs_push_test)
                                     window.gs_push_test(
                                         (config.toge==='ari' && config.notif_tts==='title_and_content') ?
-                                            '亲爱的顾客魏防止过耗请扫描排耗单上的二维码或关注每位不用等微信公众账号随时查看您的排队进程欧' :
+                                            random_choice([
+                                                '亲爱的顾客魏防止过耗请扫描排耗单上的二维码或关注每位不用等微信公众账号随时查看您的排队进程欧',
+                                                '哈基米哦南北绿豆阿西噶哈椰果奶龙曼波哈基米多娜娜美撸多阿西噶哈呀咕咕奈撸',
+                                                '向着星辰与深渊欢迎来到冒险家协会感谢你完成了今天的委托这是给你的奖励',
+                                            ]) :
                                             '如你所见，这是一条测试消息。',
+                                        '测试消息',
                                     );
                             }, 2000);
                         } else {

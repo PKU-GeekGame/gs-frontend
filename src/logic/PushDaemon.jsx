@@ -57,9 +57,10 @@ class PushClient {
             this.connect();
         }, PUSH_STARTUP_DELAY_MS);
 
-        window.gs_push_test = (body)=>this.handle_message({
+        window.gs_push_test = (body, title) => this.handle_message({
             type: 'frontent_test',
             body: body,
+            title: title || '测试消息',
         });
     }
 
@@ -146,7 +147,7 @@ class PushClient {
             this.show_message(
                 'info',
                 <NotificationOutlined />,
-                '测试消息',
+                data.title,
                 data.body,
                 null,
             );
