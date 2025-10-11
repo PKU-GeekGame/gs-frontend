@@ -128,7 +128,7 @@ class PushClient {
                 'success',
                 <RocketOutlined />,
                 'Flag 一血提醒',
-                `恭喜【${data.nickname}】在【${data.board_name}】中拿到了题目【${data.challenge}】的【${data.flag}】的一血`,
+                `恭喜【${data.nickname}】在【${data.board_name}】中拿到了题目【${data.challenge}】的【${data.flag}】一血`,
                 null,
             );
         } else if(data.type==='challenge_first_blood') {
