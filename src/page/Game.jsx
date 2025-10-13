@@ -366,14 +366,14 @@ function Challenge({ch, do_reload_list}) {
                         </>}
                     </Tag>
                 </a>
-                {!!info.feature.submit_flag &&
+                {/*!!info.feature.submit_flag &&
                     <a onClick={() => toggle_panel('feedback')}>
                         <Tag color="default">
                             {display_panel==='feedback' ? <UpOutlined/> : <CaretDownOutlined/>}{' '}
                             反馈问题
                         </Tag>
                     </a>
-                }
+                */}
                 {/* !!ch.metadata.author &&
                     <Tag color="default">
                         命题人：{ch.metadata.author}
