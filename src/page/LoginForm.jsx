@@ -22,6 +22,8 @@ export function LoginForm() {
                 <form action="/service/auth/password" method="post">
                     <p>
                         <Input name="email" addonBefore="注册邮箱" required placeholder="" size="large" />
+                    </p>
+                    <p>
                         <Input name="password" addonBefore="密码" required placeholder="" size="large" />
                     </p>
                     <Button type="primary" size="large" block htmlType="submit">
