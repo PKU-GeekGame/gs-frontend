@@ -132,12 +132,12 @@ function ScoreBoardContent({data, last_reloaded}) {
                     {record.group_disp===null ? null : <>&ensp;<UserGroupTag>{record.group_disp}</UserGroupTag></>}
                     <UserBadges badges={record.badges} />
                 </>)} />
-                <Table.Column title="最终成绩" dataIndex="normalized_score" className="board-col-bold" width="85px" render={(v)=>v.toFixed(2)} />
-                <Table.Column title="理论赛" dataIndex="score_offset" className="board-col-bold" width="75px" />
-                <Table.Column title="实践赛" dataIndex="score" className="board-col-bold" width="75px" render={(text, record)=>(
+                {/*<Table.Column title="最终成绩" dataIndex="normalized_score" className="board-col-bold" width="85px" render={(v)=>v.toFixed(2)} />*/}
+                {/*<Table.Column title="理论赛" dataIndex="score_offset" className="board-col-bold" width="75px" />*/}
+                <Table.Column title="分数" dataIndex="score" className="board-col-bold" width="75px" render={(text, record)=>(
                     <LookingGlassLink uid={record.uid} nickname={record.nickname}>{text}</LookingGlassLink>
                 )} />
-                <Table.Column title="实践赛答题进度" key="challenges" render={(_text, record)=>(
+                <Table.Column title="答题进度" key="challenges" render={(_text, record)=>(
                     <ChallengeTooltips record={record} challenges={data.challenges} />
                 )} />
                 {/* <Table.Column title="最后提交时间" dataIndex="last_succ_submission_ts" render={(text)=>(
