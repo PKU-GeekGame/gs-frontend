@@ -72,7 +72,7 @@ function ChallengeAction({action, ch}) {
             你可以 <ExtLink onPointerDown={report_click} href={`https://${action.host}/docker-manager/start?${info.user.token}`}>访问{action.name}</ExtLink>
             {' '}
             <Popover trigger="click" content={<div>
-                <p>本题为每个队伍分配一个独立的后端环境，参见 <a href="#/info/faq">FAQ：如何使用 Web 题目环境</a></p>
+                <p>本题为每个选手分配一个独立的后端环境，参见 <a href="#/info/faq">FAQ：如何使用 Web 题目环境</a></p>
                 <p>如果题目出现问题可以手动关闭环境，下次访问时将启动新的环境</p>
                 <Button block danger onClick={()=>{
                     window.open(`https://${action.host}/docker-manager/stop?${info.user.token}`);
@@ -119,7 +119,7 @@ function TouchedUsersTable({ch}) {
                 }}
             >
                 <Table.Column
-                    title="队伍"
+                    title="昵称"
                     key="user"
                     render={(_text, record)=>(
                     <>
@@ -313,8 +313,8 @@ function ScoreDeduction({ch, flag, show_mode}) {
 
     let ratio = base_score===0 ? 0 : (1-cur_score/base_score)*100;
 
-    let tooltip = `基础分值 ${base_score}，通过队伍数 ${passed_count}` + (
-        touched_count>passed_count ? `，部分通过队伍数 ${touched_count}` : ''
+    let tooltip = `基础分值 ${base_score}，通过人数 ${passed_count}` + (
+        touched_count>passed_count ? `，部分通过人数 ${touched_count}` : ''
     );
 
     let item_full = (
@@ -360,9 +360,9 @@ function Challenge({ch, do_reload_list}) {
                 <a onClick={()=>toggle_panel('touched_users')}>
                     <Tag color="default">
                         {display_panel==='touched_users' ? <UpOutlined /> : <CaretDownOutlined />}{' '}
-                        共 {ch.passed_users_count} 支队伍通过
+                        共 {ch.passed_users_count} 人通过
                         {ch.touched_users_count>ch.passed_users_count && <>
-                            （{ch.touched_users_count} 支队伍部分通过）
+                            （{ch.touched_users_count} 人部分通过）
                         </>}
                     </Tag>
                 </a>
@@ -475,7 +475,7 @@ function PortalChallengeList({list, active_key, set_active_key}) {
                         <div className="portal-chall-col-score">
                             分值
                             <span className="chall-mode-switch-btn" onClick={()=>set_config({portal_score_badge: config.portal_score_badge==='deduction' ? 'pass_count' : 'deduction'})}>
-                                <Tooltip title={<>当前显示：{config.portal_score_badge==='deduction' ? '动态分值系数' : '通过队伍数'}<br />点击切换</>}>
+                                <Tooltip title={<>当前显示：{config.portal_score_badge==='deduction' ? '动态分值系数' : '通过人数'}<br />点击切换</>}>
                                     (<SwapOutlined />)
                                 </Tooltip>
                             </span>

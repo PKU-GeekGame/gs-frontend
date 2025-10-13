@@ -9,6 +9,15 @@ import {wish} from '../wish';
 
 import './UserProfile.less';
 
+const WIDE_CHARS = new Set(['w', 'm', '@', '%', '~', '=', '<', '>', '&']);
+for(let i='A'.charCodeAt(0), max='Z'.charCodeAt(0); i<=max; i++)
+    WIDE_CHARS.add(String.fromCharCode(i));
+
+function unicode_length_counter(s) {
+    let seg = Intl.Segmenter ? Array.from(new Intl.Segmenter().segment(s)).map(g=>g.segment) : [...s];
+    return seg.map(c=>(c.length===1 && c.charCodeAt(0)<128 && !WIDE_CHARS.has(c)) ? 1 : 2).reduce((a,b)=>a+b, 0);
+}
+
 function UserProfileForm() {
     let {info, reload_info} = useContext(GameInfoCtx);
     let [changed, set_changed] = useState(false);
@@ -20,7 +29,7 @@ function UserProfileForm() {
         return (
             <Alert
                 type="error" showIcon
-                message="未登录" description="请登录后查看队伍资料"
+                message="未登录" description="请登录后修改个人资料"
             />
         );
 
@@ -78,9 +87,11 @@ function UserProfileForm() {
         >
             <Card title="公开资料" {...card_style}>
                 <Form name="public" {...form_style}>
-                    <Form.Item label="队伍名称">
-                        <b>{info.user.profile.nickname}</b>
-                    </Form.Item>
+                    {info.user.profile.nickname!==undefined &&
+                        <Form.Item name="nickname" label="昵称">
+                            <Input count={{show: true, max: 40, strategy: unicode_length_counter}} placeholder="（将显示在排行榜上）" {...input_style} />
+                        </Form.Item>
+                    }
                     <Form.Item label="组别">
                         <UserGroupTag>{info.user.group_disp}</UserGroupTag>
                         <UserBadges badges={info.user.badges} />
@@ -91,7 +102,7 @@ function UserProfileForm() {
                 </Form>
                 {info.user.group==='banned' && <>
                     <br />
-                    <Alert type="error" showIcon message="由于违反规则，此队伍的参赛资格已被取消。如有疑问请联系工作人员。" />
+                    <Alert type="error" showIcon message="由于违反规则，你的参赛资格已被取消。如有疑问请联系工作人员。" />
                 </>}
             </Card>
             <br />
@@ -127,12 +138,12 @@ function UserProfileForm() {
                 </Card>
             }
             <br />
+            */}
             <Form name="submit">
                 <Button type="primary" size="large" block htmlType="submit" disabled={!changed} ref={submit_btn}>
                     <CheckCircleOutlined /> 保存
                 </Button>
             </Form>
-            */}
         </Form.Provider>
     );
 }
@@ -140,7 +151,7 @@ function UserProfileForm() {
 export function UserProfile() {
     return (
         <div className="slim-container form-page-container">
-            <h1>队伍资料</h1>
+            <h1>个人资料</h1>
             <UserProfileForm />
         </div>
     );

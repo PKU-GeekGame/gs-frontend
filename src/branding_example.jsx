@@ -12,7 +12,7 @@ export const CONTEST_LICENSE = (<>
 
 export const WRITEUP_INSTRUCTION = (<>
     <p>
-        请在 Writeup 中描述本队伍是如何解出每道题目的，应当包含详细的解题过程、思路和相关代码等。Writeup 将被用来辅助甄别作弊情况，未及时提交将视为放弃获奖资格。
+        请在 Writeup 中描述你是如何解出每道题目的，应当包含详细的解题过程、思路和相关代码等。Writeup 将被用来辅助甄别作弊情况，未及时提交将视为放弃获奖资格。
         请使用 Markdown、Word、PDF 等常见格式书写 Writeup。
     </p>
     <p>

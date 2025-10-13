@@ -127,7 +127,7 @@ function ScoreBoardContent({data, last_reloaded}) {
                 sticky={true}
             >
                 <Table.Column title="#" dataIndex="rank" align="right" />
-                <Table.Column title="队伍" key="name" className="board-col-bold" render={(_text, record)=>(<>
+                <Table.Column title="昵称" key="name" className="board-col-bold" render={(_text, record)=>(<>
                     <UserName name={record.nickname} />
                     {record.group_disp===null ? null : <>&ensp;<UserGroupTag>{record.group_disp}</UserGroupTag></>}
                     <UserBadges badges={record.badges} />
@@ -140,9 +140,9 @@ function ScoreBoardContent({data, last_reloaded}) {
                 <Table.Column title="答题进度" key="challenges" render={(_text, record)=>(
                     <ChallengeTooltips record={record} challenges={data.challenges} />
                 )} />
-                {/* <Table.Column title="最后提交时间" dataIndex="last_succ_submission_ts" render={(text)=>(
+                {<Table.Column title="最后提交时间" dataIndex="last_succ_submission_ts" render={(text)=>(
                     text ? format_ts(text) : '--'
-                )} /> */}
+                )} />}
             </Table>
         </div>
     );
@@ -203,7 +203,7 @@ function FirstBloodBoardContent({data}) {
                     record.flags_count>1 ? '解出所有 Flag' : '解出 Flag'
                 ) : text}
             </>)} />
-            <Table.Column title="一血队伍" key="user" render={(_text, record)=>(
+            <Table.Column title="一血获得者" key="user" render={(_text, record)=>(
                 record.nickname===null ? spanner :
                     <>
                         <UserName name={record.nickname} />

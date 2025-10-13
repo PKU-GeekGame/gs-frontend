@@ -17,8 +17,8 @@ export function TokenWidget() {
 
     return (
         <div className="token-widget">
-            <Button onClick={do_copy_token} size="small"><CopyOutlined /> 复制队伍Token</Button>
-            <span>部分题目需要输入队伍 Token 来验证身份，与其他队伍分享此 Token 将视为作弊。</span>
+            <Button onClick={do_copy_token} size="small"><CopyOutlined /> 复制个人Token</Button>
+            <span>部分题目需要输入个人 Token 来验证身份，与他人分享此 Token 将视为作弊。</span>
         </div>
     );
 }

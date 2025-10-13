@@ -71,10 +71,10 @@ function WriteupForm() {
         <div>
             {data.writeup_required ?
                 <Alert showIcon type="info" message={<>
-                    按照比赛规则，本队伍 <b>需要</b> 在截止时间前提交 Writeup
+                    按照比赛规则，你 <b>需要</b> 在截止时间前提交 Writeup
                 </>} /> :
                 <Alert showIcon type="info" message={<>
-                    按照比赛规则，本队伍 <b>不需要</b> 提交 Writeup，但在截止时间前可以自愿提交
+                    按照比赛规则，你 <b>不需要</b> 提交 Writeup，但在截止时间前可以自愿提交
                 </>} />
             }
             <br />
