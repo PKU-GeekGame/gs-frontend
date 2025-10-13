@@ -24,7 +24,7 @@ export function LoginForm() {
                         <Input name="email" addonBefore="注册邮箱" required placeholder="" size="large" />
                     </p>
                     <p>
-                        <Input name="password" addonBefore="密码" htmlType="password" required placeholder="" size="large" />
+                        <Input.Password name="password" addonBefore="密码" required placeholder="" size="large" />
                     </p>
                     <Button type="primary" size="large" block htmlType="submit">
                         <RightCircleOutlined/> 进入比赛
