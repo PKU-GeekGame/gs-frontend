@@ -36,12 +36,11 @@ export function to_auth(endpoint, message) {
 function pad2(x) {
     return x<10 ? '0'+x : x;
 }
-export function format_ts(ts, seconds=true) {
+export function format_ts(ts, seconds=true, dow=false) {
     let time = (ts instanceof Date) ? ts : new Date(ts*1000);
-    if(seconds)
-        return `${pad2(time.getMonth()+1)}-${pad2(time.getDate())} ${pad2(time.getHours())}:${pad2(time.getMinutes())}:${pad2(time.getSeconds())}`;
-    else
-        return `${pad2(time.getMonth()+1)}-${pad2(time.getDate())} ${pad2(time.getHours())}:${pad2(time.getMinutes())}`;
+    let part_dow = dow ? `（周${'日一二三四五六日'[time.getDay()]}） ` : '';
+    let part_seconds = seconds ? `:${pad2(time.getSeconds())}` : '';
+    return `${pad2(time.getMonth()+1)}-${pad2(time.getDate())}${part_dow} ${pad2(time.getHours())}:${pad2(time.getMinutes())}${part_seconds}`;
 }
 
 const timeago_format = buildFormatter({

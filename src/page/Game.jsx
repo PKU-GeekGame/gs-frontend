@@ -176,7 +176,8 @@ function FlagInput({do_reload_list, ch}) {
                 if(res.error)
                     message.error({content: res.error_msg, key: 'FlagInput', duration: 3});
                 else {
-                    message.success({content: <>Flag正确<FlagCorrectSplash /></>, key: 'FlagInput', duration: 3});
+                    message.destroy('FlagInput');
+                    message.success({content: <>Flag正确<FlagCorrectSplash /></>, key: 'FlagInput.Success', duration: 3});
                     do_reload_list();
                 }
             });
@@ -265,7 +266,7 @@ function Feedback({ch}) {
                     <li>使用此功能来<b>单方面反馈题目中的问题</b>，例如存在非预期解、题目环境与附件不符、题目描述具有误导性。</li>
                     <li>出题人<b>不会单独回复反馈</b>，但可能依据反馈内容来修复题目问题、发布补充说明或者撰写提示。</li>
                     <li>如果希望咨询出题人并获得回复，请<b>在选手群联系管理员</b>，而非提交反馈。</li>
-                    <li>请注意<b>每小时只能提交一次反馈</b>。</li>
+                    <li>提交反馈的<b>全局频率限制</b>是每小时一次，请优先反馈最重要的问题。</li>
                 </ul>
                 <Button block type="primary" onClick={()=>set_state('draft')}>
                     <FormOutlined /> 反馈问题
