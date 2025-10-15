@@ -65,7 +65,7 @@ export function Header() {
 
                             {
                                 key: '/board',
-                                default_subview: '/score_all',
+                                default_subview: '/score_admin_s',
                                 icon: <CrownOutlined />,
                                 label: '排行榜',
                             },

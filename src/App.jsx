@@ -83,26 +83,17 @@ function BoardShell() {
                 className="router-menu" mode="horizontal"
                 selectedKeys={[name]} onSelect={(e)=>{nav(`/board/${e.key}`);}}
                 items={[
-                    {
-                        key: 'score_all',
+                    ...(info.feature.tot_board_groups.map(([g, name])=>({
+                        key: `score_${g}`,
                         icon: <FundOutlined />,
-                        label: '总排名',
-                    },
-                    {
-                        key: 'score_category',
-                        icon: <FundOutlined />,
-                        label: <>赛区排名 <CaretDownFilled /></>,
-                        children: info.feature.tot_board_groups.map(([g, name])=>({
-                            key: `score_${g}`,
-                            label: name,
-                        })),
-                    },
-                    {
+                        label: name,
+                    }))),
+                    /*{
                         key: 'first_all',
                         icon: <AimOutlined />,
                         label: '一血榜',
                     },
-                    /*{
+                    {
                         key: 'first_category',
                         icon: <AimOutlined />,
                         label: <>赛区一血榜 <CaretDownFilled /></>,
@@ -210,7 +201,7 @@ export const routes = [
         ]},
 
         {path: '/board', element: <BoardShell />, children: [
-            {index: true, element: <Navigate to="/board/score_all" replace />},
+            {index: true, element: <Navigate to="/board/score_admin_s" replace />},
             {path: ':name', element: <BoardPage />}
         ]},
 
