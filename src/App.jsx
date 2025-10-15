@@ -85,7 +85,6 @@ function BoardShell() {
                 items={[
                     ...(info.feature.tot_board_groups.map(([g, name])=>({
                         key: `score_${g}`,
-                        icon: <FundOutlined />,
                         label: name,
                     }))),
                     /*{

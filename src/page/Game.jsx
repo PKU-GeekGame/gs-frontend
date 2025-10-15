@@ -137,7 +137,7 @@ function TouchedUsersTable({ch}) {
                     filterMultiple={false}
                 />
                 <Table.Column
-                    title="实践赛总分"
+                    title="总分"
                     key="tot_score"
                     dataIndex="tot_score"
                     render={(score, record) => (
