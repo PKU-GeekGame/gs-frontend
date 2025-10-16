@@ -105,6 +105,11 @@ function BoardShell() {
                                 icon: <AimOutlined />,
                                 label: '一血榜',
                             },
+                            {
+                                key: 'binary_score_pku',
+                                icon: <FundOutlined />,
+                                label: 'Binary 排名',
+                            },
                         ],
                     },
                     {
@@ -121,6 +126,11 @@ function BoardShell() {
                                 key: 'first_thu',
                                 icon: <AimOutlined />,
                                 label: '一血榜',
+                            },
+                            {
+                                key: 'binary_score_thu',
+                                icon: <FundOutlined />,
+                                label: 'Binary 排名',
                             },
                         ],
                     },
