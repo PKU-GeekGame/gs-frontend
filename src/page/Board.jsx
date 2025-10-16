@@ -84,8 +84,10 @@ function ScoreBoardContent({data, last_reloaded}) {
 
     return (
         <div className="scoreboard">
-            <TopStarPlotLoader plotkey={last_reloaded} data={data} single={false} />
-            <br />
+            {data.topstars.length>0 && <>
+                <TopStarPlotLoader plotkey={last_reloaded} data={data} single={false} />
+                <br />
+            </>}
             <Table
                 size="small"
                 dataSource={data.list}
