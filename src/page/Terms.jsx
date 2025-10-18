@@ -40,7 +40,7 @@ export function Terms() {
                         <CheckCircleOutlined /> 已同意参赛须知
                     </Button> :
                     <Button type="primary" size="large" block onClick={agree_term}>
-                        <CheckCircleOutlined /> 已理解并同意参赛须知
+                        <CheckCircleOutlined /> 我理解并同意参赛须知
                     </Button>
             )}
         </div>
