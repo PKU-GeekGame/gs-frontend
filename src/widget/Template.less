@@ -59,6 +59,15 @@
     del {
         opacity: .6;
     }
+
+    // codehilite has no native dark mode support, lets simulate one
+    .codehilite {
+        color: black;
+    }
+    html.theme-dark & .codehilite {
+        filter: invert(1) hue-rotate(180deg);
+        background-color: unset !important;
+    }
 }
 
 .template:not(.template-announcement) {
