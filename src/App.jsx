@@ -200,7 +200,7 @@ export const routes = [
         ]},
 
         {path: '/board', element: <BoardShell />, children: [
-            {index: true, element: <Navigate to="/board/score_admin_s" replace />},
+            {index: true, element: <Navigate to="/board/score_track_admin" replace />},
             {path: ':name', element: <BoardPage />}
         ]},
 
