@@ -9,7 +9,7 @@ import {minify_sync} from 'terser';
 import {WISH_ROOT, TEMPLATE_ROOT, WISH_VER} from './src/api_config';
 
 const API_ENV = process.env['VITE_APP_MOCK_API_ENV'] || null;
-const API_URL = API_ENV ? process.env['MOCK_API_URL_'+API_ENV] : 'https://geekgame.pku.edu.cn';
+const API_URL = API_ENV ? process.env['MOCK_API_URL_'+API_ENV] : 'https://contest.pku.edu.cn';
 const API_COOKIE = API_ENV ? (process.env['MOCK_API_COOKIE_'+API_ENV] || null) : null;
 
 const preload_script_src = minify_sync(
